@@ -1,0 +1,2 @@
+class Werehouse < ApplicationRecord
+end

@@ -1,0 +1,85 @@
+<div style='background-color:rgba(0, 0, 0, 0)'>
+<div class="container px-5 py-24 mx-auto" style="cursor: auto;">
+  <div class="lg:w-4/5 mx-auto flex flex-wrap">
+    <%= image_tag @article.image, class: "lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded", src: "https://stackdiary.com/140x100.png", style: "cursor: auto;" %>
+    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" style="cursor: auto;">
+      <h2 class="text-sm title-font text-gray-500 tracking-widest" style="cursor: auto;">En Venta</h2>
+      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1" style="cursor: auto;"><%= @article.title%></h1>
+      <div class="flex mb-4">
+        <span class="flex items-center">
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <span class="text-gray-600 ml-3"> Reviews</span>
+        </span>
+        <span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
+         <div class="flex justify-center space-x-4">
+        <a href="https://facebook.com" target="_blank" class="text-blue-700">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="https://instagram.com" target="_blank" class="text-pink-700">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/1234567890" target="_blank" class="text-green-700">
+        <i class="fa-brands fa-whatsapp"></i>
+        </a>
+      </div>
+        </span>
+      </div>
+      <p class="leading-relaxed"><%= @article.desciption%></p>
+      <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+       <% if @article.color_id.present? %>
+        <div class="flex">
+          <span class="mr-3">Color</span>
+          <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= @article.color.title %>;"></button>
+        </div>
+      <% end %>
+        <% if @articles.any? { |article| article.size_id.present? } %>
+        <div class="flex ml-6 items-center">
+          <span class="mr-3">Size</span>
+          <div class="relative">
+            <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+              <% @articles.each do |article| %>
+                <option value="<%= article.size_id %>"><%= article.size.title %></option>
+              <% end %>
+            </select>
+              <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <%end%>
+        </div>
+      <div class="flex">
+        <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price%></span>
+        <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Comprar</button>
+        <%= button_to  class: 'add-to-cart ', data: { id: @article.id, title: @article.title, price: @article.price, image: url_for(@article.image) }, method: :post do %>
+          <i class="fa-solid  fa-2x fa-cart-shopping pt-2 pl-5"></i>
+        <%end%>
+      </div>
+      <% if @back == true %>
+  <div class="mt-10  w-10  border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
+    <%= link_to products_path(query: params[:query], category_id: @article.category_id), class: " my-3 mx-3 flex items-center hover:text-white" do %>
+        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+    <% end %>
+</div>
+<% end %>
+
+    </div>
+  </div>
+</div>
+</div>

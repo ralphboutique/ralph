@@ -1,0 +1,58 @@
+<h2>Tu Carrito</h2>
+<% if @cart_items.empty? %>
+  <%# <p>No tienes artículos en tu carrito.</p> %>
+<% else %>
+  <ul>
+    <% @cart_items.each do |item| %>
+      <li><%= item['name'] %> - <%= number_to_currency(item['price']) %></li>
+      <button onclick="removeFromCart(<%= item['id'] %>)">Eliminar</button>
+    <% end %>
+  </ul>
+<% end %>
+
+<%# <div class="container mx-auto mt-5 text-center">
+  <%# <div class="border-2 rounded px-1 py-1 shadow-lg">
+    <img src="/assets/backg.jpg" alt="twd" class="w-full h-auto">
+    <p class="font-bold my-2 text-lg ">The sunset</p>
+    <p class="my-2 text-gray-700">lorem ipsi jkadujkaldk akdnkank jsnkjdsnsdj nsdjnsdj ksdnsjnsajfh jskss skdijdkka jakaka</p>
+    <div class="my-3">
+      <span class="bg-slate-200 py-1 px-2 rounded-full ">#prueba</span>
+      <span class="bg-slate-200 py-1 px-2 rounded-full ml-4">#texto</span>
+      <span class="bg-slate-200 py-1 px-2 rounded-full ml-4">#tailwind</span>
+    </div>
+  </div> %>
+  <%# <div class="grid grid-cols-3 gap-4 my-2">
+    <div class="bg-red-400">A</div>
+    <div class="bg-red-400">A</div>
+    <div class="bg-red-400">A</div>
+    <div class="bg-red-400">A</div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
+    <div class="bg-blue-400">A</div>
+    <div class="bg-blue-400">A</div>
+    <div class="bg-blue-400">A</div>
+    <div class="bg-blue-400">A</div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
+    <div class="bg-pink-400 col-start-2">A</div>
+  </div> %>
+  <%# <div class="grid grid-rows-4 gap-2 ">
+    <div class="bg-orange-500 row-span-2">A</div>
+    <div class="bg-orange-500">A</div>
+    <div class="bg-orange-500">A</div>
+    <div class="bg-orange-500">A</div>
+  </div> %>
+  <%# <div class="grid grid-cols-4 gap-4 grid-rows-2">
+    <div class="bg-orange-500">A</div>
+    <div class="bg-orange-500">A</div>
+    <div class="bg-orange-500 col-span-2 row-span-2">A</div>
+    <div class="bg-orange-500">A</div>
+    <div class="bg-orange-500 ">A</div>
+  </div>
+</div>  %>
+<button onclick="alerta()"> click me</button>
+<script>
+  function alerta(){
+    alert("Hola desde JavaScript");
+  }
+</script>

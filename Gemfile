@@ -47,6 +47,7 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem 'rspec-rails', '~> 6.1.0'
 end
 
 group :development do
@@ -62,6 +63,8 @@ group :development do
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
 
+
+
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
@@ -70,3 +73,17 @@ end
 
 
 gem "tailwindcss-rails", "~> 2.6"
+gem 'rails_admin'
+gem "sassc-rails"
+gem 'pry'
+gem 'pry-rails'
+gem 'byebug'
+gem 'font-awesome-sass'
+gem 'font-awesome-rails'
+gem 'mini_magick'
+gem 'image_processing'
+gem 'kaminari'
+gem 'slick-rails'
+group :development, :test do
+  gem 'factory_bot_rails'
+end

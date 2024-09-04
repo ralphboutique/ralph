@@ -1,0 +1,31 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3  mb-5" data-controller="hello">
+  <% @articles.each do |article| %>
+    <div class="bg-white p-4 rounded-lg shadow mt-10" >
+         <% if article.image.attached? %>
+            <%= image_tag article.image, class: "w-full h-64 object-cover mb-4" %>
+          <% end %>
+      <h3 class="font-bold text-lg mb-2"><%= article.title %></h3>
+      <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
+      <div>
+        <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg  w-20' %>
+      </div>
+      <div class="flex justify-between items-center mt-4">
+        <span class="text-yellow-500">★★★★☆</span>
+         <a class="bg-blue-700 text-white px-2 py-1 heart-btn rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+        Comprar Ahora
+      </a>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% if @back == true %>
+  <div class="mt-10 ml-6 w-10  border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
+    <%= link_to products_path, class: " my-3 mx-3 flex items-center hover:text-white" do %>
+        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+    <% end %>
+</div>
+<% end %>
+<div class="flex justify-center mt-5">
+    <%= paginate @articles %>
+</div>
+

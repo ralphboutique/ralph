@@ -1,0 +1,95 @@
+<%# codigo de detalle de articulo %>
+   <div class="w-full relative shadow-lg py-12 ">
+  <div>
+    <img src="/assets/backg.jpg" alt="twd" class="w-full md:h-auto h-56 shadow-lg opacity-95">
+  </div>
+  <div class="absolute inset-0 flex flex-col justify-center items-center z-8 text-center">
+    <div class="font-bold text-2xl sm:text-2xl md:text-8xl font-serif  text-black md:mb-4 typing-animation">
+      Bienvenido a RalphBoutique
+    </div>
+    <p class="pt-1 md:pt-3 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
+      Somos una tienda online especializada en ropa para mujer
+    </p>
+    <p class="pt-1 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
+      Ofrecemos una amplia selección de prendas de alta calidad a precios accesibles.
+    </p> 
+    <%= link_to products_path, class:"heart-btn inline-flex items-center bg-black text-white font-semibold py-2 px-4 rounded hover:bg-red-900" do %>
+       VER ARTICULOS  <i class="fa-solid fa-arrow-right pl-2"></i>
+    <% end %>
+  </div>
+</div>
+  <!-- Services Section -->
+  <section id="servicios" class="flex flex-col sm:flex-row justify-center sm:space-x-28 py-12 bg-white">
+  <div class="text-center mb-8 sm:mb-0">
+    <i class="fa fa-headset fa-2x text-black"></i>
+    <h3 class="font-bold mt-2">ATENCION ACTIVA</h3>
+    <p class="text-gray-600">Horario 8:00 am a 6:pm.</p>
+  </div>
+  <div class="text-center mb-8 sm:mb-0">
+    <i class="fa fa-undo fa-2x text-black"></i>
+    <h3 class="font-bold mt-2">CONTACTANOS</h3>
+    <div class="flex justify-center space-x-4">
+      <a href="https://facebook.com" target="_blank" class="text-blue-700">
+        <i class="fa-brands fa-facebook"></i>
+      </a>
+      <a href="https://instagram.com" target="_blank" class="text-pink-700">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://wa.me/1234567890" target="_blank" class="text-green-700">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+    </div>
+    <p class="text-gray-600"></p>
+  </div>
+  <div class="text-center">
+    <i class="fa fa-truck fa-2x text-black"></i>
+    <h3 class="font-bold mt-2">ENVIOS</h3>
+    <p class="text-gray-600">Realizamos envios a todo el pais.</p>
+  </div>
+</section>
+
+  <!-- Banner Section -->
+<section id="image-section" class="grid grid-cols-1 md:grid-cols-3 gap-3 md:pb-12 md:pt-20 md:px-20">
+  <div class="relative w-64 h-52  md:w-96 md:h-72 flex items-center justify-center ml-auto mr-auto md:ml-36 shadow-lg avatar">
+    <img src="/assets/bodywomen1.png" alt="Western Wear" class="absolute inset-0 w-full h-full object-cover slide-in-left">
+  </div>
+  <div class="relative w-64 h-52  md:w-96 md:h-72 flex items-center justify-center ml-auto mr-auto md:ml-20 shadow-lg avatar">
+    <img src="/assets/bagandshoes.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover slide-in-bottom">
+  </div>
+  <div class="relative w-64 h-52  md:w-96 md:h-72 flex items-center justify-center ml-auto mr-auto shadow-lg avatar">
+    <img src="/assets/bodywomen2.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover slide-in-right">
+  </div>
+</section>
+
+  <!-- Featured Products Section -->
+  <section class="pt-10 pb-32 md:px-20">
+    <h2 class="text-center text-xl font-bold italic mb-10 text-gray-500">ARTICULOS MAS RECIENTES</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <% @last_articles.each do |article| %>
+        <div class="bg-white p-4 rounded-lg shadow-2xl mt-10 hover:pt-10">
+            <% if article.image.attached? %>
+                <%= image_tag article.image, class: "w-full h-64 object-cover mb-4" %>
+              <% end %>
+          <h3 class="font-bold text-lg mb-2"><%= article.title %></h3>
+          <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
+          <div>
+            <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
+          </div>
+          <div class="flex justify-between items-center mt-4">
+            <span class="text-yellow-500">★★★★☆</span>
+            <a class="bg-blue-700 text-white px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+            Comprar Ahora
+          </a>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+  <%# <section class="w-full">
+     <div class="map w-full">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.121169986175!2d73.90618951442687!3d18.568575172551647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c131ed5b54a7%3A0xad718b8b2c93d36d!2sSky%20Vista!5e0!3m2!1sen!2sin!4v1654257749399!5m2!1sen!2sin"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+  </section> %>
+  <%= render 'shared/footer'%>
+
