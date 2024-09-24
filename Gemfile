@@ -83,6 +83,7 @@ gem 'font-awesome-rails'
 gem 'mini_magick'
 gem 'image_processing'
 gem 'kaminari'
+gem 'devise'
 gem 'slick-rails'
 group :development, :test do
   gem 'factory_bot_rails'

@@ -1,4 +1,4 @@
-class ArticulosController < ApplicationController
+class ArticlesController < ApplicationController
   def index
     if params[:query].present?
       @articles = Article.where('title LIKE ?', "%#{params[:query]}%").includes(:category).page(params[:page]).per(5)

@@ -62,29 +62,35 @@
 </section>
 
   <!-- Featured Products Section -->
-  <section class="pt-10 pb-32 md:px-20">
-    <h2 class="text-center text-xl font-bold italic mb-10 text-gray-500">ARTICULOS MAS RECIENTES</h2>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <% @last_articles.each do |article| %>
-        <div class="bg-white p-4 rounded-lg shadow-2xl mt-10 hover:pt-10">
-            <% if article.image.attached? %>
-                <%= image_tag article.image, class: "w-full h-64 object-cover mb-4" %>
-              <% end %>
-          <h3 class="font-bold text-lg mb-2"><%= article.title %></h3>
-          <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
-          <div>
-            <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
-          </div>
-          <div class="flex justify-between items-center mt-4">
-            <span class="text-yellow-500">★★★★☆</span>
-            <a class="bg-blue-700 text-white px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+ <section class="pt-10 pb-32 md:px-20">
+  <h2 class="text-center text-xl font-bold italic mb-10 text-gray-500">ARTICULOS MAS RECIENTES</h2>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <% @last_articles.each do |article| %>
+      <div class="bg-white p-4 rounded-lg shadow-2xl mt-10 hover:pt-10">
+        <% if article.attachment.attached? %>
+          <%= image_tag article.attachment, class: "w-full h-64 object-cover mb-4" %>
+        <% else %>
+          <p class="text-gray-500">No image available</p> <!-- Mensaje de imagen no disponible -->
+        <% end %>
+        
+        <h3 class="font-bold text-lg mb-2"><%= article.title %></h3>
+        <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
+        
+        <div>
+          <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
+        </div>
+
+        <div class="flex justify-between items-center mt-4">
+          <span class="text-yellow-500">★★★★☆</span>
+          <a class="bg-blue-700 text-white px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
             Comprar Ahora
           </a>
-          </div>
         </div>
-      <% end %>
-    </div>
-  </section>
+      </div>
+    <% end %>
+  </div>
+</section>
+
   <%# <section class="w-full">
      <div class="map w-full">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.121169986175!2d73.90618951442687!3d18.568575172551647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c131ed5b54a7%3A0xad718b8b2c93d36d!2sSky%20Vista!5e0!3m2!1sen!2sin!4v1654257749399!5m2!1sen!2sin"

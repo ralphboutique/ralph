@@ -4,7 +4,8 @@ class Article < ApplicationRecord
   belongs_to :category
   belongs_to :size
   belongs_to :color
-  has_one_attached :image
+  belongs_to :werehouse
+  has_one_attached :attachment
+  # has_one_attached :image
   validates :title, :category, :price, presence: true
-
 end
