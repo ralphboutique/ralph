@@ -1,24 +1,25 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3  mb-5" data-controller="hello">
+<%if @articles.any?%>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mt-8 mx-10" data-controller="hello">
   <% @articles.each do |article| %>
-    <div class="bg-white p-4 rounded-lg shadow mt-10" >
+    <div class="bg-white p-1 rounded-lg shadow mt-3" >
          <% if article.attachment.attached? %>
-            <%= image_tag article.attachment, class: "w-full h-64 object-cover mb-4" %>
+            <%= image_tag article.attachment, class: "w-full h-64 object-cover mb-2" %>
           <% end %>
-      <h3 class="font-bold text-lg mb-2"><%= article.title %></h3>
+      <h3 class="font-bold text-sm text-gray-600"><%= article.title.upcase %></h3>
       <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
       <div>
-        <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg  w-20' %>
+        <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg  w-18 text-gray-500' %>
       </div>
-      <div class="flex justify-between items-center mt-4">
+      <div class="flex justify-between items-center mt-1">
         <span class="text-yellow-500">★★★★☆</span>
-         <a class="bg-blue-700 text-white px-2 py-1 heart-btn rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+         <a class="bg-white text-blue-900 px-2 py-1 heart-btn rounded hover:text-red-800" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
         Comprar Ahora
       </a>
       </div>
     </div>
   <% end %>
 </div>
-<% if @back == true %>
+<% if @back == true && @articles.present? %>
   <div class="mt-10 ml-6 w-10  border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
     <%= link_to products_path, class: " my-3 mx-3 flex items-center hover:text-white" do %>
         <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
@@ -28,4 +29,10 @@
 <div class="flex justify-center mt-5">
     <%= paginate @articles %>
 </div>
+<% else %>
+ <div class="empty-message text-center py-4 pt-64">
+    <p class="text-gray-500">No hay artículos en la categoría  en este momento.</p>
+      <%= link_to "Ver Articulos", products_path, class: "text-gray-500 mt-4 hover:text-blue-400" %>
+  </div>
+<%end%>
 

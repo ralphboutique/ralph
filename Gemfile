@@ -70,10 +70,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-
-gem "tailwindcss-rails", "~> 2.6"
-gem 'rails_admin'
 gem "sassc-rails"
 gem 'pry'
 gem 'pry-rails'
@@ -85,6 +81,9 @@ gem 'image_processing'
 gem 'kaminari'
 gem 'devise'
 gem 'slick-rails'
+gem 'httparty'
+gem "tailwindcss-rails"
 group :development, :test do
   gem 'factory_bot_rails'
 end
+

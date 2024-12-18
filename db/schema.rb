@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_18_201607) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_05_205742) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,10 +49,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_201607) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "category_id"
-    t.decimal "werehouse_id"
+    t.decimal "warehouse_id"
     t.integer "price"
     t.string "title"
     t.string "serial"
+  end
+
+  create_table "articles_colors", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.string "color_hex", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_articles_colors_on_article_id"
+  end
+
+  create_table "articles_sizes", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.bigint "size_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_articles_sizes_on_article_id"
+    t.index ["size_id"], name: "index_articles_sizes_on_size_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -62,14 +79,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_201607) do
   end
 
   create_table "colors", force: :cascade do |t|
-    t.string "title"
+    t.string "hex_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "article_id"
   end
 
   create_table "prices", force: :cascade do |t|
     t.decimal "price"
     t.integer "article_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rols", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -88,11 +112,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_201607) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.integer "rol_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "werehouses", force: :cascade do |t|
+  create_table "warehouses", id: :bigint, default: -> { "nextval('werehouses_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -100,4 +127,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_201607) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "articles_colors", "articles"
+  add_foreign_key "articles_sizes", "articles"
+  add_foreign_key "articles_sizes", "sizes"
 end

@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+
   </head>
   <body class="min-h-screen">
     <nav class=" bg-white border-1 border-black shadow-2xl font-sans w-full fixed top-0 z-10">
@@ -27,40 +28,47 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-multi-level">
           <ul class="flex flex-col font-medium  border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 ">
             <li>
-              <%= link_to catalogue_path, class: "block pb-3 px-3 text-black border-b-2 border-white hover:border-b-2 hover:text-blue-700 md:bg-transparent md:text-black md:p-0 hover:border-orange-600 transition ease-in duration-700", aria: { current: "page" } do %>
+              <%= link_to catalogue_path, class: "block pb-3 px-3 text-gray-600 border-b-2 border-white hover:border-b-2 hover:text-blue-900 md:bg-transparent md:text-gray-600  md:p-0 hover:border-orange-600 transition ease-in duration-700", aria: { current: "page" } do %>
                 <i class="fa-solid fa-house"></i> Inicio
               <% end %>
             </li>
             <li>
-                <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-black hover:border-b-2 hover:border-orange-600  md:hover:bg-transparent border-b-2 border-white md:hover:text-blue-700 md:p-0 md:w-auto transition ease-in duration-700">Categorias <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+               <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2  px-3 text-gray-600  hover:border-b-2 hover:border-orange-600 md:hover:bg-transparent border-b-2 border-white md:hover:text-blue-900 md:p-0 md:w-auto transition ease-in duration-700">
+                Categorias 
+                <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                  </svg>
-                </button>
-                <!-- Dropdown menu -->
-                <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-black divide-y divide-gray-100 rounded-lg shadow w-64">
-                    <ul class="py-2 text-sm italic text-white text-center" aria-labelledby="dropdownButton">
-                      <% @categories.each do |category| %>
-                        <li>
-                          <%= link_to category.title, products_path(query: params[:query], category_id: category.id), class: 'block px-4 py-2 hover:text-white hover:text-lg'%>
-                        </li>
-                      <% end %>
-                    </ul>
-                </div>
+                </svg>
+              </button>
+             <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-auto">
+              <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-6 py-6 px-6 text-sm text-gray-600 text-left">
+                <% @categories.each_slice(5) do |category_group| %>
+                  <ul class="space-y-2">
+                    <% category_group.each do |category| %>
+                      <li>
+                        <%= link_to category.title, products_path(query: params[:query], category_id: category.id),
+                        class: 'block px-2 hover:text-gray-900 transition-all duration-200 hover:font-semibold' %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </div>
+            </div>
+
+            </li>
+            <% if @last_articles.present? %>
+            <li>
+              <a href="#servicios" class="block border-b-2 border-white py-2 px-3 text-gray-600  hover:border-b-2 hover:border-orange-500 hover:bg-blue-900 md:hover:bg-transparent  md:hover:text-blue-900 md:p-0 transition ease-in duration-700">Servicios <i class="fa-solid fa-headphones"></i></a>
             </li>
             <li>
-              <a href="#servicios" class="block border-b-2 border-white py-2 px-3 text-black  hover:border-b-2 hover:border-orange-500 hover:bg-blue-700 md:hover:bg-transparent  md:hover:text-blue-700 md:p-0 transition ease-in duration-700">Servicios <i class="fa-solid fa-headphones"></i></a>
+              <a href="#contacto" class="block border-b-2 border-white py-2 px-3 text-gray-600 hover:border-b-2 hover:border-orange-500 hover:bg-blue-900 md:hover:bg-transparent  md:hover:text-blue-900 md:p-0 transition ease-in duration-700 ">Contacto <i class="fa-solid fa-user"></i></a>
             </li>
-            <li>
-              <a href="#" class="block border-b-2 border-white py-2 px-3 text-black  hover:border-b-2 hover:border-orange-500 hover:bg-blue-700 md:hover:bg-transparent  md:hover:text-blue-700 md:p-0 transition ease-in duration-700"> Ayuda <i class="fa-regular fa-circle-question"></i> </a>
-            </li>
-            <li>
-              <a href="#" class="block border-b-2 border-white py-2 px-3 text-black hover:border-b-2 hover:border-orange-500 hover:bg-blue-700 md:hover:bg-transparent  md:hover:text-blue-700 md:p-0 transition ease-in duration-700 ">Contacto <i class="fa-solid fa-user"></i></a>
-            </li>
+            <%end%>
           </ul>
         </div>
       </div>
     </nav>
     <div class="pt-14">
+  
         <%= yield %>
     </div>
     <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>

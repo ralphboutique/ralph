@@ -1,0 +1,24 @@
+<div class="mt-16">
+    <% @categories.each do |category| %>
+    <% if category.articles.any? { |article| article.attachment.attached? } %>
+        <div class="flex items-start space-x-4 mb-6">
+        <!-- Título de la categoría -->
+        <h2 class="text-xl font-semibold w-36"><%= category.title %></h2>
+
+        <!-- Galería de imágenes y botón Ver más -->
+        <div class="flex space-x-4 items-center">
+            <!-- Imágenes de los artículos -->
+            <% category.articles.order(created_at: :desc).limit(4).each do |article| %>
+            <% if article.attachment.attached? %>
+                <div class="w-44 h-44 overflow-hidden">
+                <%= image_tag article.attachment, class: "object-cover w-full h-full rounded-lg" %>
+                </div>
+            <% end %>
+            <% end %>
+            <!-- Botón Ver más -->
+            <%= link_to "Ver más", products_path(category_id: category.id), class: "text-blue-500 hover:text-blue-700 font-semibold ml-4" %>
+        </div>
+        </div>
+    <% end %>
+    <% end %>
+</div>
