@@ -3,6 +3,5 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import Rails from "@rails/ujs"
 Rails.start()
-application.register("alert", AlertController);
 //= require jquery
 //= require slick

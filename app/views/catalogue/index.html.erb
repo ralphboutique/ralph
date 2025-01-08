@@ -4,7 +4,7 @@
     <img src="/assets/backg.jpg" alt="twd" class="w-full md:h-auto h-56 shadow-lg opacity-95">
   </div>
   <div class="absolute inset-0 flex flex-col justify-center items-center z-8 text-center">
-    <div class="font-bold text-2xl sm:text-2xl md:text-8xl font-serif  text-black md:mb-4 typing-animation">
+    <div class="font-bold  sm:text-2xl md:text-8xl font-serif md:mb-4 typing-animation">
       Bienvenido a RalphBoutique
     </div>
     <p class="pt-1 md:pt-3 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
@@ -49,23 +49,28 @@
 </section>
 
   <!-- Banner Section -->
-<section id="image-section" class="grid grid-cols-1 md:grid-cols-3 gap-3 md:pb-12 md:pt-20 md:px-20">
-  <div class="relative w-64 h-52  md:w-96 md:h-72 flex items-center justify-center ml-auto mr-auto md:ml-36 shadow-lg avatar">
-    <img src="/assets/bodywomen1.png" alt="Western Wear" class="absolute inset-0 w-full h-full object-cover slide-in-left">
+<section id="image-section" class="grid grid-cols-1 gap-2 md:grid-cols-3  md:pb-12 md:pt-20">
+  <!-- Imagen 1 -->
+  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto  shadow-lg">
+    <img src="/assets/bodywomen1.png" alt="Western Wear" class="absolute inset-0 w-full h-full object-cover fade-in">
   </div>
-  <div class="relative w-64 h-52  md:w-96 md:h-72 flex items-center justify-center ml-auto mr-auto md:ml-20 shadow-lg avatar">
-    <img src="/assets/bagandshoes.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover slide-in-bottom">
+  <!-- Imagen 2 -->
+  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto shadow-lg">
+    <img src="/assets/bagandshoes.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover fade-in">
   </div>
-  <div class="relative w-64 h-52  md:w-96 md:h-72 flex items-center justify-center ml-auto mr-auto shadow-lg avatar">
-    <img src="/assets/bodywomen2.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover slide-in-right">
+  <!-- Imagen 3 -->
+  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto shadow-lg">
+    <img src="/assets/bodywomen2.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover fade-in">
   </div>
 </section>
+
+
 
   <!-- Featured Products Section -->
  <section class="pt-10 pb-32 md:px-20">
   <h2 class="text-center text-sm font-bold italic mb-5 text-gray-800">ARTICULOS MAS RECIENTES</h2>
   <hr>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
     <% @last_articles.each do |article| %>
       <div class="bg-white p-4 rounded-lg shadow-2xl mt-10 hover:pt-10">
         <% if article.attachment.attached? %>
@@ -92,11 +97,6 @@
   </div>
 </section>
 
-  <%# <section class="w-full">
-     <div class="map w-full">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.121169986175!2d73.90618951442687!3d18.568575172551647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c131ed5b54a7%3A0xad718b8b2c93d36d!2sSky%20Vista!5e0!3m2!1sen!2sin!4v1654257749399!5m2!1sen!2sin"
-                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-  </section> %>
+
   <%= render 'shared/footer'%>
 

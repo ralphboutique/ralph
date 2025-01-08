@@ -26,6 +26,9 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+
+gem "tailwindcss-rails"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -82,7 +85,8 @@ gem 'kaminari'
 gem 'devise'
 gem 'slick-rails'
 gem 'httparty'
-gem "tailwindcss-rails"
+
+
 group :development, :test do
   gem 'factory_bot_rails'
 end
