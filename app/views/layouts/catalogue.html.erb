@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
+
 
   </head>
   <body class="min-h-screen">
@@ -39,21 +39,20 @@
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                 </svg>
               </button>
-             <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-auto">
-              <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-6 py-6 px-6 text-sm text-gray-600 text-left">
-                <% @categories.each_slice(5) do |category_group| %>
-                  <ul class="space-y-2">
-                    <% category_group.each do |category| %>
-                      <li>
-                        <%= link_to category.title, products_path(query: params[:query], category_id: category.id),
-                        class: 'block px-2 hover:text-gray-900 transition-all duration-200 hover:font-semibold' %>
-                      </li>
-                    <% end %>
-                  </ul>
-                <% end %>
+              <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-auto">
+                <div class="grid  md:grid-cols-3 gap-y-4 gap-x-6 py-6 px-6 text-sm text-gray-600 text-left">
+                  <% @categories.each_slice(5) do |category_group| %>
+                    <ul class="space-y-4">
+                      <% category_group.each do |category| %>
+                        <li>
+                          <%= link_to category.title.upcase, products_path(query: params[:query], category_id: category.id),
+                            class: 'block px-2 text-gray-600 hover:text-gray-900 hover:font-semibold transition-all duration-200' %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  <% end %>
+                </div>
               </div>
-            </div>
-
             </li>
             <% if @last_articles.present? %>
             <li>
@@ -70,6 +69,8 @@
     <div class="pt-14">
   
         <%= yield %>
+
+ 
     </div>
     <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
@@ -162,6 +163,25 @@
   .slide-in-bottom {
     animation: slideInBottom 2.5s ease-out forwards infinite;
   }
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(10);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 6s ease-in-out infinite;
+}
+
 </style>
 <script>
   function addToCart(product) {

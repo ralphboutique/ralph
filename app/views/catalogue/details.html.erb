@@ -1,10 +1,16 @@
-<div style='background-color:rgba(0, 0, 0, 0)'>
-<div class="container px-5 py-24 mx-auto" style="cursor: auto;">
-  <div class="lg:w-4/5 mx-auto flex flex-wrap">
-    <%= image_tag @article.attachment, class: "lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded", src: "https://stackdiary.com/140x100.png", style: "cursor: auto;" %>
-    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" style="cursor: auto;">
-      <h2 class="text-sm title-font text-gray-500 tracking-widest" style="cursor: auto;">En Venta</h2>
-      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1" style="cursor: auto;"><%= @article.title%></h1>
+<div class="container px-5 py-24 mx-auto">
+  <div class="lg:flex lg:w-full mx-auto"> <!-- Usamos flex para alinear las dos secciones al lado -->
+    <!-- Imagen del artículo -->
+    <%= image_tag @article.attachment, 
+        class: "w-full max-w-md lg:w-1/2 max-h-72 object-cover object-center rounded-lg", 
+        alt: "Imagen del artículo" %>
+    
+    <!-- Descripción del artículo y botones -->
+    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 container">
+      <h2 class="text-sm title-font text-gray-500 tracking-widest">En Venta</h2>
+      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><%= @article.title %></h1>
+
+      <!-- Sección de estrellas de calificación -->
       <div class="flex mb-4">
         <span class="flex items-center">
           <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
@@ -25,62 +31,66 @@
           <span class="text-gray-600 ml-3"> Reviews</span>
         </span>
         <span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-         <div class="flex justify-center space-x-4">
-        <a href="https://facebook.com" target="_blank" class="text-blue-700">
-          <i class="fa-brands fa-facebook"></i>
-        </a>
-        <a href="https://instagram.com" target="_blank" class="text-pink-700">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://wa.me/1234567890" target="_blank" class="text-green-700">
-        <i class="fa-brands fa-whatsapp"></i>
-        </a>
-      </div>
+          <div class="flex justify-center space-x-4">
+            <a href="https://facebook.com" target="_blank" class="text-blue-700">
+              <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="text-pink-700">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/1234567890" target="_blank" class="text-green-700">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+          </div>
         </span>
       </div>
-      <p class="leading-relaxed"><%= @article.desciption%></p>
+
+      <!-- Descripción -->
+      <p class="leading-relaxed"><%= @article.desciption %></p>
+
+      <!-- Colores y tallas -->
       <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-      <div class="flex">
-        <span class="mr-3">Color</span>
-        <% @article.article_colors.each do |article_color| %>
-          <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
-        <% end %>
-      </div>
+        <div class="flex">
+          <span class="mr-3">Color</span>
+          <% @article.article_colors.each do |article_color| %>
+            <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
+          <% end %>
+        </div>
         <div class="flex ml-6 items-center">
-          
-          
           <div class="relative">
             <% if @article.sizes.present? %>
-            <span class="mr-3">Size</span>
-           <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+              <span class="mr-3">Size</span>
+              <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
                 <% @article.sizes.each do |size| %>
                   <option value="<%= size.id %>"><%= size.title %></option>
                 <% end %>
-            </select>
-            
+              </select>
               <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
                   <path d="M6 9l6 6 6-6"></path>
                 </svg>
               </span>
-              <%end%>
-            </div>
+            <% end %>
           </div>
         </div>
-      <div class="flex">
-        <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price%></span>
-          <a class="flex ml-auto text-white bg-blue-950 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}" %>" target="_blank">
-            Comprar
-          </a>
       </div>
+
+      <!-- Precio y botón de compra -->
+      <div class="flex">
+        <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
+        <a class="flex ml-auto text-white bg-blue-950 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}" %>" target="_blank">
+          Comprar
+        </a>
+      </div>
+
+      <!-- Botón de regreso -->
       <% if @back == true %>
-        <div class="mt-10  w-10  border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
+        <div class="mt-10 w-10 border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
           <%= link_to products_path(query: params[:query], category_id: @article.category_id), class: " my-3 mx-3 flex items-center hover:text-white" do %>
               <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
           <% end %>
-      </div>
+        </div>
       <% end %>
     </div>
   </div>
-</div>
 </div>
