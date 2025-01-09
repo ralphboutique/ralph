@@ -7,10 +7,14 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-admin_role = Role.find_or_create_by(name: 'ADMIN')
+rol_admin = Rol.find_or_create_by(id: 1) do |rol|
+  rol.name = 'ADMIN'
+end
 
-# Crear el usuario con el rol ADMIN
-User.find_or_create_by(username: 'default_admin') do |user|
-  user.password = 'password123' # Cambia esto por algo más seguro
-  user.role = admin_role
+# Crear un usuario administrador asociado al rol ADMIN
+User.find_or_create_by(username: 'admin') do |user|
+  user.email = 'admin@tudominio.com'         # Cambia por un email válido
+  user.password = 'password123'              # Cambia por una contraseña segura
+  user.password_confirmation = 'password123' # Confirmación de contraseña
+  user.rol_id = rol_admin.id                 # Asocia el usuario al rol ADMIN
 end

@@ -1,5 +1,5 @@
 class Rol < ApplicationRecord
-  has_secure_password
+ 
   has_many :users
   validates :name, presence: true, uniqueness: true
   before_destroy :ensure_no_users

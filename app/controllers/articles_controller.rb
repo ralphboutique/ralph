@@ -66,12 +66,14 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :desciption, :warehouse_id, :almacen_id, :serial, :price,
+    params.require(:article).permit(:title, :description, :warehouse_id, :almacen_id, :serial, :price,
                                     :category_id, :attachment, size_ids: [])
   end
   def save_colors(colors)
-    colors.each do |color_hex|
-      @article.article_colors.create(color_hex: color_hex) if color_hex.present?
+    if colors.present?
+      colors.each do |color_hex|
+        @article.article_colors.create(color_hex: color_hex) if color_hex.present?
+      end
     end
   end
 end

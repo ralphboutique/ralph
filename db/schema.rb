@@ -43,16 +43,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_05_205742) do
   end
 
   create_table "articles", force: :cascade do |t|
-    t.string "color_id"
-    t.text "size_id"
-    t.text "desciption"
+    t.text "title"
+    t.text "description"
+    t.integer "warehouse_id"
+    t.integer "category_id"
+    t.integer "price"
+    t.text "serial"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "category_id"
-    t.decimal "warehouse_id"
-    t.integer "price"
-    t.string "title"
-    t.string "serial"
   end
 
   create_table "articles_colors", force: :cascade do |t|
@@ -74,20 +72,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_05_205742) do
 
   create_table "categories", force: :cascade do |t|
     t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "colors", force: :cascade do |t|
-    t.string "hex_code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "article_id"
-  end
-
-  create_table "prices", force: :cascade do |t|
-    t.decimal "price"
-    t.integer "article_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -119,7 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_05_205742) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "warehouses", id: :bigint, default: -> { "nextval('werehouses_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "warehouses", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

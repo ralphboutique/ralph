@@ -4,11 +4,11 @@ one:
   name: blusa
   color: rojo
   talla: 1
-  desciption: prueba
+  description: prueba
   category_id: one
 two:
   name: shirt
   color: MyString
   talla: 2
-  desciption: MyText
+  description: MyText
   category_id: one
