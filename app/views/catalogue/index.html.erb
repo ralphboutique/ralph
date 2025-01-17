@@ -3,16 +3,16 @@
   <div>
     <img src="/assets/backg.jpg" alt="twd" class="w-full md:h-auto h-56 shadow-lg opacity-95">
   </div>
-  <div class="absolute inset-0 flex flex-col justify-center items-center z-8 text-center">
-    <div class="font-bold  sm:text-2xl md:text-8xl font-serif md:mb-4 typing-animation">
+  <div class=" absolute inset-0 flex flex-col justify-center items-center z-8 text-center">
+    <div class="font-bold  sm:text-5xl md:text-8xl font-serif md:mb-4 typing-animation">
       Bienvenido a RalphBoutique
     </div>
-    <p class="pt-1 md:pt-3 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
+    <%# <p class="pt-1 md:pt-3 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
       Somos una tienda online especializada en ropa para mujer
     </p>
     <p class="pt-1 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
       Ofrecemos una amplia selección de prendas de alta calidad a precios accesibles.
-    </p> 
+    </p>  %>
     <%= link_to products_path, class:"heart-btn inline-flex items-center bg-black text-white font-semibold py-2 px-4 rounded hover:bg-red-900" do %>
        VER ARTICULOS  <i class="fa-solid fa-arrow-right pl-2"></i>
     <% end %>
@@ -23,7 +23,7 @@
   <div class="text-center mb-8 sm:mb-0">
     <i class="fa fa-headset fa-2x text-black"></i>
     <h3 class="font-bold mt-2">ATENCION ACTIVA</h3>
-    <p class="text-gray-600">Horario 8:00 am a 6:pm.</p>
+    <p class="text-gray-600">Horario 8:00 am a 6:00pm.</p>
   </div>
   <div class="text-center mb-8 sm:mb-0">
     <i class="fa fa-undo fa-2x text-black"></i>
@@ -48,33 +48,33 @@
   </div>
 </section>
 
-  <!-- Banner Section -->
+  <%# <!-- Banner Section -->
 <section id="image-section" class="grid grid-cols-1 gap-2 md:grid-cols-3  md:pb-12 md:pt-20">
   <!-- Imagen 1 -->
-  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto  shadow-lg">
-    <img src="/assets/bodywomen1.png" alt="Western Wear" class="absolute inset-0 w-full h-full object-cover fade-in">
+  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto  rounded-full shadow-lg">
+    <img src="/assets/bodywomen1.png" alt="Western Wear" class="absolute inset-0 w-full rounded-full h-full object-cover fade-in">
   </div>
   <!-- Imagen 2 -->
-  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto shadow-lg">
-    <img src="/assets/bagandshoes.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover fade-in">
+  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center rounded-full mx-auto shadow-lg">
+    <img src="/assets/bagandshoes.png" alt="Best Footwear" class="absolute inset-0 w-full  rounded-full h-full object-cover fade-in">
   </div>
   <!-- Imagen 3 -->
-  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto shadow-lg">
-    <img src="/assets/bodywomen2.png" alt="Best Footwear" class="absolute inset-0 w-full h-full object-cover fade-in">
+  <div class="relative w-42 h-52 md:w-96 md:h-72 flex items-center justify-center mx-auto rounded-full shadow-lg">
+    <img src="/assets/bodywomen2.png" alt="Best Footwear" class="absolute inset-0 w-full  rounded-full h-full object-cover fade-in">
   </div>
-</section>
+</section> %>
 
 
 
   <!-- Featured Products Section -->
  <section class="pt-10 pb-32 md:px-20">
-  <h2 class="text-center text-sm font-bold italic mb-5 text-gray-800">ARTICULOS MAS RECIENTES</h2>
+  <h2 class="ml-5 text-sm font-bold italic mb-5 text-gray-600">NOVEDADES</h2>
   <hr>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
     <% @last_articles.each do |article| %>
-      <div class="bg-white p-4 rounded-lg shadow-2xl mt-10 hover:pt-10">
+      <div class="bg-white p-4 rounded-tr-lg shadow-2xl mt-8 hover:pt-10">
         <% if article.attachment.attached? %>
-          <%= image_tag article.attachment, class: "w-full h-64 object-cover mb-4" %>
+          <%= image_tag article.attachment, class: "w-full h-56 object-cover mb-4" %>
         <% else %>
           <p class="text-gray-500">No image available</p> <!-- Mensaje de imagen no disponible -->
         <% end %>
@@ -86,7 +86,7 @@
           <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
         </div>
 
-        <div class="flex justify-between items-center mt-4">
+        <div class="flex justify-between items-center mt-3">
           <span class="text-yellow-500">★★★★☆</span>
           <a class="bg-white text-blue-900 px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://b0a3-181-208-119-45.ngrok-free.app/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
             Comprar Ahora

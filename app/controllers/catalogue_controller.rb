@@ -1,7 +1,7 @@
 class CatalogueController < ApplicationController
 	def index
 		@categories = Category.all
-		@last_articles = Article.last(4)
+		@last_articles = Article.last(8)
 	end
 	def products
 		@category_id = params[:category_id]
