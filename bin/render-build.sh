@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 # exit on error
+if ! command -v node &> /dev/null; then
+  echo "Instalando Node.js..."
+  curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+  apt-get install -y nodejs
+fi
+
+# Instalar dependencias de Node.js
+echo "Instalando dependencias de Node.js..."
+yarn install || npm install
+
 set -o errexit
 gem update --system
 bundle install
