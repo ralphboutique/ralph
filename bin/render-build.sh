@@ -14,6 +14,7 @@ yarn install || npm install
 set -o errexit
 gem update --system
 bundle install
+npx tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/tailwind.css --minify
 bundle exec rails assets:precompile
 bundle exec rails assets:clean
 
