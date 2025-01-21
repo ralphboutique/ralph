@@ -10,6 +10,7 @@ fi
 echo "Instalando dependencias de Node.js..."
 yarn install || npm install
 
+
 set -o errexit
 gem update --system
 bundle install
