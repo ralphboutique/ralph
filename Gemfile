@@ -87,6 +87,8 @@ gem 'devise'
 gem 'slick-rails'
 gem 'httparty'
 
+gem 'aws-sdk-s3'
+
 gem 'nokogiri', '~> 1.17.0'
 group :development, :test do
   gem 'factory_bot_rails'
