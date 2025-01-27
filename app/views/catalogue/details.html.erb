@@ -2,14 +2,14 @@
   <div class="lg:flex lg:w-full mx-auto"> <!-- Usamos flex para alinear las dos secciones al lado -->
     <!-- Imagen del artículo -->
     <%= image_tag @article.attachment, 
-        class: "w-full max-w-md lg:w-1/2 max-h-72 object-cover object-center rounded-lg", 
+        class: "w-full max-w-2xl lg:w-3/4 max-h-96 object-cover object-center rounded-lg", 
         alt: "Imagen del artículo" %>
+
     
     <!-- Descripción del artículo y botones -->
     <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 container">
       <h2 class="text-sm title-font text-gray-500 tracking-widest">En Venta</h2>
-      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><%= @article.title %></h1>
-
+      <h1 class="text-gray-900 text-3xl  title-font font-medium mb-1"><%= @article.title %></h1>
       <!-- Sección de estrellas de calificación -->
       <div class="flex mb-4">
         <span class="flex items-center">
@@ -78,7 +78,7 @@
       <!-- Precio y botón de compra -->
       <div class="flex">
         <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
-        <a class="flex ml-auto text-white bg-blue-950 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: /#{@article.id}?category_id=#{@article.category_id}" %>" target="_blank">
+        <a class="flex ml-auto text-white bg-blue-950 border-0 py-2 px-6 focus:outline-none hover:bg-purple-500 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}" %>" target="_blank">
           Comprar
         </a>
       </div>

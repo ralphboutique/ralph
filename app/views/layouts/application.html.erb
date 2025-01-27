@@ -72,287 +72,132 @@
 
   </head>
   <body>
-    <div class="md:flex">
+        <div class="md:flex">
 
-    <!-- sidebar -->
-    <div class="sidebar max-h-screen top-0 h-screen bg-gray-800 text-blue-100 w-64 fixed inset-y-0 left-0 transform transition duration-200 ease-in-out z-50"
-        x-data="{ open: true }" x-on:togglesidebar.window=" open = !open" x-show="true"
-        :class="open === true ? 'md:translate-x-0 md:sticky ':'-translate-x-full' ">
+    <!-- Sidebar -->
+    <div 
+        class="sidebar max-h-screen top-0 h-screen bg-gray-800 text-blue-100 w-64 fixed inset-y-0 left-0 transform transition duration-200 ease-in-out z-50"
+        x-data="{ open: true }" 
+        x-on:togglesidebar.window="open = !open" 
+        :class="open ? 'md:translate-x-0 md:sticky' : '-translate-x-full'" 
+        x-show="true">
 
-
-        <header class=" h-[64px] py-2 shadow-lg px-4 md:sticky top-0 bg-gray-800 z-40">
-            <!-- logo -->
-            <a href="#" class="text-white flex items-center space-x-2 group hover:text-white">
+        <!-- Header -->
+        <header class="h-16 py-2 shadow-lg px-4 md:sticky top-0 bg-gray-800 z-40">
+            <a href="#" class="flex items-center space-x-2 group text-white hover:text-white">
                 <div>
-                    <svg class="h-8 w-8 transition-transform duration-300 group-hover:-rotate-45 " fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                </div>
-                <div>
-                    <span class="text-2xl font-extrabold">FARNOUS</span>
-                    <span class="text-xs block">Project Management</span>
+                    <span class="text-2xl font-extrabold">GGSTORE ADMIN</span>
                 </div>
             </a>
         </header>
-        <!-- nav -->
-        <nav class="px-4 pt-4 scroller overflow-y-scroll max-h-[calc(100vh-64px)]" x-data="{selected:'Tasks'}">
-            <ul class="flex flex-col space-y-2">
 
-                <!-- ITEM -->
-                <li class="text-sm text-gray-500 ">
-                     <%= link_to admin_path, class: "text-gray-500" do %>
-                        Inicio
-                    <% end %>
+        <!-- Navigation -->
+        <nav class="px-4 pt-4 overflow-y-scroll max-h-[calc(100vh-64px)]" x-data="{ selected: 'Tasks' }">
+            <ul class="space-y-2">
+                <!-- Item -->
+                <li class="text-sm">
+                    <%= link_to admin_path, class: "text-gray-500" do %> Inicio <% end %>
                 </li>
 
-                <!-- Section Devider -->
+                <!-- Section Divider -->
                 <div class="section border-b pt-4 mb-4 text-xs text-gray-600 border-gray-700 pb-1 pl-3">
-                    Articulos
+                    Artículos
                 </div>
 
-                <!-- ITEM -->
-                <li class="text-sm text-gray-500 ">
-                   <%= link_to index_path, class: "text-gray-500" do %>
-                        Tabla de productos
-                    <% end %>
+                <!-- Item -->
+                <li class="text-sm">
+                    <%= link_to index_path, class: "text-gray-500" do %> Tabla de productos <% end %>
                 </li>
 
-                <!-- Section Devider -->
+                <!-- Section Divider -->
                 <div class="section border-b pt-4 mb-4 text-xs text-gray-600 border-gray-700 pb-1 pl-3">
                     Configuraciones Generales
                 </div>
-                 <li class="text-sm text-gray-500 ">
-                   <%= link_to show_category_path, class: "text-gray-500" do %>
-                        Categorias
-                    <% end %>
+
+                <!-- Config Items -->
+                <li class="text-sm">
+                    <%= link_to show_category_path, class: "text-gray-500" do %> Categorías <% end %>
                 </li>
-                  <li class="text-sm text-gray-500 ">
-                    <%= link_to show_warehouses_path, class: "text-gray-500" do %>
-                        Almacenes
-                    <% end %>
+                <li class="text-sm">
+                    <%= link_to show_warehouses_path, class: "text-gray-500" do %> Almacenes <% end %>
                 </li>
-                  <li class="text-sm text-gray-500 ">
-                    <%= link_to show_size_path, class: "text-gray-500" do %>
-                        Tallas
-                    <% end %>
+                <li class="text-sm">
+                    <%= link_to show_size_path, class: "text-gray-500" do %> Tallas <% end %>
                 </li>
-                <%if current_user.rol.name == 'ADMIN' %>
-                 <li class="text-sm text-gray-500 ">
-                    <%= link_to show_user_path, class: "text-gray-500" do %>
-                        Usuarios
-                    <% end %>
+
+                <!-- Admin-Only Section -->
+                <% if current_user.rol.name == 'ADMIN' %>
+                <li class="text-sm">
+                    <%= link_to show_user_path, class: "text-gray-500" do %> Usuarios <% end %>
                 </li>
-                 <li class="text-sm text-gray-500 ">
-                    <%= link_to show_roles_path, class: "text-gray-500" do %>
-                        Roles
-                    <% end %>
+                <li class="text-sm">
+                    <%= link_to show_roles_path, class: "text-gray-500" do %> Roles <% end %>
                 </li>
                 <% end %>
-                 <li>
-                <%= button_to destroy_user_session_path, method: :delete, data: { turbo: true }, class: "text-gray-500 inline" do %>
-                    Salir <i class="fa fa-sign-out" aria-hidden="true"></i>
+
+                <!-- Logout -->
+                <li class="text-sm">
+                    <%= button_to destroy_user_session_path, method: :delete, data: { turbo: true }, class: "text-gray-500 inline" do %>
+                        Salir <i class="fa fa-sign-out" aria-hidden="true"></i>
                     <% end %>
-
                 </li>
-
             </ul>
         </nav>
-
-
     </div>
-    <!-- End sidebar -->
+    <!-- End Sidebar -->
 
+    <!-- Content -->
+    <div class="flex-1 flex flex-col">
 
-    <!-- content -->
-    <div class="flex-1 flex-col flex">
+        <!-- Top Navbar -->
+        <nav class="bg-gray-800 shadow-xl sticky w-full top-0 z-50" x-data="{ mobilemenu: false }">
+            <div class="flex items-stretch justify-between h-16">
 
-        <!-- Top navbar -->
-        <nav class="bg-gray-800 shadow-xl sticky w-full top-0 text-black z-50" x-data="{ mobilemenue: false }">
-            <div class="mx-auto ">
-                <div class="flex items-stretch justify-between h-16">
-
-                    <div class="flex items-center md:hidden">
-                        <div class="-mr-2 flex" x-data>
-                            <!-- Mobile menu button -->
-                            <button type="button" @click="$dispatch('togglesidebar')"
-                                class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                aria-controls="mobile-menu" aria-expanded="false">
-                                <span class="sr-only">Open main menu</span>
-
-                                <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-
-                                <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center pl-6">
-                        <div class="flex-shrink-0 md:hidden">
-
-                            <a href="#" class="text-white flex items-center space-x-2 group">
-                                <div>
-                                    <svg class="h-8 w-8 transition-transform duration-300 group-hover:-rotate-45 "
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-
-                                <div>
-                                    <span class="text-2xl font-extrabold">FARNOUS</span>
-                                    <span class="text-xs block">Project Managment</span>
-                                </div>
-                            </a>
-                        </div>
-
-                        <!-- toggel sidebar -->
-                        <div class="text-white cursor-pointer hidden md:block" @click="$dispatch('togglesidebar')">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h7" />
-                            </svg>
-                        </div>
-
-
-                        <div class="hidden lg:block">
-                            <!-- Search -->
-                            <form action="" class="app-search" method="GET">
-                                <div class="relative group ">
-                                    <input type="text"
-                                        class="form-input rounded-md bg-gray-700 text-sm text-gray-300 pl-10 py-1.5 ml-5 border-transparent border-none outline-none focus:ring-0 focus:text-white transition-all duration-300 ease-in-out focus:w-60 w-48"
-                                        placeholder="Search..." autocomplete="off">
-                                    <span
-                                        class="absolute left-44 bottom-2 text-gray-400 transition-all duration-300 ease-in-out group-focus-within:left-8">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="hidden md:flex items-stretch">
-                        <!-- Profile Menu DT -->
-                        <div class="ml-4 flex md:ml-6 ">
-                            <div class="relative flex justify-center items-center mr-4">
-                                <div class="bg-gray-700 block hover:text-white p-1 rounded-full text-gray-400">
-                                    <span class="sr-only">View notifications</span>
-                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <!-- Profile dropdown -->
-                            <div class="relative bg-gray-700 px-4 text-gray-400 hover:text-white text-sm cursor-pointer"
-                                x-data="{open: false}">
-                                <div class="flex items-center min-h-full" @click="open = !open">
-                
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <div class="-mr-2 flex md:hidden">
-                        <!-- Mobile menu button -->
-                        <button type="button" @click="mobilemenue = !mobilemenue"
-                            class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                            aria-controls="mobile-menu" aria-expanded="false">
-                            <span class="sr-only">Open main menu</span>
-
-                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile menu, show/hide based on menu state. -->
-            <div class="md:hidden absolute bg-gray-800 w-full" id="mobile-menu" x-show="mobilemenue"
-                x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="transform opacity-0 scale-95"
-                x-transition:enter-end="transform opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-75"
-                x-transition:leave-start="transform opacity-100 scale-100"
-                x-transition:leave-end="transform opacity-0 scale-95" @click.away="mobilemenue = false
-                
-                ">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-                        aria-current="page">Dashboard</a>
-
-                    <a href="#"
-                        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button 
+                        type="button" 
+                        @click="$dispatch('togglesidebar')" 
+                        class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
 
-                <div class="pt-4 pb-3 border-t border-gray-700">
-                    <!-- profile menue for mobile -->
-                    <div class="flex items-center px-5">
-                        <div class="flex-shrink-0">
-                            <img class="h-10 w-10 rounded-full"
-                                src="https://assets.codepen.io/3321250/internal/avatars/users/default.png?fit=crop&format=auto&height=512&version=1646800353&width=512"
-                                alt="">
+                <!-- Logo -->
+                <div class="flex items-center pl-6">
+                    <a href="#" class="text-white flex items-center space-x-2">
+                        <svg class="h-8 w-8 transition-transform duration-300 group-hover:-rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <div>
+                            <span class="text-2xl font-extrabold">GGSTORE ADMIN</span>
                         </div>
-                        <div class="ml-3">
-                            <div class="text-base font-medium leading-none text-white">Tom Cook</div>
-                            <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
-                        </div>
-                        <button type="button"
-                            class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                            <span class="sr-only">View notifications</span>
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-
-                    </div>
-                    <div class="mt-3 px-2 space-y-1">
-                        <a href="#"
-                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Your
-                            Profile</a>
-
-                        <a href="#"
-                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Sign
-                            out</a>
-                    </div>
+                    </a>
                 </div>
+
+                <!-- Search Bar -->
+                <form action="" class="hidden lg:block ml-6">
+                    <div class="relative">
+                        <input type="text" class="form-input bg-gray-700 text-sm text-gray-300 pl-10 py-1.5 border-transparent rounded-md w-48 focus:w-60 focus:outline-none" placeholder="Search...">
+                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 1114 0 7 7 0 01-14 0z" />
+                            </svg>
+                        </span>
+                    </div>
+                </form>
             </div>
         </nav>
-        <!-- End Top navbar -->
+
+        <!-- Main Content -->
         <main class="bg-[#fcfcfc] mb-auto flex-grow ml-40">
           <%= yield %>        
         </main>
-        <footer class="border-t text-center ml-20 p-4 pb-3 text-xs bg-gray-100 fixed bottom-0 w-full">
-            2023 © Design & Develop by Ralp_boutque.
-        </footer> 
     </div>
+</div>
 
 </div>
     

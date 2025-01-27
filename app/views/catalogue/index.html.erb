@@ -1,13 +1,13 @@
 <%# codigo de detalle de articulo %>
    <div class="w-full relative shadow-lg py-12 ">
   <div>
-
-    <img src="<%= asset_path('backg.jpg') %>" alt="Background" class="w-full md:h-auto h-56 shadow-lg opacity-95">
+    
+    <img src="<%= asset_path('backnew.jpeg') %>" alt="Background" class="w-full md:h-auto h-56 shadow-lg opacity-95">
 
   </div>
   <div class=" absolute inset-0 flex flex-col justify-center items-center z-8 text-center">
-    <div class="font-bold  sm:text-5xl md:text-8xl font-serif md:mb-4 typing-animation">
-      Bienvenido a RalphBoutique
+    <div class="font-bold text-white  sm:text-6xl md:text-8xl font-serif md:mb-4 typing-animation">
+      Bienvenido a Ggstore
     </div>
     <%# <p class="pt-1 md:pt-3 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
       Somos una tienda online especializada en ropa para mujer
@@ -15,8 +15,8 @@
     <p class="pt-1 font-light tracking-widest text-base md:text-lg text-gray-100 md:mb-4">
       Ofrecemos una amplia selección de prendas de alta calidad a precios accesibles.
     </p>  %>
-    <%= link_to products_path, class:"heart-btn inline-flex items-center bg-black text-white font-semibold py-2 px-4 rounded hover:bg-red-900" do %>
-       VER ARTICULOS  <i class="fa-solid fa-arrow-right pl-2"></i>
+    <%= link_to products_path, class:"heart-btn inline-flex items-center bg-black text-white font-semibold  py-2 px-4 rounded hover:bg-red-900 mt-10" do %>
+   <button class="text-xs sm:text-base md:text-lg lg:text-xl">VER ARTICULOS <i class="fa-solid fa-arrow-right pl-2"></i></button>
     <% end %>
   </div>
 </div>
@@ -34,7 +34,7 @@
       <a href="https://facebook.com" target="_blank" class="text-blue-700">
         <i class="fa-brands fa-facebook"></i>
       </a>
-      <a href="https://instagram.com" target="_blank" class="text-pink-700">
+      <a href="https://instagram.com/ggstore_v" target="_blank" class="text-pink-700">
         <i class="fa-brands fa-instagram"></i>
       </a>
       <a href="https://wa.me/1234567890" target="_blank" class="text-green-700">
@@ -69,14 +69,14 @@
 
 
   <!-- Featured Products Section -->
- <section class="pt-10 pb-32 md:px-20">
+ <section class="pt-10 pb-32 md:px-20  mx-4 lg:mx-10 ">
   <h2 class="ml-5 text-sm font-bold italic mb-5 text-gray-600">NOVEDADES</h2>
   <hr>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
     <% @last_articles.each do |article| %>
       <div class="bg-white p-4 rounded-tr-lg shadow-2xl mt-8 hover:pt-10">
         <% if article.attachment.attached? %>
-          <%= image_tag article.attachment, class: "w-full h-56 object-cover mb-4" %>
+          <%= image_tag article.attachment, class: "w-full h-64 object-cover mb-4" %>
         <% else %>
           <p class="text-gray-500">No image available</p> <!-- Mensaje de imagen no disponible -->
         <% end %>
@@ -90,7 +90,7 @@
 
         <div class="flex justify-between items-center mt-3">
           <span class="text-yellow-500">★★★★☆</span>
-          <a class="bg-white text-blue-900 px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+          <a class="bg-white text-purple-800 px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
             Comprar Ahora
           </a>
         </div>
