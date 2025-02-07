@@ -1,11 +1,8 @@
 <div class="container px-5 py-24 mx-auto">
-  <div class="lg:flex lg:w-full mx-auto"> <!-- Usamos flex para alinear las dos secciones al lado -->
-    <!-- Imagen del artículo -->
-    <%= image_tag @article.attachment, 
-        class: "w-full max-w-2xl lg:w-3/4 max-h-96 object-cover object-center rounded-lg", 
-        alt: "Imagen del artículo" %>
-
-    
+  <div class="lg:flex lg:w-full mx-auto"> 
+   <%= image_tag @article.attachment, 
+    class: "w-full max-w-2xl lg:w-3/4 h-auto max-h-none object-contain object-center rounded-lg", 
+    alt: "Imagen del artículo" %>
     <!-- Descripción del artículo y botones -->
     <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 container">
       <h2 class="text-sm title-font text-gray-500 tracking-widest">En Venta</h2>
@@ -50,12 +47,14 @@
 
       <!-- Colores y tallas -->
       <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-        <div class="flex">
-          <span class="mr-3">Color</span>
-          <% @article.article_colors.each do |article_color| %>
-            <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
-          <% end %>
-        </div>
+        <% if @article.article_colors.present? %>
+          <div class="flex">
+            <span class="mr-3">Color</span>
+            <% @article.article_colors.each do |article_color| %>
+              <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
+            <% end %>
+          </div>`
+        <% end %>
         <div class="flex ml-6 items-center">
           <div class="relative">
             <% if @article.sizes.present? %>
@@ -74,7 +73,6 @@
           </div>
         </div>
       </div>
-
       <!-- Precio y botón de compra -->
       <div class="flex">
         <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
@@ -82,7 +80,6 @@
           Comprar
         </a>
       </div>
-
       <!-- Botón de regreso -->
       <% if @back == true %>
         <div class="mt-10 w-10 border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
