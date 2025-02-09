@@ -10,16 +10,12 @@
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
-
-
   </head>
   <body class="min-h-screen">
     <nav class=" bg-white border-1 border-black shadow-2xl font-sans w-full fixed top-0 z-10">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse mt-1">
             <%= image_tag "logo_ralph.png", alt: "Ralph_Boutique", class: "w-26 h-20"%>
-            <%# <%= image_tag "logoggstore.png", alt: "Ralph_Boutique", class: "w-30 h-20 "%>
-
         </a>
         <button data-collapse-toggle="navbar-multi-level" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-pink-300" aria-controls="navbar-multi-level" aria-expanded="false">
             <span class="sr-only">menu</span>
@@ -36,7 +32,7 @@
               <% end %>
             </li>
             <li>
-               <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2  px-3 text-gray-600  hover:border-b-2 hover:border-orange-600 md:hover:bg-transparent border-b-2 border-white md:hover:text-blue-900 md:p-0 md:w-auto transition ease-in duration-700">
+               <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2  px-3 text-gray-600  hover:border-b-2 hover:border-orange-500 md:hover:bg-transparent border-b-2 border-white md:hover:text-blue-900 md:p-0 md:w-auto transition ease-in duration-700">
                 Categorias 
                 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
@@ -70,10 +66,7 @@
       </div>
     </nav>
     <div class="pt-14">
-  
-        <%= yield %>
-
- 
+      <%= yield %>
     </div>
     <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>

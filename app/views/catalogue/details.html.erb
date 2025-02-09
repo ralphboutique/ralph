@@ -27,24 +27,26 @@
           </svg>
           <span class="text-gray-600 ml-3"> Reviews</span>
         </span>
-        <span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-          <div class="flex justify-center space-x-4">
-            <a href="https://facebook.com" target="_blank" class="text-blue-700">
-              <i class="fa-brands fa-facebook"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" class="text-pink-700">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://wa.me/1234567890" target="_blank" class="text-green-700">
-              <i class="fa-brands fa-whatsapp"></i>
-            </a>
-          </div>
-        </span>
+         <div class="flex justify-center space-x-4 ml-5">
+          <a href="https://facebook.com" target="_blank" class="text-blue-700">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a href="https://instagram.com/ralaccesorioscute/" target="_blank" class="text-pink-700">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" class="text-black">
+            <i class="fa-brands fa-tiktok"></i>
+          </a>
+          <a  href="https://api.whatsapp.com/send?phone=+584246454418&text=<%= "Hola, quisiera tener mas informacion"%>" target="_blank" class="text-green-700">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a href="https://t.me/tu_usuario" target="_blank" class="text-blue-500">
+            <i class="fa-brands fa-telegram"></i>
+          </a>
+        </div>
       </div>
-
       <!-- Descripción -->
       <p class="leading-relaxed"><%= @article.description %></p>
-
       <!-- Colores y tallas -->
       <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
         <% if @article.article_colors.present? %>
@@ -53,7 +55,7 @@
             <% @article.article_colors.each do |article_color| %>
               <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
             <% end %>
-          </div>`
+          </div>
         <% end %>
         <div class="flex ml-6 items-center">
           <div class="relative">
@@ -74,9 +76,9 @@
         </div>
       </div>
       <!-- Precio y botón de compra -->
-      <div class="flex">
+     <div class="flex">
         <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
-        <a class="flex ml-auto text-white bg-blue-950 border-0 py-2 px-6 focus:outline-none hover:bg-purple-500 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}" %>" target="_blank">
+        <a class="flex ml-auto text-white bg-blue-950 borde py-2 px-6 focus:outline-none hover:bg-amber-500 hover:border-blue-800 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}") %>" target="_blank">
           Comprar
         </a>
       </div>
