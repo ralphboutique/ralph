@@ -55,9 +55,9 @@
   <hr>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
     <% @last_articles.each do |article| %>
-      <div class="bg-white p-4 rounded-tr-lg shadow-2xl mt-8 hover:pt-10">
+      <div class="bg-white p-4 rounded-tr-lg shadow-2xl mt-8  hover:shadow-lg hover:grow">
         <% if article.attachment.attached? %>
-          <%= image_tag article.attachment, class: "w-full h-64 object-cover mb-4" %>
+          <%= image_tag article.attachment, class: "w-full h-64  object-cover mb-4" %>
         <% else %>
           <p class="text-gray-500">No image available</p> <!-- Mensaje de imagen no disponible -->
         <% end %>
