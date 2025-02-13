@@ -72,9 +72,8 @@ Rails.application.routes.draw do
   patch '/roles/:id', to: 'roles#update', as: 'update_roles'
   get 'search/roles', to: 'roles#search', as: 'search_roles'
 
-   get '/inventary', to: 'inventary#index', as: 'index_inventary'
-   get '/generate_pdf', to: 'inventary#generate_pdf', as: 'generate_pdf'
-
+  get '/inventary', to: 'inventary#index', as: 'index_inventary'
+  get '/generate_pdf', to: 'inventary#generate_pdf', as: 'generate_pdf'
   
   # Defines the root path route ("/")
   root "catalogue#index"

@@ -67,7 +67,7 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(:title, :description, :warehouse_id, :almacen_id, :serial, :price,
-                                    :category_id, :attachment, size_ids: [])
+                                    :category_id,:quantity, :attachment, size_ids: [])
   end
   def save_colors(colors)
     if colors.present?
