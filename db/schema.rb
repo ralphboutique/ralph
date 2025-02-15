@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_13_125544) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_14_003607) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,32 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_13_125544) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sale_items", force: :cascade do |t|
+    t.bigint "sale_id", null: false
+    t.bigint "article_id", null: false
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_sale_items_on_article_id"
+    t.index ["sale_id"], name: "index_sale_items_on_sale_id"
+  end
+
+  create_table "sales", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "payment_method"
+    t.date "date"
+    t.decimal "total_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "sale_type", default: "direct"
+    t.string "name"
+    t.string "lastname"
+    t.string "id_number"
+    t.string "phone"
+    t.index ["user_id"], name: "index_sales_on_user_id"
+  end
+
   create_table "sizes", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -115,4 +141,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_13_125544) do
   add_foreign_key "articles_colors", "articles"
   add_foreign_key "articles_sizes", "articles"
   add_foreign_key "articles_sizes", "sizes"
+  add_foreign_key "sale_items", "articles"
+  add_foreign_key "sale_items", "sales"
+  add_foreign_key "sales", "users"
 end

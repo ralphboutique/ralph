@@ -74,7 +74,10 @@ Rails.application.routes.draw do
 
   get '/inventary', to: 'inventary#index', as: 'index_inventary'
   get '/generate_pdf', to: 'inventary#generate_pdf', as: 'generate_pdf'
-  
+
+  get'/direct_sales', to: 'direct_sales#index', as: 'direct_sales'
+  get'/direct_sales/new', to: 'direct_sales#new', as: 'new_direct_sales'
+ post '/direct_sales/create', to: 'direct_sales#create', as: 'create_direct_sales'
   # Defines the root path route ("/")
   root "catalogue#index"
 end

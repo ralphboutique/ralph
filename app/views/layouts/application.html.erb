@@ -76,14 +76,14 @@
 
     <!-- Sidebar -->
     <div 
-        class="sidebar max-h-screen top-0 h-screen bg-gray-800 text-blue-100 w-64 fixed inset-y-0 left-0 transform transition duration-200 ease-in-out z-50"
+        class="sidebar max-h-screen top-0 h-screen bg-black text-blue-100 w-64 fixed inset-y-0 left-0 transform transition duration-200 ease-in-out z-50"
         x-data="{ open: true }" 
         x-on:togglesidebar.window="open = !open" 
         :class="open ? 'md:translate-x-0 md:sticky' : '-translate-x-full'" 
         x-show="true">
 
         <!-- Header -->
-        <header class="h-16 py-2 shadow-lg px-4 md:sticky top-0 bg-gray-800 z-40">
+        <header class="h-16 py-2 shadow-lg px-4 md:sticky top-0 bg-black z-40">
             <a href="#" class="flex items-center space-x-2 group text-white hover:text-white">
                 <div>
                     <span class="text-2xl font-extrabold">RAHPLBOUTIQUE ADMIN</span>
@@ -92,7 +92,7 @@
         </header>
 
         <!-- Navigation -->
-        <nav class="px-4 pt-4 overflow-y-scroll max-h-[calc(100vh-64px)]" x-data="{ selected: 'Tasks' }">
+        <nav class="px-4 pt-4 bg-black max-h-[calc(100vh-64px)]" x-data="{ selected: 'Tasks' }">
             <ul class="space-y-2">
                 <!-- Item -->
                 <li class="text-sm">
@@ -124,8 +124,6 @@
                 <li class="text-sm">
                     <%= link_to show_size_path, class: "text-gray-500" do %> Tallas <% end %>
                 </li>
-
-                <!-- Admin-Only Section -->
                 <% if current_user.rol.name == 'ADMIN' %>
                 <li class="text-sm">
                     <%= link_to show_user_path, class: "text-gray-500" do %> Usuarios <% end %>
@@ -135,6 +133,9 @@
                 </li>
                 <li class="text-sm">
                     <%= link_to index_inventary_path, class: "text-gray-500" do %> Gestion de Inventario <% end %>
+                </li>
+                 <li class="text-sm">
+                    <%= link_to new_direct_sales_path, class: "text-gray-500" do %> Ventas Directas <% end %>
                 </li>
                 <% end %>
 
@@ -153,7 +154,7 @@
     <div class="flex-1 flex flex-col">
 
         <!-- Top Navbar -->
-        <nav class="bg-gray-800 shadow-xl sticky w-full top-0 z-50" x-data="{ mobilemenu: false }">
+        <nav class="bg-black shadow-xl sticky w-full top-0 z-50" x-data="{ mobilemenu: false }">
             <div class="flex items-stretch justify-between h-16">
 
                 <!-- Mobile Menu Button -->

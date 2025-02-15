@@ -1,0 +1,33 @@
+<div class="ml-20 px-20">
+    <div class="container mx-auto mt-10 px-4">
+  <h1 class="text-2xl font-bold mb-4">Ventas Directas</h1>
+
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto border border-gray-200 shadow-md rounded-lg">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="p-3 text-left border">ID</th>
+          <th class="p-3 text-left border">Cliente</th>
+          <th class="p-3 text-left border">Método de Pago</th>
+          <th class="p-3 text-left border">Fecha</th>
+          <th class="p-3 text-left border">Total</th>
+          <th class="p-3 text-left border">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sales.each do |sale| %>
+          <tr class="border hover:bg-gray-50">
+            <td class="p-3 border"><%= sale.id %></td>
+            <td class="p-3 border"><%= "#{sale.name} #{sale.lastname}" %></td>
+            <td class="p-3 border"><%= sale.payment_method.capitalize %></td>
+            <td class="p-3 border"><%= sale.date.strftime("%d/%m/%Y") %></td>
+            <td class="p-3 border font-semibold">$<%= sale.sale_items.sum { |item| item.quantity * item.price } %></td>
+          
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>

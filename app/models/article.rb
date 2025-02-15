@@ -7,4 +7,5 @@ class Article < ApplicationRecord
   belongs_to :warehouse
   has_one_attached :attachment
   validates :title, :category, :price, presence: true
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
 end
