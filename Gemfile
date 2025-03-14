@@ -90,7 +90,7 @@ gem 'httparty'
 gem 'aws-sdk-s3'
 gem 'prawn'
 gem 'prawn-table'
-
+gem "select2-rails"
 gem 'nokogiri', '~> 1.17.0'
 group :development, :test do
   gem 'factory_bot_rails'

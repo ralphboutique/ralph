@@ -1,4 +1,10 @@
-// Import and register all your controllers from the importmap via controllers/**/*_controller
-import { application } from "controllers/application"
-import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
-eagerLoadControllersFrom("controllers", application)
+import { Application } from "@hotwired/stimulus";
+import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading";
+import ModalController from "./modal_controller";
+
+// Inicializar Stimulus
+const application = Application.start();
+application.register("modal", ModalController);
+
+// Cargar controladores automáticamente
+eagerLoadControllersFrom("controllers", application);

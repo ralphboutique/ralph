@@ -1,5 +1,5 @@
-<div class="flex justify-between mt-10 mx-32">
-    <div class="flex">
+<div class="flex justify-between mt-10 ">
+    <div class="flex mx-32">
         <%= form_with(url: index_path, method: :get, local: true, class: ' flex items-center') do %>
             <%= text_field_tag :query, params[:query], class: 'rounded-xl search-input' %>
             <%= button_tag(type: 'submit', class: 'search-button ml-3') do %>
@@ -12,13 +12,13 @@
             <% end %>
         </div>
     </div>
-    <div class="">
+    <div class="mr-5">
         <%= link_to new_path, class: "rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 flex items-center" do %>
             Nuevo artículo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
         <% end %>
     </div>
 </div>
-<div class="relative overflow-x-auto container mt-7 ml-36">
+<div class="relative overflow-x-auto container mt-7 mx-32">
       <% if notice %>
         <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
     <% end %>
@@ -28,23 +28,23 @@
             <%= alert %>
         </p>
     <% end %>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-blue-100 dark:text-gray-400">
+        <table class="w-full table-auto border  border-gray-200 shadow-md rounded-lg">
+ <thead class="bg-gray-100">
             <tr>
                 <th scope="col" class="px-6 py-3">
                     Nombre del Articulo
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    PRECIO
+                    Precio
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    CATEGORIA
+                    Categoria
                 </th>
                  <th>
-                    IMAGEN
+                    Imagen
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ACCION
+                    Acción
                 </th>
             </tr>
         </thead>

@@ -1,8 +1,11 @@
 require 'prawn'
 require 'prawn/table'
-class DirectSalesController < ApplicationController
+
+class CreditSalesController < ApplicationController
+
+
   def index
-    @sales = Sale.includes(:user, sale_items: :article).where(sale_type: "direct")
+    @sales = Sale.includes(:user, sale_items: :article).where(sale_type: "credit")
   
     if params[:user_id].present?
       @sales = @sales.where(user_id: params[:user_id])
@@ -23,7 +26,7 @@ class DirectSalesController < ApplicationController
       format.html
       format.pdf do
         pdf = generate_pdf(@sales)
-        send_data pdf.render, filename: "ventas_directas.pdf",
+        send_data pdf.render, filename: "ventas_creditos.pdf",
                               type: "application/pdf",
                               disposition: "inline"
       end
@@ -31,24 +34,24 @@ class DirectSalesController < ApplicationController
   end
   
   def new
-    @sale = Sale.new(sale_type: 'direct')
+    @sale = Sale.new(sale_type: 'credit')
   end
 
   def create
-  
+    puts "parametros recibidos: #{params.inspect}"                                                                            "parametros recibidos: #{params.inspect}"
     @sale = Sale.new(sale_params)
     @sale.user = current_user
-    @sale.sale_type = 'direct'
+    @sale.sale_type = 'credit'
 
     if @sale.save
-      redirect_to direct_sales_path, notice: 'Venta directa registrada.'
+      redirect_to credit_sales_path, notice: 'Venta a credito registrada.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
   def generate_pdf(sales)
     Prawn::Document.new do |pdf|
-      pdf.text "Reporte de Ventas Directas", size: 20, style: :bold, align: :center
+      pdf.text "Reporte de Ventas a Credito", size: 20, style: :bold, align: :center
       pdf.move_down 10
   
       # Definir la tabla con anchos dinámicos
@@ -78,7 +81,7 @@ class DirectSalesController < ApplicationController
       pdf.render
     end
   end
-  
+
 
   private
 
@@ -90,7 +93,8 @@ class DirectSalesController < ApplicationController
       :lastname,
       :id_number,
       :phone,
-      sale_items_attributes: [:article_id, :quantity, :price]
+      :installments,
+      sale_items_attributes: [:article_id,:quantity, :price ]
     )
   end
-end 
+end
