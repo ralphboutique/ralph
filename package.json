@@ -1,8 +1,10 @@
 {
  "scripts": {
   "build:css": "tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css",
-  "watch:css": "tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --watch"
- },
+  "watch:css": "tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --watch",
+  "build": "RAILS_ENV=production rails assets:precompile"
+
+},
  "devDependencies": {
   "autoprefixer": "^10.4.20",
   "postcss": "^8.4.49",
