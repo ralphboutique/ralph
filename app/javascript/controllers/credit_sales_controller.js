@@ -63,10 +63,8 @@ export default class extends Controller {
         }
       });
   
-      // Insertar el nuevo item después del primer elemento existente
       saleItemsContainer.insertBefore(newItem, firstItem.nextSibling);
   
-      // Actualizar nombres de los inputs para mantener coherencia con Rails
       this.updateItemNames();
       this.updateTotal();
     } else {
