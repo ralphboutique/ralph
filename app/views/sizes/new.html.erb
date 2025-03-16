@@ -1,6 +1,8 @@
 <%= form_for  @size, url: create_size_path  do |f| %>
 
-<%if @size.errors.any? %>
+
+ <div class ="container mx-32">
+ <%if @size.errors.any? %>
     <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
       <strong class="font-bold"><%= pluralize(@size.errors.count, "error") %> impidieron que la talla se guardara:</strong>
       <ul class="list-disc pl-5 mt-2">
@@ -10,8 +12,6 @@
       </ul>
     </div>
   <% end %>
- <div class ="container mx-32">
- 
 	<div class="space-y-12">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12">
             <div class="sm:col-span-6 ">

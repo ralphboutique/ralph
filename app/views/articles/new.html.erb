@@ -1,6 +1,8 @@
 <%= form_for  @article, url: create_path  do |f| %>
 
-  <% if @article.errors.any? %>
+
+  <div class="container mx-auto  px-20 py-8">
+      <% if @article.errors.any? %>
     <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
       <strong class="font-bold"><%= pluralize(@article.errors.count, "error") %> impidieron que el articulo se guardara:</strong>
       <ul class="list-disc pl-5 mt-2">
@@ -11,7 +13,6 @@
     </div>
   <% end %>
 
-  <div class="container mx-auto  px-20 py-8">
     <div class="space-y-8">
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
