@@ -56,9 +56,13 @@
                     <a href="<%= edit_category_path(category.id) %>" class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                         <i class="fas fa-pencil"></i>
                     </a>
-                    <%= link_to delete_category_path(category.id),  data: {turbo_method: :delete, turbo_confirm: '¿Estás seguro?' }, class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
+                  
+                    <%= link_to delete_category_path(category.id),
+                        method: :delete, 
+                        data: { confirm: "Seguro que quieres eliminar esta Categoria?" }, 
+                        class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
                         <i class="fas fa-trash"></i>
-                    <% end %>
+                    <% end %>  
                 </td>
             </tr>
             <% end %>

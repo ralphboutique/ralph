@@ -55,9 +55,12 @@
                     <a href="<%= edit_warehouses_path(warehous.id) %>" class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                         <i class="fas fa-pencil"></i>
                     </a>
-                    <%= link_to delete_warehouses_path(warehous.id),  data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' }, class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
+                    <%= link_to delete_warehouses_path(warehous.id), 
+                        method: :delete, 
+                        data: { confirm: "Seguro que quieres eliminar este Almacen?" }, 
+                        class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
                         <i class="fas fa-trash"></i>
-                    <% end %>
+                    <% end %>  
                 </td>
             </tr>
             <% end %>
