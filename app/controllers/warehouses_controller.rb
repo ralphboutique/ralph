@@ -1,7 +1,7 @@
 class WarehousesController < ApplicationController
   def show
     if params[:query].present?
-      @warehouses = Warehouse.where('title LIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
+      @warehouses = Warehouse.where('title ILIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
     else
       @warehouses = Warehouse.page(params[:page]).per(5)
     end

@@ -1,7 +1,7 @@
 class SizesController < ApplicationController
   def show
     if params[:query].present?
-      @sizes =  Size.where('title LIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
+      @sizes =  Size.where('title ILIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
     else
       @sizes = Size.page(params[:page]).per(5)
     end

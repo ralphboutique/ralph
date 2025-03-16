@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   def show
     if params[:query].present?
-      @users =  User.where('username LIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
+      @users =  User.where('username ILIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
     else
       @users = User.page(params[:page]).per(5)
     end

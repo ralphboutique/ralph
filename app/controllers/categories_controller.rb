@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   def show
     if params[:query].present?
-      @categories = Category.where('title LIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
+      @categories = Category.where('title ILIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
     else
       @categories = Category.page(params[:page]).per(5)
     end

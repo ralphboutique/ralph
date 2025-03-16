@@ -10,7 +10,7 @@ class ArticlesController < ApplicationController
 
   def index
     @articles = if params[:query].present?
-                  Article.where('title LIKE ?', "%#{params[:query]}%").includes(:category).page(params[:page]).per(5)
+                  Article.where('title ILIKE ?', "%#{params[:query]}%").includes(:category).page(params[:page]).per(5)
                 else
                   Article.includes(:category).page(params[:page]).per(5)
                 end

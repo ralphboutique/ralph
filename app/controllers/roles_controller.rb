@@ -1,7 +1,7 @@
 class RolesController < ApplicationController
   def show
     if params[:query].present?
-      @roles =  Rol.where('title LIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
+      @roles =  Rol.where('name ILIKE ?', "%#{params[:query]}%").page(params[:page]).per(5)
     else
       @roles = Rol.page(params[:page]).per(5)
     end
