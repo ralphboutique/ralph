@@ -82,7 +82,7 @@ Rails.application.routes.draw do
   get'/credit_sales', to: 'credit_sales#index', as: 'credit_sales'
   get'/credit_sales/new', to: 'credit_sales#new', as: 'new_credit_sales'
   post '/credit_sales/create', to: 'credit_sales#create', as: 'create_credit_sales'
- 
+  put '/credit_sales/cancel/:id', to: 'credit_sales#cancel', as:'cancel_credit_sales'
  # Defines the root path route ("/")
   root "catalogue#index"
 end

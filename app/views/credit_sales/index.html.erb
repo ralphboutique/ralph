@@ -70,22 +70,20 @@
               <td class="p-3 border"><%= sale.date.strftime("%d/%m/%Y") %></td>
               <td class="p-3 border font-semibold">$<%= sale.sale_items.sum { |item| item.quantity * item.price } %></td>
               <td class="p-3 border">
-         <button class="bg-blue-500 text-white px-4 py-2 rounded" 
-        data-action="click->modal#open" 
-        data-modal-sale-id="<%= sale.id %>"
-        data-modal-sale-name="<%= "#{sale.name} #{sale.lastname}" %>"
-        data-modal-sale-payment="<%= sale.payment_method.capitalize %>"
-        data-modal-sale-date="<%= sale.date.strftime('%d/%m/%Y') %>"
-        data-modal-sale-price='<%= sale.sale_items.map(&:price).to_json %>'
-        data-modal-sale-articles='<%= sale.sale_items.map { |item| { title: item.article.title, quantity: item.quantity } }.to_json %>'>
-
-    Ver Detalles
-</button>
-
-             
-
-
-              </td>
+              <button class="bg-blue-500 text-white px-4 py-2 rounded" 
+              data-action="click->modal#open" 
+              data-modal-sale-id="<%= sale.id %>"
+              data-modal-sale-name="<%= "#{sale.name} #{sale.lastname}" %>"
+              data-modal-sale-payment="<%= sale.payment_method.capitalize %>"
+              data-modal-sale-date="<%= sale.date.strftime('%d/%m/%Y') %>"
+              data-modal-sale-price='<%= sale.sale_items.map(&:price).to_json %>'
+              data-modal-sale-articles='<%= sale.sale_items.map { |item| { title: item.article.title, quantity: item.quantity } }.to_json %>'>
+                  Ver Detalles
+              <% if sale.status == 'pending' %>
+                </button>
+                  <%= link_to 'Cancelar Venta', cancel_credit_sales_path(sale.id), method: :put, class: 'bg-red-500 text-white px-4 py-2 rounded' %>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

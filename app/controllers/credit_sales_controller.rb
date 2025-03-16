@@ -3,7 +3,23 @@ require 'prawn/table'
 
 class CreditSalesController < ApplicationController
 
+  before_action :set_credit_sale, only: [:cancel]
 
+  def cancel
+  
+    if @credit_sale.update(status: 'cancelada') 
+      @credit_sale.sale_items.each do |item|
+        article = item.article
+        article.update(quantity: article.quantity + item.quantity)  
+      end
+
+      redirect_to credit_sales_path, notice: 'Venta a crédito cancelada con éxito y artículos devueltos al inventario.'
+    else
+      redirect_to credit_sales_path, alert: 'Hubo un error al cancelar la venta.'
+    end
+  end
+
+ 
   def index
     @sales = Sale.includes(:user, sale_items: :article).where(sale_type: "credit")
   
@@ -34,7 +50,7 @@ class CreditSalesController < ApplicationController
   end
   
   def new
-    @sale = Sale.new(sale_type: 'credit')
+    @sale = Sale.new(sale_type: 'credit', status: 'pending')
   end
 
   def create
@@ -42,7 +58,7 @@ class CreditSalesController < ApplicationController
     @sale = Sale.new(sale_params)
     @sale.user = current_user
     @sale.sale_type = 'credit'
-
+    @sale.status = 'pending'
     if @sale.save
       redirect_to credit_sales_path, notice: 'Venta a credito registrada.'
     else
@@ -54,18 +70,16 @@ class CreditSalesController < ApplicationController
       pdf.text "Reporte de Ventas a Credito", size: 20, style: :bold, align: :center
       pdf.move_down 10
   
-      # Definir la tabla con anchos dinámicos
       table_data = [["ID", "Usuario", "Fecha", "Total"]]
-      total_general = 0 # Inicializamos el total general
+      total_general = 0
   
       sales.each do |sale|
         total_sale = sale.sale_items.sum { |item| item.quantity * item.price }
-        total_general += total_sale # Acumulamos el total de todas las ventas
+        total_general += total_sale 
         table_data << [sale.id, sale.user.username, sale.date.strftime("%d/%m/%Y"), "$#{'%.2f' % total_sale}"]
       end
   
-      # Calcular el ancho de cada columna para que la tabla ocupe todo el ancho
-      column_widths = [50, 200, 150, pdf.bounds.width - 400] # Ajusta estos valores según sea necesario
+      column_widths = [50, 200, 150, pdf.bounds.width - 400] 
   
       pdf.table(table_data, 
         header: true, 
@@ -96,5 +110,8 @@ class CreditSalesController < ApplicationController
       :installments,
       sale_items_attributes: [:article_id,:quantity, :price ]
     )
+  end
+  def set_credit_sale
+    @credit_sale = Sale.find(params[:id])
   end
 end
