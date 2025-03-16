@@ -4,7 +4,7 @@ class SaleItem < ApplicationRecord
   validates :quantity, numericality: { greater_than: 0 }
   validates :price, numericality: { greater_than: 0 }
   after_create :decrease_article_stock
-
+  
   private
 
   def decrease_article_stock

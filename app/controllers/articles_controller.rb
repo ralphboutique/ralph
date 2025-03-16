@@ -58,9 +58,20 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @color = ArticleColor.where(article_id: params[:id]).destroy_all
-    @article = Article.find(params[:id]).destroy
-    redirect_to index_path, notice: 'El artículo se ha eliminado correctamente'
+    @article = Article.find_by(id: params[:id])
+
+    if @article.nil?
+      redirect_to index_path, alert: 'El artículo no existe.'
+      return
+    end
+
+    if @article.sale_items.exists?
+      redirect_to index_path, alert: 'No se puede eliminar porque tiene ventas asociadas.'
+    else
+      ArticleColor.where(article_id: @article.id).destroy_all
+      @article.destroy
+      redirect_to index_path, notice: 'El artículo se ha eliminado correctamente.'
+    end
   end
 
   private

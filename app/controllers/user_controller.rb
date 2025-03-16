@@ -43,8 +43,12 @@ class UserController < ApplicationController
   # DELETE /users/:id
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    redirect_to show_user_path, notice: 'Usuario eliminado exitosamente.'
+    if @user.sales.exists?
+      redirect_to show_user_path(@user), alert: "No se puede eliminar porque tiene ventas asociadas."
+    else
+      @user.destroy
+      redirect_to show_user_path, notice: "Usuario eliminado exitosamente."
+    end
   end
 
   private

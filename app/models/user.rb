@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :sales
   belongs_to :rol
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, uniqueness: { allow_blank: true }
