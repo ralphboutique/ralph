@@ -81,37 +81,63 @@
                   Ver Detalles
               <% if sale.status == 'pending' %>
                 </button>
-                  <%= link_to 'Cancelar Venta', cancel_credit_sales_path(sale.id), method: :put, class: 'bg-red-500 text-white px-4 py-2 rounded' %>
+                  <%= link_to 'Anular', cancel_credit_sales_path(sale.id), method: :put, class: 'bg-red-500 text-white px-4 py-3 rounded' %>
+                  <button class="bg-green-500 text-white px-4 py-2 rounded"
+                    data-action="click->installment#open"
+                    data-installment-sale-id="<%= sale.id %>"
+                    data-installment-sale-installments="<%= sale.installments.to_i %>"
+                    data-installment-sale-paid="<%= sale.paid_installments.to_i %>">
+                    Cuotas
+                  </button>
                 </td>
               <% end %>
             </tr>
           <% end %>
         </tbody>
       </table>
-       <div data-controller="modal" 
-     class="fixed top-1/2 left-1/2  bg-black bg-opacity-50 hidden " 
-     style="top: 17%;  width: 20%;" 
-     data-modal-target="container">
+      <div data-controller="modal" 
+        class="fixed top-1/2 left-1/2  bg-black bg-opacity-50 hidden " 
+        style="top: 17%;  width: 20%;" 
+        data-modal-target="container">
     
     <div class="bg-white rounded-lg shadow-lg m-10 w-full p-6">
-        <h2 class="text-xl font-semibold mb-4">Detalles de la Venta</h2>
-        
+        <h2 class="text-xl font-semibold mb-4">Detalles de la Venta</h2> 
         <p><strong>ID:</strong> <span data-modal-target="saleId"></span></p>
         <p><strong>Cliente:</strong> <span data-modal-target="saleName"></span></p>
         <p><strong>Método de Pago:</strong> <span data-modal-target="salePayment"></span></p>
         <p><strong>Fecha:</strong> <span data-modal-target="saleDate"></span></p>
-<p><strong>Artículos:</strong></p>
-<ul data-modal-target="saleArticles" class="list-disc pl-5"></ul> 
-        
+        <p><strong>Artículos:</strong></p>
+        <ul data-modal-target="saleArticles" class="list-disc pl-5"></ul>  
         <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded" data-action="click->modal#close">
             Cerrar
         </button>
-    </div>
-</div>
-
+          </div>
+      </div>
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal Cuotas-->
 
+  <div data-controller="installment"
+     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 hidden"
+     style="top: 17%; width: 30%;" 
+     data-installment-target="container">
+    <div class="bg-white rounded-lg shadow-lg m-10 w-full p-6">
+        <h2 class="text-xl font-semibold mb-4">Actualizar Cuota</h2>
+        <p class="text-green-700">Cuotas pagadas: <span data-installment-target="paidInstallments"></span></p>
+        <p class="text-red-700">Cuotas pendientes: <span data-installment-target="pendingInstallments"></span></p>
+        <form data-action="submit->installment#update">
+          <input type="hidden" data-installment-target="saleId">
+          <label class="block text-sm font-medium text-gray-700">Cantidad a Actualizar</label>
+          <input type="number" class="w-full p-2 border rounded" data-installment-target="installments"  data-action="input->installment#validate">
+          <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+              Guardar
+          </button>
+          <button type="button" class="mt-4 px-4 py-2 bg-red-500 text-white rounded"
+                  data-action="click->installment#close">
+              Cancelar
+          </button>
+        </form>
+    </div>
+  </div>
 </div>

@@ -6,7 +6,6 @@ class CreditSalesController < ApplicationController
   before_action :set_credit_sale, only: [:cancel]
 
   def cancel
-  
     if @credit_sale.update(status: 'cancelada') 
       @credit_sale.sale_items.each do |item|
         article = item.article
@@ -18,7 +17,19 @@ class CreditSalesController < ApplicationController
       redirect_to credit_sales_path, alert: 'Hubo un error al cancelar la venta.'
     end
   end
-
+  def pay_installment
+    @sale = Sale.find(params[:id])
+    installments_to_pay = params[:installments].to_i 
+  
+    if installments_to_pay.positive?
+      new_paid_installments = [@sale.paid_installments + installments_to_pay, @sale.installments].min
+      @sale.update(paid_installments: new_paid_installments)
+  
+      if new_paid_installments == @sale.installments
+        @sale.update(status: 'approved')
+      end
+    end
+  end
  
   def index
     @sales = Sale.includes(:user, sale_items: :article).where(sale_type: "credit")
@@ -87,7 +98,7 @@ class CreditSalesController < ApplicationController
         cell_style: { padding: 5, border_width: 1, align: :center },
         column_widths: column_widths
       )
-  
+      
       pdf.move_down 10
       pdf.text "Total de ventas registradas: #{sales.count}", style: :bold, align: :right
       pdf.text "Total general de ventas: $#{'%.2f' % total_general}", style: :bold, align: :right, size: 14, color: "ff0000"
@@ -95,7 +106,6 @@ class CreditSalesController < ApplicationController
       pdf.render
     end
   end
-
 
   private
 
