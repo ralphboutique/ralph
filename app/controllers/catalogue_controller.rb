@@ -18,10 +18,8 @@ class CatalogueController < ApplicationController
 	def details
 		@categories = Category.all
     @article = Article.includes(:article_colors, :sizes).find(params[:id])
-		# @articles = Article.where(id: params[:id]).select(:size_id).includes(:size)
 		@back = true
-		# @colors = Article.where(id: params[:id]).select(:color_id)
-  end
+  	end
 	def categories
 		@categories = Category.all.includes(:articles)
 	end

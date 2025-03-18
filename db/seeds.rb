@@ -17,4 +17,5 @@ User.find_or_create_by(username: 'admin') do |user|
   user.password = 'password123'              # Cambia por una contraseña segura
   user.password_confirmation = 'password123' # Confirmación de contraseña
   user.rol_id = rol_admin.id                 # Asocia el usuario al rol ADMIN
+  user.status = 'active' 
 end

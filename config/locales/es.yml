@@ -30,6 +30,13 @@ es:
               blank: "El teléfono no puede estar en blanco"
             date:
               blank: "La fecha no puede estar en blanco"
+
+  devise:
+    failure:
+      unauthenticated: "Debes iniciar sesión o registrarte."
+      invalid: "Usuario o contraseña incorrectos."
+      not_active: "Tu cuenta no está activa. Contacta con soporte."
+
   errors:
     messages:
       required: "es obligatorio"

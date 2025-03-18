@@ -56,6 +56,8 @@ Rails.application.routes.draw do
   get '/users/:id/edit', to: 'user#edit', as: 'edit_user'
   patch '/users/:id', to: 'user#update', as: 'update_user'
   get 'search/users', to: 'user#search', as: 'search_user'
+  patch '/user/:id/toggle_status', to: 'user#toggle_status', as: 'toggle_status_user'
+
   # this routes are used for catalogue
   get '/ralpboutique', to: 'catalogue#index', as: 'catalogue'
   get 'Ralp_boutque/categories', to: 'catalogue#categories', as: 'categories'

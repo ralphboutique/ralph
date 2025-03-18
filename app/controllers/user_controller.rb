@@ -15,6 +15,7 @@ class UserController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
+    @user.status = "active"
     @roles = Rol.all
     if @user.save
       redirect_to show_user_path, notice: 'Usuario creado exitosamente.'
@@ -50,7 +51,13 @@ class UserController < ApplicationController
       redirect_to show_user_path, notice: "Usuario eliminado exitosamente."
     end
   end
+  def toggle_status
+    @user = User.find(params[:id])
+    
+    @user.update(status: @user.status == "active" ? "inactive" : "active")
 
+    redirect_to show_user_path, notice: "El estado del Usuario se ha actualizado correctamente."
+  end
   private
 
   def set_user

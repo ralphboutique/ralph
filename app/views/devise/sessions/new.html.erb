@@ -4,6 +4,11 @@
             <%= image_tag "logo_ralph.png", alt: "Ralph_Boutique", class: "w-48 h-24 ml-28 mb-14"%>
       </a>
      <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
+        <% if flash[:alert] %>
+          <div class="bg-red-500 text-white p-3 rounded-lg">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
         <div class="p-8">
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="field">
@@ -15,14 +20,7 @@
               <%= f.label :password ,class: "block  mt-5 text-sm font-medium text-gray-600" %><br />
               <%= f.password_field :password, autocomplete: "current-password",  class: "block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none" %>
             </div>
-
-            <% if devise_mapping.rememberable? %>
-              <div class="field">
-                <%= f.check_box :remember_me%>
-                <%= f.label :remember_me, class: "text-sm font-medium"  %>
-              </div>
-            <% end %>
-
+            
             <div class="actions">
               <%= f.submit "Log in" , class: "w-full p-3 mt-4 bg-red-800 text-white rounded shadow"%>
             </div>
