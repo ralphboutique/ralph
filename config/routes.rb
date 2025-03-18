@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   get '/articles/:id/edit', to: 'articles#edit', as: 'edit_article'
   patch '/articles/:id', to: 'articles#update', as: 'update_article'
   get 'search/articles', to: 'articles#search', as: 'search_article'
+  patch '/articles/:id/toggle_status', to: 'articles#toggle_status', as: 'toggle_status'
 
   get '/warehouses', to: 'warehouses#show', as: 'show_warehouses'
   get 'warehouses/new', to: 'warehouses#new', as: 'new_warehouses'

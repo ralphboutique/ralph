@@ -8,11 +8,11 @@ class CatalogueController < ApplicationController
 		
 		if @category_id.present?
 			@categories = Category.all
-			@articles = Article.where(category_id: @category_id).page(params[:page]).per(12)
+			@articles = Article.where(category_id: @category_id,status: "active" ).page(params[:page]).per(12)
 			@back = true
 		else
 			@categories = Category.all
-			@articles = Article.includes(:category).page(params[:page]).per(12)
+			@articles = Article.where(status: "active" ).includes(:category).page(params[:page]).per(12)
 		end
 	end
 	def details

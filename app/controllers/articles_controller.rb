@@ -25,6 +25,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
+    @article.status = 'active'
     @werehouses = Warehouse.all
     @categories = Category.all
     @sizes = Size.all
@@ -55,6 +56,13 @@ class ArticlesController < ApplicationController
     else
        render :edit
     end
+  end
+  def toggle_status
+    @article = Article.find(params[:id])
+    
+    @article.update(status: @article.status == "active" ? "inactive" : "active")
+
+    redirect_to index_path, notice: "El estado del artículo se ha actualizado correctamente."
   end
 
   def destroy

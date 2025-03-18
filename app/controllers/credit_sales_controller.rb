@@ -6,7 +6,7 @@ class CreditSalesController < ApplicationController
   before_action :set_credit_sale, only: [:cancel]
 
   def cancel
-    if @credit_sale.update(status: 'cancelada') 
+    if @credit_sale.update(status: 'canceled') 
       @credit_sale.sale_items.each do |item|
         article = item.article
         article.update(quantity: article.quantity + item.quantity)  
@@ -32,7 +32,9 @@ class CreditSalesController < ApplicationController
   end
  
   def index
-    @sales = Sale.includes(:user, sale_items: :article).where(sale_type: "credit")
+    @sales = Sale.includes(:user, sale_items: :article)
+                 .where(sale_type: "credit")
+                 .order(created_at: :desc)  # Ordenar desde la fecha de creación más reciente
   
     if params[:user_id].present?
       @sales = @sales.where(user_id: params[:user_id])
@@ -49,6 +51,13 @@ class CreditSalesController < ApplicationController
     if params[:year].present?
       @sales = @sales.where("EXTRACT(YEAR FROM date) = ?", params[:year])
     end
+  
+    if params[:status].present?
+      @sales = @sales.where(status: params[:status])
+    end
+  
+    @sales = @sales.page(params[:page]).per(10)
+  
     respond_to do |format|
       format.html
       format.pdf do
@@ -58,8 +67,7 @@ class CreditSalesController < ApplicationController
                               disposition: "inline"
       end
     end
-  end
-  
+  end  
   def new
     @sale = Sale.new(sale_type: 'credit', status: 'pending')
   end

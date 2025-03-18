@@ -24,7 +24,11 @@
       <%= select_tag :year, options_for_select((Date.today.year - 5..Date.today.year).to_a.reverse, params[:year]), 
           include_blank: "Todos", class: "w-full p-2 border rounded" %>
     </div>
-
+    <div>
+    <label class="block text-sm font-medium text-gray-700">Estado</label>
+      <%= select_tag :status, options_for_select([["Pendiente", "pending"], ["Cancelado", "canceled"], ["Aprobado", "approved"]], params[:status]), 
+          include_blank: "Todos", class: "w-full p-2 border rounded" %>
+    </div>
     <div class="flex items-end">
       <%= submit_tag "Filtrar", class: "bg-blue-900 hover:bg-blue-500 text-white font-bold py-2 px-4" %>
     </div>
@@ -57,6 +61,7 @@
             <th class="p-3 text-left border">Cliente</th>
             <th class="p-3 text-left border">Método de Pago</th>
             <th class="p-3 text-left border">Fecha</th>
+             <th class="p-3 text-left border">Estatus</th>
             <th class="p-3 text-left border">Total</th>
             <th class="p-3 text-left border">Acciones</th>
           </tr>
@@ -68,6 +73,15 @@
               <td class="p-3 border"><%= "#{sale.name} #{sale.lastname}" %></td>
               <td class="p-3 border"><%= sale.payment_method.capitalize %></td>
               <td class="p-3 border"><%= sale.date.strftime("%d/%m/%Y") %></td>
+              <%if sale.status == "pending" %>
+                <td class="p-3 text-center"><span class="border rounded-full p-1 px-2" style="background-color: #f3f30b;">Pendiente </span> </td>
+              <%end%>
+              <%if sale.status == "approved" %>
+                <td class="p-3 text-center"><span class="border rounded-full p-1 px-2" style="background-color: #0bf383;">Abrobado </span> </td>
+              <%end%>
+              <%if sale.status == "canceled" %>
+                <td class="p-3 text-center "> <span class="border rounded-full p-1 px-2" style="background-color: #ef2929;">Cancelado</span> </td>
+              <%end%>
               <td class="p-3 border font-semibold">$<%= sale.sale_items.sum { |item| item.quantity * item.price } %></td>
               <td class="p-3 border">
               <button class="bg-blue-500 text-white px-4 py-2 rounded" 
