@@ -42,7 +42,12 @@
   <%= f.fields_for :sale_items, f.object.sale_items.build do |sale_form| %>
     <div class="sale-item flex gap-4 items-center bg-gray-100 p-4 rounded-lg">
        <%= sale_form.select :article_id, 
-        options_for_select(Article.all.map { |article| [article.title, article.id, { data: { price: article.price } }] }, selected: nil),
+       options_for_select(
+            Article.where(status: "active").where("quantity > 0")
+           .distinct
+           .map { |article| [article.title, article.id, { data: { price: article.price } }] }, 
+            selected: nil
+          ),
         { prompt: "Selecciona un artículo" },
         class: "select2 w-1/3 border rounded-lg p-2 article-select", 
         data: { action: "change->credit-sales#updatePrice" } %>

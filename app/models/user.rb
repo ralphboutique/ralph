@@ -13,8 +13,6 @@ class User < ApplicationRecord
   def active_for_authentication?
     super && status == "active"
   end
-
-
   def inactive_message
     status == "active" ? super : :not_active
   end

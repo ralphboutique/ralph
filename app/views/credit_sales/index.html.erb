@@ -74,13 +74,13 @@
               <td class="p-3 border"><%= sale.payment_method.capitalize %></td>
               <td class="p-3 border"><%= sale.date.strftime("%d/%m/%Y") %></td>
               <%if sale.status == "pending" %>
-                <td class="p-3 text-center"><span class="border rounded-full p-1 px-2" style="background-color: #f3f30b;">Pendiente </span> </td>
+                <td class="p-3 text-center"><span class=" text-white bg-amber-600 border rounded-full p-1 px-2">Pendiente </span> </td>
               <%end%>
               <%if sale.status == "approved" %>
-                <td class="p-3 text-center"><span class="border rounded-full p-1 px-2" style="background-color: #0bf383;">Abrobado </span> </td>
+                <td class="p-3 text-center"><span class="text-white bg-green-600 border rounded-full p-1 px-2">Abrobado </span> </td>
               <%end%>
               <%if sale.status == "canceled" %>
-                <td class="p-3 text-center "> <span class="border rounded-full p-1 px-2" style="background-color: #ef2929;">Cancelado</span> </td>
+                <td class="p-3 text-center "> <span class="text-white bg-red-600 border rounded-full p-1 px-2">Cancelado</span> </td>
               <%end%>
               <td class="p-3 border font-semibold">$<%= sale.sale_items.sum { |item| item.quantity * item.price } %></td>
               <td class="p-3 border">
@@ -95,7 +95,12 @@
                   Ver Detalles
               <% if sale.status == 'pending' %>
                 </button>
-                  <%= link_to 'Anular', cancel_credit_sales_path(sale.id), method: :put, class: 'bg-red-500 text-white px-4 py-3 rounded' %>
+                  <%= link_to 'Anular', 
+                      cancel_credit_sales_path(sale.id), 
+                      method: :put, 
+                      class: 'bg-red-500 text-white px-4 py-3 rounded',
+                      data: { confirm: "¿Estás seguro de que deseas anular esta venta?" } 
+                  %>
                   <button class="bg-green-500 text-white px-4 py-2 rounded"
                     data-action="click->installment#open"
                     data-installment-sale-id="<%= sale.id %>"
