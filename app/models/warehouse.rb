@@ -1,4 +1,5 @@
 class Warehouse < ApplicationRecord
+  has_and_belongs_to_many :users
   has_many :articles
   validates :title, presence: true, uniqueness: true
   before_destroy :ensure_no_articles

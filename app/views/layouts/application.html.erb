@@ -91,6 +91,10 @@
                 </div>
             </a>
         </header>
+        <div class="flex items-center justify-center p-4 text-white">
+            <i class="fas fa-user-circle text-4xl mr-2"></i> <!-- Icono de persona -->
+            <span class="text-lg">Bienvenido <%= current_user.username %></span> <!-- Nombre de usuario -->
+        </div>
 
         <!-- Navigation -->
         <nav class="px-4 pt-4 bg-black max-h-[calc(100vh-64px)]" x-data="{ selected: 'Tasks' }">

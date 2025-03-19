@@ -34,6 +34,10 @@ class UserController < ApplicationController
   def update
     @user = User.find(params[:id])
     @roles = Rol.all
+  if params[:user][:password].blank?
+    params[:user].delete(:password)
+    params[:user].delete(:password_confirmation)
+  end
     if @user.update(user_params)
       redirect_to show_user_path, notice: 'Usuario actualizado exitosamente.'
     else
@@ -65,7 +69,7 @@ class UserController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :rol_id)
+    params.require(:user).permit(:username, :email, :password, :rol_id,  warehouse_ids: [])
   end
 end
 

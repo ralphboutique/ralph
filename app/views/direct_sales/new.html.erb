@@ -44,7 +44,7 @@
       <!-- Usar select para que 'article_id' esté asociado con el modelo 'sale_item' -->
          <%= sale_form.select :article_id, 
   options_for_select(
-    Article.where(status: "active").where("quantity > 0")
+    Article.where(status: "active").where("quantity > 0").where(warehouse_id: current_user.warehouse_ids)
       .distinct
       .map { |article| [article.title, article.id, { data: { price: article.price, quantity: article.quantity } }] }, 
     selected: nil
