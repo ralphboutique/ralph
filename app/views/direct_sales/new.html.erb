@@ -42,23 +42,24 @@
   <%= f.fields_for :sale_items, f.object.sale_items.build do |sale_form| %>
     <div class="sale-item flex gap-4 items-center bg-gray-100 p-4 rounded-lg">
       <!-- Usar select para que 'article_id' esté asociado con el modelo 'sale_item' -->
-        <%= sale_form.select :article_id, 
-          options_for_select(
-            Article.where(status: "active").where("quantity > 0")
-           .distinct
-           .map { |article| [article.title, article.id, { data: { price: article.price } }] }, 
-            selected: nil
-          ),
-          { prompt: "Selecciona un artículo" },
-          class: "select2 w-1/3 border rounded-lg p-2 article-select", 
-          data: { action: "change->direct-sales#updatePrice" } 
-        %>
-        <%= sale_form.number_field :quantity, min: 1, value: 1, class: "w-1/4 border rounded-lg p-2 quantity-input", data: { action: "input->direct-sales#updateTotal" } %>
-        <% if sale_form.object.errors[:quantity].any? %>
-        <div class="text-red-500 text-sm">
-          <%= sale_item_form.object.errors[:quantity].first %>
-        </div>
-      <% end %>
+         <%= sale_form.select :article_id, 
+  options_for_select(
+    Article.where(status: "active").where("quantity > 0")
+      .distinct
+      .map { |article| [article.title, article.id, { data: { price: article.price, quantity: article.quantity } }] }, 
+    selected: nil
+  ),
+  { prompt: "Selecciona un artículo" },
+  class: "select2 w-1/3 border rounded-lg p-2 article-select", 
+  data: { action: "change->direct-sales#updatePrice change->direct-sales#updateQuantity change->direct-sales#validateDuplicateArticle" } %>
+
+
+      <div class="relative">
+  <%= sale_form.number_field :quantity, min: 1, value: 1, class: "border rounded-lg p-3 quantity-input", 
+    data: { action: "input->direct-sales#updateTotal input->direct-sales#validateQuantity" } %>
+  <span class="available-quantity text-xs text-gray-500"></span>
+  <div class="error-message text-xs text-red-500 hidden pt-3"></div>
+</div>
       <%= sale_form.number_field :price, step: "0.01", min: 0, class: "w-1/4 border rounded-lg p-2 price-input bg-gray-200", data: { action: "input->direct-sales#updateTotal" }%>
       
       <button type="button" class="text-red-500 hover:text-red-700" data-action="click->direct-sales#removeItem">✖</button>
