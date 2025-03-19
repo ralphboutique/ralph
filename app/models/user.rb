@@ -10,12 +10,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          authentication_keys: [:username]
 
-  # def active_for_authentication?
-  #   super && status == "active"
-  # end
+  def active_for_authentication?
+    super && status == "active"
+  end
 
 
-  # def inactive_message
-  #   status == "active" ? super : :not_active
-  # end
+  def inactive_message
+    status == "active" ? super : :not_active
+  end
 end
