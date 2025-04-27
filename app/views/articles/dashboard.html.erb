@@ -1,7 +1,10 @@
 
 <div class="ml-32 mb-5 mt-5">
-    <div class="text-4xl text-blue-950">Ralph_boutique</div>
-    <div class="text-red-400">Panel Administrativo gestion de inventario</div>
+  <% if notice %>
+    <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
+  <% end %>
+  <div class="text-4xl text-blue-950">Ralph_boutique</div>
+  <div class="text-red-400">Panel Administrativo gestion de inventario</div>
 </div>
 <hr >
 <div class="grid grid-cols-4 gap-4 my-20  ml-10">

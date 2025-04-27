@@ -32,11 +32,17 @@ es:
               blank: "La fecha no puede estar en blanco"
 
   devise:
+    sessions:
+      user:
+        signed_in: "Has iniciado sesión correctamente."
+      signed_in: "Has iniciado sesión correctamente."
     failure:
-      unauthenticated: "Debes iniciar sesión o registrarte."
-      invalid: "Usuario o contraseña incorrectos."
-      not_active: "Tu cuenta no está activa. Contacta con soporte."
-
+       user:
+        not_found_in_database: "Usuario o contraseña incorrectos."
+        unauthenticated: "Debes iniciar sesión"
+        invalid: "Usuario o contraseña incorrectos."
+        not_active: "Tu cuenta no está activa. Contacta con el administrador"
+        
   errors:
     messages:
       required: "es obligatorio"
