@@ -19,7 +19,25 @@
                 </div>
             </div>
 		</div>
+    <div>
+  <% Area.all.each do |area| %>
+    <div class="flex items-start justify-between mb-4">
+      <!-- Nombre del área alineado a la izquierda -->
+      <h3 class="font-semibold w-1/4"><%= area.name %></h3>
 
+      <!-- Permisos alineados a la derecha -->
+      <div class="flex flex-wrap gap-x-4 gap-y-2 w-3/4">
+        <% Permission.all.each do |perm| %>
+          <label class="flex items-center space-x-2">
+            <span><%= perm.name %></span>
+            <%= check_box_tag "permissions[]", "#{area.id}-#{perm.id}", false %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+  
 					 <div class="mt-6  mb-14 flex items-center justify-end gap-x-6">
                             <%= link_to "Cancelar", show_roles_path %>
 							<%= f.submit "CREAR ROL", class:"rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>

@@ -12,11 +12,13 @@
             <% end %>
         </div>
     </div>
-    <div class="">
-        <%= link_to new_warehouses_path, class: "rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 flex items-center" do %>
-            Nueva Almacen <i class="fa fa-plus ml-2" aria-hidden="true"></i>
-        <% end %>
-    </div>
+    <% if has_permission?('Almacenes', 'Crear') %>
+        <div class="">
+            <%= link_to new_warehouses_path, class: "rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 flex items-center" do %>
+                Nueva Almacen <i class="fa fa-plus ml-2" aria-hidden="true"></i>
+            <% end %>
+        </div>
+    <%end%>
 </div>
 <div class="relative overflow-x-auto container mt-7 ml-36">
      <% if notice %>
@@ -52,15 +54,19 @@
                     <%= warehous.title%>
                 </td>
                 <td class="px-6 py-4">
+                    <% if has_permission?('Almacenes', 'Editar') %>
                     <a href="<%= edit_warehouses_path(warehous.id) %>" class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                         <i class="fas fa-pencil"></i>
                     </a>
-                    <%= link_to delete_warehouses_path(warehous.id), 
-                        method: :delete, 
-                        data: { confirm: "Seguro que quieres eliminar este Almacen?" }, 
-                        class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
-                        <i class="fas fa-trash"></i>
-                    <% end %>  
+                    <%end%>
+                    <% if has_permission?('Almacenes', 'Eliminar') %>
+                        <%= link_to delete_warehouses_path(warehous.id), 
+                            method: :delete, 
+                            data: { confirm: "Seguro que quieres eliminar este Almacen?" }, 
+                            class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
+                            <i class="fas fa-trash"></i>
+                        <% end %> 
+                    <%end%> 
                 </td>
             </tr>
             <% end %>

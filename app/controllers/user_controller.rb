@@ -9,14 +9,14 @@ class UserController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    @roles = Rol.all
+    @roles = Role.all
   end
 
   # POST /users
   def create
     @user = User.new(user_params)
     @user.status = "active"
-    @roles = Rol.all
+    @roles = Role.all
     if @user.save
       redirect_to show_user_path, notice: 'Usuario creado exitosamente.'
     else
@@ -27,13 +27,13 @@ class UserController < ApplicationController
   # GET /users/:id/edit
   def edit
     @user = User.find(params[:id])
-    @roles = Rol.all
+    @roles = Role.all
   end
 
   # PATCH/PUT /users/:id
   def update
     @user = User.find(params[:id])
-    @roles = Rol.all
+    @roles = Role.all
   if params[:user][:password].blank?
     params[:user].delete(:password)
     params[:user].delete(:password_confirmation)
@@ -69,7 +69,7 @@ class UserController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :rol_id,  warehouse_ids: [])
+    params.require(:user).permit(:username, :email, :password, :role_id,  warehouse_ids: [])
   end
 end
 

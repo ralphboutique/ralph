@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_19_190042) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_06_004657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_19_190042) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "areas", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "articles", force: :cascade do |t|
@@ -78,7 +84,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_19_190042) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "rols", force: :cascade do |t|
+  create_table "permissions", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "role_permissions", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.bigint "permission_id", null: false
+    t.bigint "area_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["area_id"], name: "index_role_permissions_on_area_id"
+    t.index ["permission_id"], name: "index_role_permissions_on_permission_id"
+    t.index ["role_id"], name: "index_role_permissions_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -107,9 +130,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_19_190042) do
     t.string "lastname"
     t.string "id_number"
     t.string "phone"
-    t.string "status"
     t.integer "installments"
     t.integer "paid_installments"
+    t.string "status"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
@@ -128,7 +151,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_19_190042) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
-    t.integer "rol_id"
+    t.integer "role_id"
     t.string "status"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -151,6 +174,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_19_190042) do
   add_foreign_key "articles_colors", "articles"
   add_foreign_key "articles_sizes", "articles"
   add_foreign_key "articles_sizes", "sizes"
+  add_foreign_key "role_permissions", "areas"
+  add_foreign_key "role_permissions", "permissions"
+  add_foreign_key "role_permissions", "roles"
   add_foreign_key "sale_items", "articles"
   add_foreign_key "sale_items", "sales"
   add_foreign_key "sales", "users"

@@ -12,11 +12,13 @@
             <% end %>
         </div> 
     </div>
+    <% if has_permission?('Articulos', 'Crear')%>
     <div class="mr-5">
         <%= link_to new_path, class: "rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 flex items-center" do %>
             Nuevo artículo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
         <% end %>
     </div>
+    <%end%>
 </div>
 <div class="relative overflow-x-auto container mt-7 mx-32">
     <% if notice %>
@@ -77,15 +79,19 @@
                     </td>
                     <td class="px-6 py-4 text-center">
                         <div class="flex justify-center space-x-2">
+                             <% if has_permission?('Articulos', 'Editar') %>
                             <a href="<%= edit_article_path(article.id) %>" class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                                 <i class="fas fa-pencil"></i>
                             </a>
-                            <%= link_to delete_article_path(article), 
-                                method: :delete, 
-                                data: { confirm: "¿Seguro que quieres eliminar este artículo?" }, 
-                                class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
-                                <i class="fas fa-trash"></i>
-                            <% end %>  
+                            <%end%>
+                            <% if has_permission?('Articulos', 'Eliminar') %>
+                                <%= link_to delete_article_path(article), 
+                                    method: :delete, 
+                                    data: { confirm: "¿Seguro que quieres eliminar este artículo?" }, 
+                                    class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
+                                    <i class="fas fa-trash"></i>
+                                <% end %>  
+                            <%end%>
                             <% if article.status == "active" %>
                                 <%= link_to toggle_status_path(article), method: :patch, class: 'bg-red-600 hover:bg-red-700 rounded-full text-white font-bold p-2 flex items-center justify-center', data: { confirm: "¿Quieres desactivar este artículo?" } do %>
                                     <i class="fas fa-exclamation-circle"></i> 

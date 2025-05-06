@@ -103,7 +103,7 @@
                 <li class="text-sm">
                     <%= link_to admin_path, class: "text-gray-500" do %> Inicio <% end %>
                 </li>
-
+                <% if has_permission?('Articulos', 'Ver') %>
                 <!-- Section Divider -->
                 <div class="section border-b pt-4 mb-4 text-xs text-gray-600 border-gray-700 pb-1 pl-3">
                     Artículos
@@ -113,6 +113,7 @@
                 <li class="text-sm">
                     <%= link_to index_path, class: "text-gray-500" do %> Tabla de productos <% end %>
                 </li>
+                <%end%>
 
                 <!-- Section Divider -->
                 <div class="section border-b pt-4 mb-4 text-xs text-gray-600 border-gray-700 pb-1 pl-3">
@@ -120,39 +121,54 @@
                 </div>
 
                 <!-- Config Items -->
-                <li class="text-sm">
-                    <%= link_to show_category_path, class: "text-gray-500" do %> Categorías <% end %>
-                </li>
-                <li class="text-sm">
-                    <%= link_to show_warehouses_path, class: "text-gray-500" do %> Almacenes <% end %>
-                </li>
-                <li class="text-sm">
-                    <%= link_to show_size_path, class: "text-gray-500" do %> Tallas <% end %>
-                </li>
-                <% if current_user.rol.name == 'ADMIN' %>
-                <li class="text-sm">
-                    <%= link_to show_user_path, class: "text-gray-500" do %> Usuarios <% end %>
-                </li>
-                <li class="text-sm">
-                    <%= link_to show_roles_path, class: "text-gray-500" do %> Roles <% end %>
-                </li>
-                <li class="text-sm">
-                    <%= link_to index_inventary_path, class: "text-gray-500" do %> Gestion de Inventario <% end %>
-                </li>
-                
-                <% end %>
-                 <li class="text-sm">
-                    <%= link_to direct_sales_path, class: "text-gray-500" do %> Ventas Directas <% end %>
-                </li>
+                <% if has_permission?('Categorias', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to show_category_path, class: "text-gray-500" do %> Categorías <% end %>
+                    </li>
+                <%end%>
+                <% if has_permission?('Almacenes', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to show_warehouses_path, class: "text-gray-500" do %> Almacenes <% end %>
+                    </li>
+                <%end%>
+                <% if has_permission?('Tallas', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to show_size_path, class: "text-gray-500" do %> Tallas <% end %>
+                    </li>
+                <%end%>
+                <% if has_permission?('Usuarios', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to show_user_path, class: "text-gray-500" do %> Usuarios <% end %>
+                    </li>
+                <%end%>
+                <% if has_permission?('Roles', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to show_roles_path, class: "text-gray-500" do %> Roles <% end %>
+                    </li>
+                <%end%>    
+                <% if has_permission?('Gestion de Inventario', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to index_inventary_path, class: "text-gray-500" do %> Gestion de Inventario <% end %>
+                    </li>
+                <%end%>    
+                <% if has_permission?('Ventas Directas', 'Ver') %>
+                    <li class="text-sm">
+                        <%= link_to direct_sales_path, class: "text-gray-500" do %> Ventas Directas <% end %>
+                    </li>
+                <%end%> 
+                <% if has_permission?('Venta a credito', 'Ver') %>   
                 <li class="text-sm">
                     <%= link_to credit_sales_path, class: "text-gray-500" do %> Venta a credito <% end %>
                 </li>
-
+                <%end%>
                 <!-- Logout -->
-                <li class="text-sm">
-                    <%= button_to destroy_user_session_path, method: :delete, data: { turbo: true }, class: "text-gray-500 inline" do %>
-                        Salir <i class="fa fa-sign-out" aria-hidden="true"></i>
-                    <% end %>
+               <li class="text-sm">
+                <%= button_to destroy_user_session_path, 
+                    method: :delete, 
+                    data: { confirm: "¿Estás seguro de que deseas salir?", turbo: false }, 
+                    class: "text-gray-500 inline" do %>
+                    Salir <i class="fa fa-sign-out" aria-hidden="true"></i>
+                <% end %>
                 </li>
             </ul>
         </nav>

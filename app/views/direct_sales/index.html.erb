@@ -34,11 +34,13 @@
     </div>
   <% end %>
 </div>
-
+    <% if has_permission?('Ventas Directas', 'Crear') %>
     <div class="flex justify-between items-center mb-4">
       <h1 class="text-2xl font-bold">Ventas Directas</h1>
       <%= link_to "Crear Nueva Venta Directa", new_direct_sales_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out" %>
     </div>
+    <%end%>
+ 
 
     <div class="overflow-x-auto">
          <% if notice %>

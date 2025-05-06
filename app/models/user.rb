@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_and_belongs_to_many :warehouses  
   has_many :sales
-  belongs_to :rol
+  belongs_to :role
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, uniqueness: { allow_blank: true }

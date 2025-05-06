@@ -20,8 +20,8 @@
       </div>
 
       <div>
-        <%= f.label :rol_id, "Rol", class: "block text-gray-700 font-medium" %>
-        <%= f.select :rol_id, @roles.collect { |c| [c.name.upcase, c.id] }, { prompt: "Seleccionar rol" }, 
+        <%= f.label :role_id, "Rol", class: "block text-gray-700 font-medium" %>
+        <%= f.select :role_id, @roles.collect { |c| [c.name.upcase, c.id] }, { prompt: "Seleccionar rol" }, 
           class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-indigo-500 focus:border-indigo-500" %>
       </div>
       <div class="mb-4">

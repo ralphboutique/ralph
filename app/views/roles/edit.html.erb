@@ -21,6 +21,24 @@
                 </div>
             </div>
 		</div>
+    <div>
+  <% Area.all.each do |area| %>
+    <div class="flex items-start justify-between mb-4">
+      <h3 class="font-semibold w-1/4"><%= area.name %></h3>
+
+      <div class="flex flex-wrap gap-x-4 gap-y-2 w-3/4">
+        <% Permission.all.each do |perm| %>
+          <% checked = @rol.role_permissions.exists?(area_id: area.id, permission_id: perm.id) %>
+          <label class="flex items-center space-x-2">
+            <span><%= perm.name %></span>
+            <%= check_box_tag "permissions[]", "#{area.id}-#{perm.id}", checked %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
 
 					 <div class="mt-6  mb-14 flex items-center justify-end gap-x-6">
                             <%= link_to "Cancelar", show_roles_path %>
