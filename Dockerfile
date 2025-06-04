@@ -21,6 +21,15 @@ FROM base as build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
 
+# >>>>>>>>>>>>>>>>>> AÑADIR ESTAS DOS LÍNEAS AQUÍ <<<<<<<<<<<<<<<<<<
+# Actualizar RubyGems a la última versión para compatibilidad con las gemas
+RUN gem update --system --no-document
+# Asegúrate de instalar la versión de Bundler que generó tu Gemfile.lock (revisa la primera línea de Gemfile.lock: BUNDLED WITH X.X.X)
+# Por ejemplo, si tu Gemfile.lock dice BUNDLED WITH 2.5.15, usa eso. Si no estás seguro, puedes omitir la versión,
+# pero es mejor ser explícito para evitar problemas de compatibilidad de Bundler.
+RUN gem install bundler:2.5.15 # <--- Reemplaza 2.5.15 con la versión de Bundler de tu Gemfile.lock
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
