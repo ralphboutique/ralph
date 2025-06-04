@@ -1,6 +1,13 @@
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+RUN gem update --system
+
+# Tu paso existente de bundle install
+RUN bundle install && \
+    rm -rf ~/.bundle/ "/usr/local/bundle"/ruby/*/cache "/usr/local/bundle"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
+
 ARG RUBY_VERSION=3.1.1
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
