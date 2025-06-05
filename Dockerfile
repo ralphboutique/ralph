@@ -1,12 +1,6 @@
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-RUN gem update --system
-
-# Tu paso existente de bundle install
-RUN bundle install && \
-    rm -rf ~/.bundle/ "/usr/local/bundle"/ruby/*/cache "/usr/local/bundle"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
 
 ARG RUBY_VERSION=3.1.1
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
@@ -39,9 +33,15 @@ RUN gem install bundler:2.5.15 # <--- Reemplaza 2.5.15 con la versión de Bundle
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
+RUN gem update --system 3.3.26 && \
+    gem install bundler -v 2.5.15 && \
+    bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+    bundle exec bootsnap precompile --gemfile\
+
+# RUN bundle install && \
+#     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+#     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
 COPY . .
