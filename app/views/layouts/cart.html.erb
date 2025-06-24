@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RalphBoutique</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen">
+    <nav class=" bg-white border-1 border-black shadow-2xl font-sans w-full fixed top-0 z-10">
+      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse mt-1">
+            <%= image_tag "logo_ralph.png", alt: "Ralph_Boutique", class: "w-26 h-20"%>
+        </a>
+        <button data-collapse-toggle="navbar-multi-level" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-pink-300" aria-controls="navbar-multi-level" aria-expanded="false">
+            <span class="sr-only">menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+            </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-multi-level">
+          <ul class="flex flex-col font-medium  border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 ">
+            <li>
+              <%= link_to catalogue_path, class: "block pb-3 px-3 text-black  hover:border-b-2 hover:border-black hover:text-blue-700  rounded md:bg-transparent md:text-black md:p-0 ", aria: { current: "page" } do %>
+                <i class="fa-solid fa-house"></i> Inicio
+              <% end %>
+            </li>
+            <li>
+                <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-black hover:border-b-2 hover:border-black  md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto">Categorias <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-black divide-y divide-gray-100 rounded-lg shadow w-64">
+                    <ul class="py-2 text-sm italic text-white text-center" aria-labelledby="dropdownButton">
+                      <% @categories.each do |category| %>
+                        <li>
+                          <%= link_to category.title, products_path(query: params[:query], category_id: category.id), class: 'block px-4 py-2 hover:text-white hover:text-lg'%>
+                        </li>
+                      <% end %>
+                    </ul>
+                </div>
+            </li>
+            <li>
+              <a href="#servicios" class="block py-2 px-3 text-black rounded hover:border-b-2 hover:border-black hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Servicios <i class="fa-solid fa-headphones"></i></a>
+            </li>
+            <li>
+              <a href="#" class="block py-2 px-3 text-black rounded hover:border-b-2 hover:border-black hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"> Ayuda <i class="fa-regular fa-circle-question"></i> </a>
+            </li>
+            <li>
+              <a href="#" class="block py-2 px-3 text-black rounded hover:border-b-2 hover:border-black hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Contacto <i class="fa-solid fa-user"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="pt-14">
+        <%= yield %>
+    </div>
+    <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+  </body>
+</html>
+<style>
+  .avatar {
+	overflow: hidden;
+	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+	transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
+  img { width: 100%; height: auto; }
+  }
+  .heart-btn{
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+    animation: heartbeat 1s infinite;
+  }
+  @keyframes heartbeat {
+    0% { transform: scale(1); 
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+    }
+    50% { transform: scale(1.05);
+    box-shadow: 0px 0px 0px 0px rgba(255,0,0,0.5);
+    }
+    100% { transform: scale(1); 
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);
+    }
+  }
+  @keyframes typing {
+    0% {
+      width: 0;
+    }
+    50% {
+      width: 100%;
+    }
+    100% {
+      width: 0;
+    }
+  }
+
+  .typing-animation {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid black; /* Cursor effect */
+    animation: typing 10s steps(180, end) infinite;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInBottom {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .slide-in-left {
+    animation: slideInLeft  2.5s ease-out forwards infinite;
+  }
+
+  .slide-in-right {
+    animation: slideInRight 2.5s ease-out forwards infinite;
+  }
+
+  .slide-in-bottom {
+    animation: slideInBottom 2.5s ease-out forwards infinite;
+  }
+</style>
+<script>
+  function addToCart(product) {
+  let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  if (!cartItems.find(item => item.id === product.id)) {
+    cartItems.push(product);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    fetch('/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({ item: product })
+    }).then(response => response.json())
+      .then(data => console.log(data.message));
+  }
+}
+
+function removeFromCart(productId) {
+  let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  cartItems = cartItems.filter(item => item.id !== productId);
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+  fetch('/cart/remove', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify({ item: { id: productId } })
+  }).then(response => response.json())
+    .then(data => console.log(data.message));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const buttons = document.querySelectorAll('.add-to-cart');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const articleId = this.dataset.id;
+      const title = this.dataset.title;
+      const price = this.dataset.price;
+      const image = this.dataset.image;
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      const existingArticle = cart.find(item => item.id === articleId);
+
+      if (existingArticle) {
+        existingArticle.quantity += 1;
+      } else {
+        cart.push({ id: articleId, title, price, image, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Artículo añadido al carrito');
+    });
+  });
+});
+</script>

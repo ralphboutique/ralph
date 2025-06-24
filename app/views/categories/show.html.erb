@@ -1,0 +1,79 @@
+<div class="flex justify-between mt-10 mx-32">
+    <div class="flex">
+        <%= form_with(url: show_category_path, method: :get, local: true, class: ' flex items-center') do %>
+            <%= text_field_tag :query, params[:query], class: 'rounded-xl search-input' %>
+            <%= button_tag(type: 'submit', class: 'search-button ml-3') do %>
+            <i class="fas fa-search"></i>
+            <% end %>
+        <% end %>  
+         <div class="">
+            <%= link_to show_category_path, class: " mt-3 ml-3 flex items-center" do %>
+                <i class="fa fa-retweet" aria-hidden="true"></i>
+            <% end %>
+        </div>
+    </div>
+        <% if has_permission?('Categorias', 'Crear') %>
+            <div class="">
+                <%= link_to new_category_path, class: "rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 flex items-center" do %>
+                    Nueva categoria <i class="fa fa-plus ml-2" aria-hidden="true"></i>
+                <% end %>
+            </div>
+        <%end%>
+    </div>
+
+<div class="relative overflow-x-auto container mt-7 ml-36">
+    <% if notice %>
+        <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
+    <% end %>
+
+    <% if alert %>
+        <p id="alert-message" data-controller="alert" class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" >
+            <%= alert %>
+        </p>
+    <% end %>
+    <table class="w-full table-auto border border-gray-200 shadow-md rounded-lg">
+        <thead class="bg-gray-100">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Nombre de categoria 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    ACCION
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @categories.each do |category|%>
+            <tr class="bg-white border-b article">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <%= category.id%>
+                </th>
+                <td class="px-6 py-4">
+                    <%= category.title%>
+                </td>
+                <td class="px-6 py-4">
+                    <% if has_permission?('Categorias', 'Editar') %>
+                        <a href="<%= edit_category_path(category.id) %>" class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                            <i class="fas fa-pencil"></i>
+                        </a> 
+                    <%end%>
+                    <% if has_permission?('Categorias', 'Eliminar') %>
+                        <%= link_to delete_category_path(category.id),
+                            method: :delete, 
+                            data: { confirm: "Seguro que quieres eliminar esta Categoria?" }, 
+                            class: 'bg-red-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' do %>
+                            <i class="fas fa-trash"></i>
+                        <% end %>  
+                    <%end%>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+<div class="flex justify-center mt-5">
+    <%= paginate @categories %>
+</div>

@@ -1,0 +1,87 @@
+<div class="mt-10 mx-32 bg-white">
+    <div>
+        <p class="text-2xl"> Inventario de Articulos</p>
+        <hr class="bg-black">
+    </div>
+    <div class="flex mt-14">
+        <div>
+            <div class=" flex">
+                <%= form_with(url: index_inventary_path, method: :get, local: true, class: ' flex items-center') do %>
+                    <%= text_field_tag :query, params[:query], class: 'rounded-xl search-input' %>
+                    <%= button_tag(type: 'submit', class: 'search-button ml-3') do %>
+                        <i class="fas fa-search"></i>
+                    <% end %>
+                <% end %>  
+            
+                <%= link_to index_inventary_path, class:" ml-3 flex items-center" do %>
+                    <i class="fa fa-retweet" aria-hidden="true"></i>
+                <% end %>
+            </div>
+        </div>
+       <div class="ml-28">
+        <%= form_with(url: index_inventary_path, method: :get, local: true, class: 'flex items-center') do %>
+            <%= select_tag :warehouse_id, 
+            options_from_collection_for_select(@warehouses, :id, :title, params[:warehouse_id]), 
+            include_blank: "TODOS LOS ALMACENES", 
+            class: "border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+
+                <%= hidden_field_tag :query, params[:query] %>
+
+                <%= submit_tag "Filtrar", class: "ml-3 bg-blue-900 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded" %>
+            <% end %>
+        </div>
+        <div class="ml-28">
+            <%= link_to generate_pdf_path(format: :pdf, warehouse_id: params[:warehouse_id], query: params[:query]), 
+                        class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center" do %>
+                <i class="fas fa-file-pdf mr-2"></i> Generar PDF
+            <% end %>
+        </div>   
+    </div>
+         <table class="mt-8 w-full table-auto border border-gray-200 shadow-md rounded-lg">
+         <thead class="bg-gray-100">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Nombre del Articulo
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Precio
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Categoria
+                </th>
+                 <th>
+                    Imagen
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Cantidad
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @articles.each do |article|%>
+            <tr class="bg-white border-b article">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <%= article.title%>
+                </th>
+                <td class="px-6 py-4">
+                    <%= article.price%> $
+                </td> 
+                <td class="px-6 py-4">
+                    <%= article.category.title%>
+                </td>
+                 <td class="px-6 py-4 whitespace-no-wrap">
+                    <% if article.attachment.attached? %>
+                        <%= image_tag article.attachment, style: "width: 100px; height: 10%;" %>
+                    <% end %>
+                </td>
+                 <td class="px-6 py-4">
+                    <%= article.quantity%>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <div class="flex justify-center mt-5">
+        <%= paginate @articles %>
+    </div>
+</div>

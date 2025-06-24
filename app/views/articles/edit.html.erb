@@ -1,0 +1,66 @@
+<div class="container mx-32">
+  <%= form_for @article, url: update_article_path(@article) do |f| %>
+     <div class="space-y-8 mt-12 px-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="sm:col-span-2">
+          <%= f.label :title, "NOMBRE DEL ARTICULO", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" , oninput: "this.value = this.value.toUpperCase()" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :quantity, "CANTIDAD", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.number_field :quantity, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :serial, "SERIAL", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.text_field :serial, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :price, "PRECIO", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.number_field :price, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :warehouse_id, "ALMACEN", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.select :warehouse_id, @werehouses.collect { |c| [c.title.upcase, c.id] }, { prompt: "Seleccionar Almacen" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :category_id, "CATEGORIA", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.select :category_id, options_for_select(@categories.map { |c| [c.title.upcase, c.id] }), { prompt: "Seleccionar categoría" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :size_ids, "TALLA", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.select :size_ids, @sizes.collect { |c| [c.title.upcase, c.id] }, {}, multiple: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="col-span-full">
+          <%= f.label :description, "DESCRIPCION DEL PRODUCTO", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.text_area :description, size: "100x5", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <p class="mt-2 text-sm text-gray-600">Escribe las características del producto.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="col-span-full">
+          <%= f.label :attachment, "Insertar Imagen", class: "block text-sm font-medium text-gray-900" %>
+          <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+            <%= f.file_field :attachment, class: "text-sm text-gray-600" %>
+          </div>
+        </div>
+      </div>
+        <!-- Colores -->
+        <div data-controller="color-edit" data-color-edit-colors='<%= @colors.to_json.html_safe %>'>
+          <label>Anadir color</label>
+          <div id="color-container" data-color-edit-target="container" class="space-y-2 flex flex-wrap"></div>
+          <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mt-2 rounded" data-action="color-edit#addColor">
+            Añadir Color
+          </button>
+        </div>
+
+        <!-- Botones -->
+        <div class="mt-6 mb-14 flex items-center justify-end gap-x-6">
+          <%= link_to "Cancelar", index_path %>
+          <%= f.submit "Editar Articulo", class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

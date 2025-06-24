@@ -1,0 +1,50 @@
+es:
+  activerecord:
+    errors:
+      models:
+        article:
+          attributes:
+            category:
+              blank: "La categoría no puede estar en blanco"
+              required: "La categoría es obligatoria"
+            warehouse:
+              blank: "El almacén no puede estar en blanco"
+              required: "El almacén es obligatorio"
+            title:
+              blank: "El título no puede estar en blanco"
+            price:
+              blank: "El precio no puede estar en blanco"
+            quantity:
+              not_a_number: "La cantidad no es un número"
+        sale:
+          attributes:
+            sale_items:
+              invalid: "Los artículos de la venta son inválidos"
+            name:
+              blank: "El nombre no puede estar en blanco"
+            lastname:
+              blank: "El apellido no puede estar en blanco"
+            id_number:
+              blank: "El número de identificación no puede estar en blanco"
+            phone:
+              blank: "El teléfono no puede estar en blanco"
+            date:
+              blank: "La fecha no puede estar en blanco"
+
+  devise:
+    sessions:
+      user:
+        signed_in: "Has iniciado sesión correctamente."
+      signed_in: "Has iniciado sesión correctamente."
+    failure:
+       user:
+        not_found_in_database: "Usuario o contraseña incorrectos."
+        unauthenticated: "Debes iniciar sesión"
+        invalid: "Usuario o contraseña incorrectos."
+        not_active: "Tu cuenta no está activa. Contacta con el administrador"
+        
+  errors:
+    messages:
+      required: "es obligatorio"
+      blank: "no puede estar en blanco"
+      not_a_number: "no es un número"

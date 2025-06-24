@@ -1,0 +1,2 @@
+module CreditSalesHelper
+end

@@ -1,0 +1,26 @@
+
+<div class="ml-32 mb-5 mt-5">
+  <% if notice %>
+    <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
+  <% end %>
+  <div class="text-4xl text-blue-950">Ralph_boutique</div>
+  <div class="text-red-400">Panel Administrativo gestion de inventario</div>
+</div>
+<hr >
+<div class="grid grid-cols-4 gap-4 my-20  ml-10">
+  <div class="bg-white shadow-md rounded px-6 py-2 text-center">
+    <p class="text-black text-lg font-bold">Total Almacenes</p>
+    <p class="text-1xl font-bold text-red-500"><%= @total_warehouses%></p>
+    <p class="text-gray-500"><%= Date.today.strftime("%d de %B de %Y") %> </p>
+  </div>
+  <div class="bg-white shadow-md rounded px-4 py-2 text-center">
+    <p class="text-black text-lg font-bold">Total Articulos</p>
+    <p class="text-1xl font-bold  text-red-500 "><%= @total_articles%> </p>
+    <p class="text-gray-500"><%= Date.today.strftime("%d de %B de %Y") %> </p>
+  </div>
+   <div class="bg-white shadow-md rounded px-4 py-2 text-center">
+    <p class="text-black text-lg font-bold">Total Categorias</p>
+    <p class="text-1xl font-bold  text-red-500 "><%= @total_categories%> </p>
+    <p class="text-gray-500"><%= Date.today.strftime(" %d de %B de %Y") %> </p>
+  </div>
+</div>

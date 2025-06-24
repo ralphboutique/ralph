@@ -1,0 +1,41 @@
+<% if @articles.any? %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mt-8 mx-4 lg:mx-10 " data-controller="hello">
+    <% @articles.each do |article| %>
+      <div class="bg-white p-4  shadow-md hover:shadow-lg transition-shadow duration-200">
+        <% if article.attachment.attached? %>
+          <%= image_tag article.attachment, class: "w-full h-48 lg:h-64 object-cover  mb-4" %>
+        <% end %>
+        <h3 class="font-bold text-sm text-gray-700"><%= article.title.upcase %></h3>
+        <p class="text-gray-500 text-sm mt-2"><%= number_to_currency(article.price) %></p>
+         <div>
+          <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
+        </div>
+
+        <div class="flex justify-between items-center mt-3">
+          <span class="text-yellow-400 text-sm">★★★★☆</span>
+          <a class="bg-white text-blue-800 px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+            Comprar Ahora
+          </a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @back == true && @articles.present? %>
+    <div class="mt-10 ml-6 w-10 border-2 border-gray-900 rounded-full hover:bg-gray-900 hover:text-white hover:border-white transition-colors">
+      <%= link_to products_path, class: "flex items-center justify-center h-10" do %>
+        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="flex justify-center mt-5">
+    <%= paginate @articles, class: "text-gray-700 hover:text-blue-500" %>
+  </div>
+<% else %>
+<div class="empty-message text-center mt-36 min-h-screen flex flex-col justify-center">
+  <p class="text-gray-500 text-lg">No hay artículos en la categoría en este momento.</p>
+  <%= link_to "Ver Artículos", products_path, class: "text-blue-500 mt-4 hover:underline hover:text-blue-600 transition-colors" %>
+</div>
+
+<% end %>

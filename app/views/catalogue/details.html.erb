@@ -1,0 +1,95 @@
+<div class="container px-5 py-24 mx-auto">
+  <div class="lg:flex lg:w-full mx-auto"> 
+   <%= image_tag @article.attachment, 
+    class: "w-full max-w-2xl lg:w-3/4 h-auto max-h-none object-contain object-center rounded-lg", 
+    alt: "Imagen del artículo" %>
+    <!-- Descripción del artículo y botones -->
+    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 container">
+      <h2 class="text-sm title-font text-gray-500 tracking-widest">En Venta</h2>
+      <h1 class="text-gray-900 text-3xl  title-font font-medium mb-1"><%= @article.title %></h1>
+      <!-- Sección de estrellas de calificación -->
+      <div class="flex mb-4">
+        <span class="flex items-center">
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <span class="text-gray-600 ml-3"> Reviews</span>
+        </span>
+         <div class="flex justify-center space-x-4 ml-5">
+          <a href="https://facebook.com" target="_blank" class="text-blue-700">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a href="https://instagram.com/ralaccesorioscute/" target="_blank" class="text-pink-700">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" class="text-black">
+            <i class="fa-brands fa-tiktok"></i>
+          </a>
+          <a  href="https://api.whatsapp.com/send?phone=+584246454418&text=<%= "Hola, quisiera tener mas informacion"%>" target="_blank" class="text-green-700">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a href="https://t.me/tu_usuario" target="_blank" class="text-blue-500">
+            <i class="fa-brands fa-telegram"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Descripción -->
+      <p class="leading-relaxed"><%= @article.description %></p>
+      <!-- Colores y tallas -->
+      <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+        <% if @article.article_colors.present? %>
+          <div class="flex">
+            <span class="mr-3">Color</span>
+            <% @article.article_colors.each do |article_color| %>
+              <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="flex ml-6 items-center">
+          <div class="relative">
+            <% if @article.sizes.present? %>
+              <span class="mr-3">Size</span>
+              <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                <% @article.sizes.each do |size| %>
+                  <option value="<%= size.id %>"><%= size.title %></option>
+                <% end %>
+              </select>
+              <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- Precio y botón de compra -->
+     <div class="flex">
+        <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
+        <a class="flex ml-auto text-white bg-blue-950 borde py-2 px-6 focus:outline-none hover:bg-amber-500 hover:border-blue-800 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}") %>" target="_blank">
+          Comprar
+        </a>
+      </div>
+      <!-- Botón de regreso -->
+      <% if @back == true %>
+        <div class="mt-10 w-10 border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
+          <%= link_to products_path(query: params[:query], category_id: @article.category_id), class: " my-3 mx-3 flex items-center hover:text-white" do %>
+              <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

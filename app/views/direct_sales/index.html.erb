@@ -1,0 +1,121 @@
+<div class="ml-20 px-20">
+  <div class="container mx-auto mt-10 px-4">
+    <div class="mb-4 bg-gray-100 p-4 rounded-lg">
+  <%= form_with url: direct_sales_path, method: :get, local: true, class: "grid grid-cols-4 gap-4" do %>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Vendedor</label>
+      <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :username, params[:user_id]), 
+          include_blank: "Todos", class: "w-full p-2 border rounded" %>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Día</label>
+      <%= select_tag :day, options_for_select((1..31).to_a, params[:day]), include_blank: "Todos", class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Mes</label>
+      <%= select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |m, i| [m, i + 1] }, params[:month]), 
+          include_blank: "Todos", class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Año</label>
+      <%= select_tag :year, options_for_select((Date.today.year - 5..Date.today.year).to_a.reverse, params[:year]), 
+          include_blank: "Todos", class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div class="flex items-end">
+      <%= submit_tag "Filtrar", class: "bg-blue-900 hover:bg-blue-500 text-white font-bold py-2 px-4" %>
+    </div>
+
+    <div class="flex items-end">
+      <%= link_to "Generar PDF", direct_sales_path(format: :pdf, **params.to_unsafe_h), class: "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4" %>
+    </div>
+  <% end %>
+</div>
+    <% if has_permission?('Ventas Directas', 'Crear') %>
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">Ventas Directas</h1>
+      <%= link_to "Crear Nueva Venta Directa", new_direct_sales_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out" %>
+    </div>
+    <%end%>
+ 
+
+    <div class="overflow-x-auto">
+         <% if notice %>
+        <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
+    <% end %>
+
+    <% if alert %>
+        <p id="alert-message" data-controller="alert" class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" >
+            <%= alert %>
+        </p>
+    <% end %>
+      <table class="w-full table-auto border border-gray-200 shadow-md rounded-lg">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-3 text-left border">Vendedor</th>
+            <th class="p-3 text-left border">Cliente</th>
+            <th class="p-3 text-left border">Método de Pago</th>
+            <th class="p-3 text-left border">Fecha</th>
+            <th class="p-3 text-left border">Total</th>
+            <th class="p-3 text-left border">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sales.each do |sale| %>
+            <tr class="border hover:bg-gray-50">
+              <td class="p-3 border"><%= sale.user.username %></td>
+              <td class="p-3 border"><%= "#{sale.name} #{sale.lastname}" %></td>
+              <td class="p-3 border"><%= sale.payment_method.capitalize %></td>
+              <td class="p-3 border"><%= sale.date.strftime("%d/%m/%Y") %></td>
+              <td class="p-3 border font-semibold">$<%= sale.sale_items.sum { |item| item.quantity * item.price } %></td>
+              <td class="p-3 border">
+         <button class="bg-blue-500 text-white px-4 py-2 rounded" 
+        data-action="click->modal#open" 
+        data-modal-sale-id="<%= sale.id %>"
+        data-modal-sale-name="<%= "#{sale.name} #{sale.lastname}" %>"
+        data-modal-sale-payment="<%= sale.payment_method.capitalize %>"
+        data-modal-sale-date="<%= sale.date.strftime('%d/%m/%Y') %>"
+        data-modal-sale-price='<%= sale.sale_items.map(&:price).to_json %>'
+        data-modal-sale-articles='<%= sale.sale_items.map { |item| { title: item.article.title, quantity: item.quantity } }.to_json %>'>
+
+    Ver Detalles
+</button>
+
+             
+
+
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+       <div data-controller="modal" 
+     class="fixed top-1/2 left-1/2  bg-black bg-opacity-50 hidden " 
+     style="top: 17%;  width: 20%;" 
+     data-modal-target="container">
+    
+    <div class="bg-white rounded-lg shadow-lg m-10 w-full p-6">
+        <h2 class="text-xl font-semibold mb-4">Detalles de la Venta</h2>
+        
+        <p><strong>ID:</strong> <span data-modal-target="saleId"></span></p>
+        <p><strong>Cliente:</strong> <span data-modal-target="saleName"></span></p>
+        <p><strong>Método de Pago:</strong> <span data-modal-target="salePayment"></span></p>
+        <p><strong>Fecha:</strong> <span data-modal-target="saleDate"></span></p>
+<p><strong>Artículos:</strong></p>
+<ul data-modal-target="saleArticles" class="list-disc pl-5"></ul> 
+        
+        <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded" data-action="click->modal#close">
+            Cerrar
+        </button>
+    </div>
+</div>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+
+</div>

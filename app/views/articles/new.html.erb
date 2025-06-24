@@ -1,0 +1,79 @@
+<%= form_for  @article, url: create_path  do |f| %>
+
+
+  <div class="container mx-auto  px-20 py-8">
+      <% if @article.errors.any? %>
+    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+      <strong class="font-bold"><%= pluralize(@article.errors.count, "error") %> impidieron que el articulo se guardara:</strong>
+      <ul class="list-disc pl-5 mt-2">
+        <% @article.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="space-y-8">
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="sm:col-span-2">
+          <%= f.label :title, "NOMBRE DEL ARTICULO", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" , oninput: "this.value = this.value.toUpperCase()" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :quantity, "CANTIDAD", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.number_field :quantity, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :serial, "SERIAL", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.text_field :serial, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :price, "PRECIO", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.number_field :price, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :warehouse_id, "ALMACEN", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.select :warehouse_id, @werehouses.collect { |c| [c.title.upcase, c.id] }, { prompt: "Seleccionar Almacen" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :category_id, "CATEGORIA", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.select :category_id, options_for_select(@categories.map { |c| [c.title.upcase, c.id] }), { prompt: "Seleccionar categoría" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="md:col-span-2 sm:col-span-1">
+          <%= f.label :size_ids, "TALLA", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.select :size_ids, @sizes.collect { |c| [c.title.upcase, c.id] }, {}, multiple: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="col-span-full">
+          <%= f.label :description, "DESCRIPCION DEL PRODUCTO", class: "block text-sm font-medium text-gray-900" %>
+          <%= f.text_area :description, size: "100x5", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <p class="mt-2 text-sm text-gray-600">Escribe las características del producto.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="col-span-full">
+          <%= f.label :attachment, "Insertar Imagen", class: "block text-sm font-medium text-gray-900" %>
+          <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+            <%= f.file_field :attachment, class: "text-sm text-gray-600" %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-6">
+        <div data-controller="color-create" class="mt-6">
+          <label>Anadir color</label>
+          <div id="color-container" data-color-create-target="container" class="space-y-2 flex flex-wrap"></div>
+          <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mt-2 rounded" data-action="color-create#addColor">
+            Añadir Color
+          </button>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-end gap-x-6">
+        <%= link_to "Cancelar", index_path, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+        <%= f.submit "CREAR ARTICULO", class: "bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-md" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

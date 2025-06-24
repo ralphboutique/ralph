@@ -1,0 +1,80 @@
+<div class="w-full relative shadow-lg py-12 mb-16">
+  <img src="<%= asset_path('c.jpg') %>" alt="Background" class="w-full md:h-auto h-56 shadow-lg opacity-95">
+  <div class="absolute inset-0 flex flex-col items-center z-8 text-center"> 
+    <div class="w-full md:w-auto  mt-10">  
+      <div class="font-bold text-2xl sm:text-3xl md:text-6xl font-serif text-black mt-3 mb-4 pt-36">
+        LET'S SHOP
+      </div>
+          <%= link_to products_path, class:"heart-btn inline-flex items-center bg-black text-white font-semibold py-1 px-4 rounded hover:bg-blue-900 mt-4 text-sm md:text-base" do %>
+       Descubre nuestra colección <i class="fa-solid fa-arrow-right pl-2"></i>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Services Section -->
+<section id="servicios" class="flex flex-col sm:flex-row  justify-center sm:space-x-28 py-12 bg-black my-16" style="box-shadow: 0 -4px 6px -1px rgba(240, 230, 140, 0.5), 0 4px 6px -1px rgba(240, 230, 140, 0.5);">
+  <div class="text-center mb-8 sm:mb-0 text-white">
+    <i class="fa fa-headset fa-2x text-white"></i>
+    <h3 class="font-bold mt-2">ATENCION ACTIVA</h3>
+    <p class="text-gray-300">Horario 8:00 am a 6:00pm.</p>
+  </div>
+  <div class="text-center mb-8 sm:mb-0 text-white">
+    <i class="fa fa-undo fa-2x text-white"></i>
+    <h3 class="font-bold mt-2">CONTACTANOS</h3>
+    <div class="flex justify-center space-x-4">
+      <a href="https://facebook.com" target="_blank" class="text-blue-700">
+        <i class="fa-brands fa-facebook"></i>
+      </a>
+      <a href="https://instagram.com/ralaccesorioscute/" target="_blank" class="text-pink-700">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" class="text-white">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a  href="https://api.whatsapp.com/send?phone=+584246454418&text=<%= "Hola, quisiera tener mas informacion"%>" target="_blank" class="text-green-700">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+      <a href="https://t.me/tu_usuario" target="_blank" class="text-blue-500">
+        <i class="fa-brands fa-telegram"></i>
+      </a>
+    </div>
+  </div>
+  <div class="text-center text-white ">
+    <i class="fa fa-truck fa-2x text-white"></i>
+    <h3 class="font-bold mt-2">ENVIOS</h3>
+    <p class="text-gray-300">Envios a todo el territorio Nacional</p>
+  </div>
+</section>
+<!-- Featured Products Section -->
+<section class="pt-10 pb-32 md:px-20  mx-4 lg:mx-10 ">
+  <h2 class="ml-5 text-sm font-bold italic mb-5 text-gray-600">NOVEDADES</h2>
+  <hr>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+    <% @last_articles.each do |article| %>
+      <div class="bg-white p-4 rounded-tr-lg shadow-2xl mt-8  hover:shadow-lg hover:grow">
+        <% if article.attachment.attached? %>
+          <%= image_tag article.attachment, class: "w-full h-64  object-cover mb-4" %>
+        <% else %>
+          <p class="text-gray-500">No image available</p> <!-- Mensaje de imagen no disponible -->
+        <% end %>
+        
+        <h3 class="font-bold text-sm  mb-2 text-gray-500"><%=article.title.upcase%></h3>
+        <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
+        
+        <div>
+          <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
+        </div>
+
+        <div class="flex justify-between items-center mt-3">
+          <span class="text-yellow-500">★★★★☆</span>
+          <a class="bg-white text-blue-800 px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
+            Comprar Ahora
+          </a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+<%= render 'shared/footer'%>
+
