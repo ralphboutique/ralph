@@ -78,7 +78,7 @@
       <!-- Precio y botón de compra -->
      <div class="flex">
         <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
-        <a class="flex ml-auto text-white bg-blue-950 borde py-2 px-6 focus:outline-none hover:bg-amber-500 hover:border-blue-800 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}") %>" target="_blank">
+        <a class="flex ml-auto text-white bg-blue-950 borde py-2 px-6 focus:outline-none hover:bg-amber-500 hover:border-blue-800 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique-kun4.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}") %>" target="_blank">
           Comprar
         </a>
       </div>
