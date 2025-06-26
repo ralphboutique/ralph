@@ -80,4 +80,4 @@ test:
 
 production:
   <<: *default
-  url: postgresql://ralphboutique_user:Czc5dXdsxgQkOKcnycelbzMgfG9Fdz9r@dpg-d0uvv1q4d50c73e133c0-a.oregon-postgres.render.com/ralphboutique
+  url: <%= ENV["DATABASE_URL"] %>
