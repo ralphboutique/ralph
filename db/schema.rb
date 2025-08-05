@@ -130,9 +130,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_06_004657) do
     t.string "lastname"
     t.string "id_number"
     t.string "phone"
+    t.string "status"
     t.integer "installments"
     t.integer "paid_installments"
-    t.string "status"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
