@@ -81,3 +81,4 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+  # Force clean deploy - Render database connection
