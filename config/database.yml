@@ -84,8 +84,3 @@ production:
   database: ralph_boutique
   username: ralph_boutique
   password: <%= ENV["RALPH_BOUTIQUE_DATABASE_PASSWORD"] %>
-  sslmode: require
-  connect_timeout: 60
-  checkout_timeout: 60
-  variables:
-    statement_timeout: 60s
