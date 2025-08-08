@@ -1,26 +1,99 @@
 
-<div class="ml-32 mb-5 mt-5">
+<!-- Dashboard Header Responsive -->
+<div class="mb-8 pt-6">
   <% if notice %>
-    <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
+    <div id="alert-message" data-controller="alert" class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <%= notice %>
+      </div>
+    </div>
   <% end %>
-  <div class="text-4xl text-blue-950">Ralph_boutique</div>
-  <div class="text-red-400">Panel Administrativo gestion de inventario</div>
+  
+  <div class="mb-6">
+    <h1 class="text-3xl md:text-4xl font-bold text-blue-950 mb-2">Ralph Boutique</h1>
+    <p class="text-lg text-gray-600">Panel Administrativo - Gestión de Inventario</p>
+  </div>
 </div>
-<hr >
-<div class="grid grid-cols-4 gap-4 my-20  ml-10">
-  <div class="bg-white shadow-md rounded px-6 py-2 text-center">
-    <p class="text-black text-lg font-bold">Total Almacenes</p>
-    <p class="text-1xl font-bold text-red-500"><%= @total_warehouses%></p>
-    <p class="text-gray-500"><%= Date.today.strftime("%d de %B de %Y") %> </p>
+
+<!-- Divider -->
+<div class="border-b border-gray-200 mb-8"></div>
+
+<!-- Dashboard Cards Grid Responsive -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+  <!-- Card Almacenes -->
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center">
+        <div class="p-3 bg-blue-100 rounded-lg">
+          <i class="fas fa-warehouse text-blue-600 text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="text-sm font-medium text-gray-500">Total Almacenes</h3>
+          <p class="text-2xl font-bold text-gray-900"><%= @total_warehouses %></p>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center text-sm text-gray-500">
+      <i class="fas fa-calendar mr-2"></i>
+      <%= Date.today.strftime("%d de %B de %Y") %>
+    </div>
   </div>
-  <div class="bg-white shadow-md rounded px-4 py-2 text-center">
-    <p class="text-black text-lg font-bold">Total Articulos</p>
-    <p class="text-1xl font-bold  text-red-500 "><%= @total_articles%> </p>
-    <p class="text-gray-500"><%= Date.today.strftime("%d de %B de %Y") %> </p>
+
+  <!-- Card Artículos -->
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center">
+        <div class="p-3 bg-green-100 rounded-lg">
+          <i class="fas fa-box text-green-600 text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="text-sm font-medium text-gray-500">Total Artículos</h3>
+          <p class="text-2xl font-bold text-gray-900"><%= @total_articles %></p>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center text-sm text-gray-500">
+      <i class="fas fa-calendar mr-2"></i>
+      <%= Date.today.strftime("%d de %B de %Y") %>
+    </div>
   </div>
-   <div class="bg-white shadow-md rounded px-4 py-2 text-center">
-    <p class="text-black text-lg font-bold">Total Categorias</p>
-    <p class="text-1xl font-bold  text-red-500 "><%= @total_categories%> </p>
-    <p class="text-gray-500"><%= Date.today.strftime(" %d de %B de %Y") %> </p>
+
+  <!-- Card Categorías -->
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center">
+        <div class="p-3 bg-purple-100 rounded-lg">
+          <i class="fas fa-tags text-purple-600 text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="text-sm font-medium text-gray-500">Total Categorías</h3>
+          <p class="text-2xl font-bold text-gray-900"><%= @total_categories %></p>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center text-sm text-gray-500">
+      <i class="fas fa-calendar mr-2"></i>
+      <%= Date.today.strftime("%d de %B de %Y") %>
+    </div>
+  </div>
+
+  <!-- Card adicional (puedes agregar más estadísticas) -->
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center">
+        <div class="p-3 bg-orange-100 rounded-lg">
+          <i class="fas fa-chart-line text-orange-600 text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="text-sm font-medium text-gray-500">Sistema Activo</h3>
+          <p class="text-lg font-bold text-green-600">Online</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center text-sm text-gray-500">
+      <i class="fas fa-clock mr-2"></i>
+      <%= Time.current.strftime("%H:%M") %>
+    </div>
   </div>
 </div>

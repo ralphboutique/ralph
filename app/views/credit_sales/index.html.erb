@@ -1,165 +1,328 @@
-<div class="ml-20 px-20">
-  <div class="container mx-auto mt-10 px-4">
-    <div class="mb-4 bg-gray-100 p-4 rounded-lg">
-  <%= form_with url: credit_sales_path, method: :get, local: true, class: "grid grid-cols-4 gap-4" do %>
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Vendedor</label>
-      <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :username, params[:user_id]), 
-          include_blank: "Todos", class: "w-full p-2 border rounded" %>
-    </div>
-    
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Día</label>
-      <%= select_tag :day, options_for_select((1..31).to_a, params[:day]), include_blank: "Todos", class: "w-full p-2 border rounded" %>
-    </div>
+<!-- Header Section -->
+<div class="mb-8">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <h1 class="text-2xl lg:text-3xl font-bold text-gray-900">Ventas a Crédito</h1>
+    <% if has_permission?('Venta a credito', 'Crear') %>
+      <%= link_to new_credit_sales_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-sm" do %>
+        <i class="fas fa-plus mr-2"></i>
+        <span class="hidden sm:inline">Crear Nueva Venta a Crédito</span>
+        <span class="sm:hidden">Nueva Venta</span>
+      <% end %>
+    <% end %>
+  </div>
 
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Mes</label>
-      <%= select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |m, i| [m, i + 1] }, params[:month]), 
-          include_blank: "Todos", class: "w-full p-2 border rounded" %>
-    </div>
+  <!-- Filters Section -->
+  <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Filtros de Búsqueda</h3>
+    <%= form_with url: credit_sales_path, method: :get, local: true, class: "space-y-4" do %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Vendedor</label>
+          <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :username, params[:user_id]), 
+              include_blank: "Todos los vendedores", 
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Día</label>
+          <%= select_tag :day, options_for_select((1..31).to_a, params[:day]), 
+              include_blank: "Todos los días", 
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
 
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Año</label>
-      <%= select_tag :year, options_for_select((Date.today.year - 5..Date.today.year).to_a.reverse, params[:year]), 
-          include_blank: "Todos", class: "w-full p-2 border rounded" %>
-    </div>
-    <div>
-    <label class="block text-sm font-medium text-gray-700">Estado</label>
-      <%= select_tag :status, options_for_select([["Pendiente", "pending"], ["Cancelado", "canceled"], ["Aprobado", "approved"]], params[:status]), 
-          include_blank: "Todos", class: "w-full p-2 border rounded" %>
-    </div>
-    <div class="flex items-end">
-      <%= submit_tag "Filtrar", class: "bg-blue-900 hover:bg-blue-500 text-white font-bold py-2 px-4" %>
-    </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Mes</label>
+          <%= select_tag :month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |m, i| [m, i + 1] }, params[:month]), 
+              include_blank: "Todos los meses", 
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
 
-    <div class="flex items-end">
-      <%= link_to "Generar PDF", credit_sales_path(format: :pdf, **params.to_unsafe_h), class: "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4" %>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Año</label>
+          <%= select_tag :year, options_for_select((Date.today.year - 5..Date.today.year).to_a.reverse, params[:year]), 
+              include_blank: "Todos los años", 
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+          <%= select_tag :status, options_for_select([["Pendiente", "pending"], ["Cancelado", "canceled"], ["Aprobado", "approved"]], params[:status]), 
+              include_blank: "Todos los estados", 
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= submit_tag "Filtrar", class: "inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200" %>
+        <%= link_to credit_sales_path(format: :pdf, **params.to_unsafe_h), class: "inline-flex items-center justify-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200" do %>
+          <i class="fas fa-file-pdf mr-2"></i>
+          Generar PDF
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Alerts Section -->
+<div class="mb-6">
+  <% if notice %>
+    <div id="alert-message" data-controller="alert" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <%= notice %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if alert %>
+    <div id="alert-message" data-controller="alert" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <%= alert %>
+      </div>
     </div>
   <% end %>
 </div>
-    <% if has_permission?('Venta a credito', 'Crear') %>
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="text-2xl font-bold">Ventas Credito</h1>
-      <%= link_to "Crear Nueva Venta a Credito", new_credit_sales_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out" %>
-    </div>
-    <%end%>
 
-    <div class="overflow-x-auto">
-         <% if notice %>
-        <p id="alert-message"  data-controller="alert" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" ><%= notice %></p>
-    <% end %>
-
-    <% if alert %>
-        <p id="alert-message" data-controller="alert" class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" >
-            <%= alert %>
-        </p>
-    <% end %>
-      <table class="w-full table-auto border border-gray-200 shadow-md rounded-lg">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="p-3 text-left border">Vendedor</th>
-            <th class="p-3 text-left border">Cliente</th>
-            <th class="p-3 text-left border">Método de Pago</th>
-            <th class="p-3 text-left border">Fecha</th>
-             <th class="p-3 text-left border">Estatus</th>
-            <th class="p-3 text-left border">Total</th>
-            <th class="p-3 text-left border">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @sales.each do |sale| %>
-            <tr class="border hover:bg-gray-50">
-              <td class="p-3 border"><%= sale.user.username %></td>
-              <td class="p-3 border"><%= "#{sale.name} #{sale.lastname}" %></td>
-              <td class="p-3 border"><%= sale.payment_method.capitalize %></td>
-              <td class="p-3 border"><%= sale.date.strftime("%d/%m/%Y") %></td>
-              <%if sale.status == "pending" %>
-                <td class="p-3 text-center"><span class=" text-white bg-amber-600 border rounded-full p-1 px-2">Pendiente </span> </td>
-              <%end%>
-              <%if sale.status == "approved" %>
-                <td class="p-3 text-center"><span class="text-white bg-green-600 border rounded-full p-1 px-2">Abrobado </span> </td>
-              <%end%>
-              <%if sale.status == "canceled" %>
-                <td class="p-3 text-center "> <span class="text-white bg-red-600 border rounded-full p-1 px-2">Cancelado</span> </td>
-              <%end%>
-              <td class="p-3 border font-semibold">$<%= sale.sale_items.sum { |item| item.quantity * item.price } %></td>
-              <td class="p-3 border">
-              <button class="bg-blue-500 text-white px-4 py-2 rounded" 
-              data-action="click->modal#open" 
-              data-modal-sale-id="<%= sale.id %>"
-              data-modal-sale-name="<%= "#{sale.name} #{sale.lastname}" %>"
-              data-modal-sale-payment="<%= sale.payment_method.capitalize %>"
-              data-modal-sale-date="<%= sale.date.strftime('%d/%m/%Y') %>"
-              data-modal-sale-price='<%= sale.sale_items.map(&:price).to_json %>'
-              data-modal-sale-articles='<%= sale.sale_items.map { |item| { title: item.article.title, quantity: item.quantity } }.to_json %>'>
-                  Ver Detalles
-              <% if sale.status == 'pending' %>
-                <% if has_permission?('Venta a credito', 'Eliminar') %>
-                </button>
-                  <%= link_to 'Anular', 
-                      cancel_credit_sales_path(sale.id), 
-                      method: :put, 
-                      class: 'bg-red-500 text-white px-4 py-3 rounded',
-                      data: { confirm: "¿Estás seguro de que deseas anular esta venta?" } 
-                  %>
-                  <%end%>
-                  <button class="bg-green-500 text-white px-4 py-2 rounded"
-                    data-action="click->installment#open"
-                    data-installment-sale-id="<%= sale.id %>"
-                    data-installment-sale-installments="<%= sale.installments.to_i %>"
-                    data-installment-sale-paid="<%= sale.paid_installments.to_i %>">
-                    Cuotas
-                  </button>
-                </td>
+<!-- Credit Sales Table -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto">
+      <thead class="bg-gray-50 border-b border-gray-200">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendedor</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Método de Pago</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+          <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+          <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @sales.each do |sale| %>
+          <tr class="hover:bg-gray-50 transition-colors duration-150">
+            <td class="px-4 py-4">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-8 w-8">
+                  <div class="h-8 w-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user text-blue-600 text-sm"></i>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= sale.user.username %>
+                  </div>
+                </div>
+              </div>
+            </td>
+            
+            <td class="px-4 py-4">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-8 w-8">
+                  <div class="h-8 w-8 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-friends text-green-600 text-sm"></i>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= "#{sale.name} #{sale.lastname}" %>
+                  </div>
+                </div>
+              </div>
+            </td>
+            
+            <td class="px-4 py-4">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 rounded-full">
+                <%= sale.payment_method.capitalize %>
+              </span>
+            </td>
+            
+            <td class="px-4 py-4 text-sm text-gray-900">
+              <%= sale.date.strftime("%d/%m/%Y") %>
+            </td>
+            
+            <td class="px-4 py-4 text-center">
+              <% if sale.status == "pending" %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                  <i class="fas fa-clock text-yellow-600 mr-1"></i>
+                  Pendiente
+                </span>
+              <% elsif sale.status == "approved" %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
+                  <i class="fas fa-check-circle text-green-600 mr-1"></i>
+                  Aprobado
+                </span>
+              <% elsif sale.status == "canceled" %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
+                  <i class="fas fa-times-circle text-red-600 mr-1"></i>
+                  Cancelado
+                </span>
               <% end %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <div data-controller="modal" 
-        class="fixed top-1/2 left-1/2  bg-black bg-opacity-50 hidden " 
-        style="top: 17%;  width: 20%;" 
-        data-modal-target="container">
-    
-    <div class="bg-white rounded-lg shadow-lg m-10 w-full p-6">
-        <h2 class="text-xl font-semibold mb-4">Detalles de la Venta</h2> 
-        <p><strong>ID:</strong> <span data-modal-target="saleId"></span></p>
-        <p><strong>Cliente:</strong> <span data-modal-target="saleName"></span></p>
-        <p><strong>Método de Pago:</strong> <span data-modal-target="salePayment"></span></p>
-        <p><strong>Fecha:</strong> <span data-modal-target="saleDate"></span></p>
-        <p><strong>Artículos:</strong></p>
-        <ul data-modal-target="saleArticles" class="list-disc pl-5"></ul>  
-        <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded" data-action="click->modal#close">
-            Cerrar
+            </td>
+            
+            <td class="px-4 py-4">
+              <div class="text-sm font-medium text-gray-900">
+                $<%= number_with_delimiter(sale.sale_items.sum { |item| item.quantity * item.price }) %>
+              </div>
+            </td>
+            
+            <td class="px-4 py-4 text-center">
+              <div class="flex justify-center space-x-2">
+                <button class="inline-flex items-center justify-center px-3 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 hover:text-blue-800 transition-colors duration-200" 
+                        data-action="click->modal#open" 
+                        data-modal-sale-id="<%= sale.id %>"
+                        data-modal-sale-name="<%= "#{sale.name} #{sale.lastname}" %>"
+                        data-modal-sale-payment="<%= sale.payment_method.capitalize %>"
+                        data-modal-sale-date="<%= sale.date.strftime('%d/%m/%Y') %>"
+                        data-modal-sale-price='<%= sale.sale_items.map(&:price).to_json %>'
+                        data-modal-sale-articles='<%= sale.sale_items.map { |item| { title: item.article.title, quantity: item.quantity } }.to_json %>'
+                        title="Ver detalles">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+                
+                <% if sale.status == 'pending' %>
+                  <% if has_permission?('Venta a credito', 'Eliminar') %>
+                    <%= link_to cancel_credit_sales_path(sale.id), 
+                        method: :put, 
+                        class: 'inline-flex items-center justify-center px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200',
+                        data: { confirm: "¿Estás seguro de que deseas anular esta venta?" },
+                        title: "Anular venta" do %>
+                      <i class="fas fa-ban text-sm"></i>
+                    <% end %>
+                  <% end %>
+                  
+                  <button class="inline-flex items-center justify-center px-3 py-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 hover:text-green-800 transition-colors duration-200"
+                          data-action="click->installment#open"
+                          data-installment-sale-id="<%= sale.id %>"
+                          data-installment-sale-installments="<%= sale.installments.to_i %>"
+                          data-installment-sale-paid="<%= sale.paid_installments.to_i %>"
+                          title="Gestionar cuotas">
+                    <i class="fas fa-calendar-alt text-sm"></i>
+                  </button>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Modal Detalles -->
+<div data-controller="modal" 
+     class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4" 
+     data-modal-target="container">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-900">Detalles de la Venta</h2>
+        <button class="text-gray-400 hover:text-gray-600 transition-colors" data-action="click->modal#close">
+          <i class="fas fa-times text-lg"></i>
         </button>
-          </div>
+      </div>
+      
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">ID:</span>
+          <span data-modal-target="saleId" class="text-gray-900"></span>
+        </div>
+        
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Cliente:</span>
+          <span data-modal-target="saleName" class="text-gray-900"></span>
+        </div>
+        
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Método de Pago:</span>
+          <span data-modal-target="salePayment" class="text-gray-900"></span>
+        </div>
+        
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Fecha:</span>
+          <span data-modal-target="saleDate" class="text-gray-900"></span>
+        </div>
+        
+        <div class="border-t pt-3">
+          <p class="font-medium text-gray-700 mb-2">Artículos:</p>
+          <ul data-modal-target="saleArticles" class="space-y-1 text-sm text-gray-600"></ul>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex justify-end">
+        <button class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200" 
+                data-action="click->modal#close">
+          Cerrar
+        </button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal Cuotas-->
-
-  <div data-controller="installment"
-     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 hidden"
-     style="top: 17%; width: 30%;" 
+<!-- Modal Cuotas -->
+<div data-controller="installment"
+     class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4" 
      data-installment-target="container">
-    <div class="bg-white rounded-lg shadow-lg m-10 w-full p-6">
-        <h2 class="text-xl font-semibold mb-4">Actualizar Cuota</h2>
-        <p class="text-green-700">Cuotas pagadas: <span data-installment-target="paidInstallments"></span></p>
-        <p class="text-red-700">Cuotas pendientes: <span data-installment-target="pendingInstallments"></span></p>
-        <form data-action="submit->installment#update">
-          <input type="hidden" data-installment-target="saleId">
-          <label class="block text-sm font-medium text-gray-700">Cantidad a Actualizar</label>
-          <input type="number" class="w-full p-2 border rounded" data-installment-target="installments"  data-action="input->installment#validate">
-          <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
-              Guardar
+  <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">Gestión de Cuotas</h2>
+        <button class="text-gray-400 hover:text-gray-600 transition-colors" data-action="click->installment#close">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+          <div class="flex items-center">
+            <i class="fas fa-check-circle text-green-600 mr-2"></i>
+            <span class="text-sm font-medium text-green-700">Cuotas Pagadas</span>
+          </div>
+          <div class="text-2xl font-bold text-green-900 mt-1">
+            <span data-installment-target="paidInstallments"></span>
+          </div>
+        </div>
+        
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div class="flex items-center">
+            <i class="fas fa-clock text-red-600 mr-2"></i>
+            <span class="text-sm font-medium text-red-700">Cuotas Pendientes</span>
+          </div>
+          <div class="text-2xl font-bold text-red-900 mt-1">
+            <span data-installment-target="pendingInstallments"></span>
+          </div>
+        </div>
+      </div>
+      
+      <form data-action="submit->installment#update" class="space-y-4">
+        <input type="hidden" data-installment-target="saleId">
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Cantidad de Cuotas a Marcar como Pagadas
+          </label>
+          <input type="number" 
+                 min="0"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                 data-installment-target="installments"  
+                 data-action="input->installment#validate"
+                 placeholder="Número de cuotas">
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-3 pt-4">
+          <button type="submit" 
+                  class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
+            <i class="fas fa-save mr-2"></i>
+            Actualizar Cuotas
           </button>
-          <button type="button" class="mt-4 px-4 py-2 bg-red-500 text-white rounded"
+          <button type="button" 
+                  class="flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200"
                   data-action="click->installment#close">
-              Cancelar
+            <i class="fas fa-times mr-2"></i>
+            Cancelar
           </button>
-        </form>
+        </div>
+      </form>
     </div>
   </div>
 </div>
