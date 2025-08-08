@@ -119,7 +119,10 @@
                         <% if has_permission?('Usuarios', 'Eliminar') %>
                             <%= link_to delete_user_path(user.id), 
                                 method: :delete, 
-                                data: { confirm: "¿Seguro que quieres eliminar este usuario?" }, 
+                                data: { 
+                                    turbo_method: :delete,
+                                    turbo_confirm: "¿Seguro que quieres eliminar este usuario?"
+                                }, 
                                 class: 'inline-flex items-center justify-center w-8 h-8 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200',
                                 title: "Eliminar" do %>
                                 <i class="fas fa-trash text-sm"></i>
@@ -131,7 +134,10 @@
                                 <%= link_to toggle_status_user_path(user), 
                                     method: :patch, 
                                     class: 'inline-flex items-center justify-center w-8 h-8 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200', 
-                                    data: { confirm: "¿Quieres desactivar este usuario?" },
+                                    data: { 
+                                        turbo_method: :patch,
+                                        turbo_confirm: "¿Estás seguro que quieres desactivar este usuario?"
+                                    },
                                     title: "Desactivar" do %>
                                     <i class="fas fa-times text-sm"></i>
                                 <% end %>
@@ -139,7 +145,10 @@
                                 <%= link_to toggle_status_user_path(user), 
                                     method: :patch, 
                                     class: 'inline-flex items-center justify-center w-8 h-8 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 hover:text-green-800 transition-colors duration-200', 
-                                    data: { confirm: "¿Quieres activar este usuario?" },
+                                    data: { 
+                                        turbo_method: :patch,
+                                        turbo_confirm: "¿Estás seguro que quieres activar este usuario?"
+                                    },
                                     title: "Activar" do %>
                                     <i class="fas fa-check text-sm"></i>
                                 <% end %>

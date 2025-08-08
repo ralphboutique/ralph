@@ -1,40 +1,239 @@
-<div class="flex justify-center items-center min-h-screen bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Crear Usuario</h2>
-    
-    <%= form_with(model: @user, url: create_user_path, local: true, class: "space-y-4") do |f| %>
-
-      <div>
-        <%= f.label :username, "Nombre de Usuario", class: "block text-gray-700 font-medium" %>
-        <%= f.text_field :username, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500", required: true %>
-      </div>
-
-      <div>
-        <%= f.label :email, "Correo Electrónico", class: "block text-gray-700 font-medium" %>
-        <%= f.email_field :email, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500", required: true %>
-      </div>
-
-      <div>
-        <%= f.label :password, "Contraseña", class: "block text-gray-700 font-medium" %>
-        <%= f.password_field :password, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500", required: true %>
-      </div>
-
-      <div>
-        <%= f.label :role_id, "Rol", class: "block text-gray-700 font-medium" %>
-        <%= f.select :role_id, @roles.collect { |c| [c.name.upcase, c.id] }, { prompt: "Seleccionar rol" }, 
-          class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-indigo-500 focus:border-indigo-500" %>
-      </div>
-      <div class="mb-4">
-        <%= f.label :warehouse_ids, "Almacenes", class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= f.collection_select :warehouse_ids, Warehouse.all, :id, :title, { prompt: "Seleccionar almacenes" }, 
-            { multiple: true, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-indigo-500 focus:border-indigo-500" } %>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
+                    <i class="fas fa-user-plus text-blue-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Nuevo Usuario</h1>
+                    <p class="text-sm text-gray-500 mt-1">Crea una nueva cuenta de usuario para el sistema</p>
+                </div>
+            </div>
+            <%= link_to show_user_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver
+            <% end %>
         </div>
-      </div>
-      <div class="flex justify-between items-center mt-6">
-        <%= link_to "Cancelar", show_user_path, class: "text-gray-600 hover:text-gray-800 transition duration-200" %>
-        <%= f.submit "Crear", class: "px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200" %>
-      </div>
-    <% end %>
-  </div>
+    </div>
 </div>
+
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_with(model: @user, url: create_user_path, local: true) do |f| %>
+        <!-- Error Messages -->
+        <% if @user.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@user.errors.count, "error") %> impidieron que el usuario se guardara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @user.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Form Card -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                        <div class="flex items-center space-x-3 mb-8">
+                            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                <i class="fas fa-info-circle text-blue-600"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold text-gray-900">Información del Usuario</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Username -->
+                            <div class="md:col-span-2">
+                                <%= f.label :username, "Nombre de Usuario", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :username, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Ingresa un nombre de usuario único",
+                                    required: true %>
+                                <p class="mt-1 text-sm text-gray-500">Este será el nombre para iniciar sesión</p>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="md:col-span-2">
+                                <%= f.label :email, "Correo Electrónico", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.email_field :email, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "usuario@ejemplo.com",
+                                    required: true %>
+                                <p class="mt-1 text-sm text-gray-500">Se usará para notificaciones y recuperación de contraseña</p>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="md:col-span-2">
+                                <%= f.label :password, "Contraseña", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.password_field :password, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Mínimo 8 caracteres",
+                                    required: true %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <i class="fas fa-lock mr-1"></i>
+                                    Usa una contraseña segura con al menos 8 caracteres
+                                </p>
+                            </div>
+
+                            <!-- Role -->
+                            <div>
+                                <%= f.label :role_id, "Rol del Usuario", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :role_id, 
+                                    @roles.collect { |c| [c.name.upcase, c.id] }, 
+                                    { prompt: "Seleccionar rol" }, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">Define los permisos del usuario</p>
+                            </div>
+
+                            <!-- Warehouses -->
+                            <div>
+                                <%= f.label :warehouse_ids, "Almacenes Asignados", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.collection_select :warehouse_ids, 
+                                    Warehouse.all, :id, :title, 
+                                    { prompt: "Seleccionar almacenes" }, 
+                                    { multiple: true, 
+                                      class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200" } %>
+                                <p class="mt-1 text-sm text-gray-500">Almacenes a los que tendrá acceso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                                <i class="fas fa-shield-alt text-green-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Seguridad</h3>
+                        </div>
+
+                        <!-- Security Guidelines -->
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                                <h4 class="text-sm font-medium text-blue-800 mb-3 flex items-center">
+                                    <i class="fas fa-key mr-2"></i>
+                                    Contraseña Segura
+                                </h4>
+                                <ul class="text-xs text-blue-700 space-y-1">
+                                    <li>• Mínimo 8 caracteres</li>
+                                    <li>• Incluye letras y números</li>
+                                    <li>• Evita información personal</li>
+                                    <li>• No reutilices contraseñas</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-amber-50 rounded-lg p-4 border border-amber-200">
+                                <h4 class="text-sm font-medium text-amber-800 mb-3 flex items-center">
+                                    <i class="fas fa-user-shield mr-2"></i>
+                                    Roles del Sistema
+                                </h4>
+                                <div class="text-xs text-amber-700 space-y-1">
+                                    <% @roles.each do |role| %>
+                                        <div class="flex justify-between">
+                                            <span><%= role.name %></span>
+                                            <span class="text-gray-500"><%= role.role_permissions.count %> permisos</span>
+                                        </div>
+                                    <% end %>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Información
+                                </h4>
+                                <p class="text-xs text-gray-600">
+                                    El usuario recibirá credenciales por email y deberá cambiar su contraseña en el primer inicio de sesión.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex items-center justify-end space-x-4">
+                <%= link_to show_user_path, 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Cancelar
+                <% end %>
+                <%= f.submit "Crear Usuario", 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<!-- JavaScript for enhanced UX -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.querySelector('input[name="user[password]"]');
+    const usernameInput = document.querySelector('input[name="user[username]"]');
+    const emailInput = document.querySelector('input[name="user[email]"]');
+    
+    // Password strength indicator
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+            const strength = getPasswordStrength(this.value);
+            updatePasswordIndicator(this, strength);
+        });
+    }
+    
+    // Username availability check (visual feedback only)
+    if (usernameInput) {
+        usernameInput.addEventListener('input', function() {
+            if (this.value.length >= 3) {
+                this.classList.add('border-green-300');
+                this.classList.remove('border-red-300');
+            } else {
+                this.classList.remove('border-green-300');
+            }
+        });
+    }
+    
+    // Email validation
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
+            const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
+            if (isValid) {
+                this.classList.add('border-green-300');
+                this.classList.remove('border-red-300');
+            } else if (this.value.length > 0) {
+                this.classList.add('border-red-300');
+                this.classList.remove('border-green-300');
+            }
+        });
+    }
+});
+
+function getPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    return strength;
+}
+
+function updatePasswordIndicator(input, strength) {
+    const colors = ['border-red-300', 'border-red-300', 'border-yellow-300', 'border-green-300', 'border-green-500'];
+    input.className = input.className.replace(/border-\w+-\d+/g, '') + ' ' + colors[strength];
+}
+</script>

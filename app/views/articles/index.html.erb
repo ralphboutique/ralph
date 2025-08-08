@@ -136,7 +136,10 @@
                             <% if has_permission?('Articulos', 'Eliminar') %>
                                 <%= link_to delete_article_path(article), 
                                     method: :delete, 
-                                    data: { confirm: "¿Seguro que quieres eliminar este artículo?" }, 
+                                    data: { 
+                                        turbo_method: :delete,
+                                        turbo_confirm: "¿Seguro que quieres eliminar este artículo?"
+                                    }, 
                                     class: 'inline-flex items-center justify-center w-8 h-8 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200',
                                     title: "Eliminar" do %>
                                     <i class="fas fa-trash text-sm"></i>
@@ -147,7 +150,10 @@
                                 <%= link_to toggle_status_path(article), 
                                     method: :patch, 
                                     class: 'inline-flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-600 rounded-lg hover:bg-orange-200 hover:text-orange-800 transition-colors duration-200', 
-                                    data: { confirm: "¿Quieres desactivar este artículo?" },
+                                    data: { 
+                                        turbo_method: :patch,
+                                        turbo_confirm: "¿Estás seguro que quieres desactivar este artículo?"
+                                    },
                                     title: "Desactivar" do %>
                                     <i class="fas fa-pause text-sm"></i> 
                                 <% end %>
@@ -155,7 +161,10 @@
                                 <%= link_to toggle_status_path(article), 
                                     method: :patch, 
                                     class: 'inline-flex items-center justify-center w-8 h-8 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 hover:text-green-800 transition-colors duration-200', 
-                                    data: { confirm: "¿Quieres activar este artículo?" },
+                                    data: { 
+                                        turbo_method: :patch,
+                                        turbo_confirm: "¿Estás seguro que quieres activar este artículo?"
+                                    },
                                     title: "Activar" do %>
                                     <i class="fas fa-play text-sm"></i> 
                                 <% end %>

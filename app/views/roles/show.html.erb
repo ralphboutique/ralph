@@ -103,7 +103,10 @@
                         <% if has_permission?('Roles', 'Eliminar') %>
                             <%= link_to delete_roles_path(role.id),
                                 method: :delete, 
-                                data: { confirm: "¿Seguro que quieres eliminar este rol?" }, 
+                                data: { 
+                                    turbo_method: :delete,
+                                    turbo_confirm: "¿Seguro que quieres eliminar este rol?"
+                                }, 
                                 class: 'inline-flex items-center justify-center w-8 h-8 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200',
                                 title: "Eliminar" do %>
                                 <i class="fas fa-trash text-sm"></i>

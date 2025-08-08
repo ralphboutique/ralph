@@ -1,52 +1,224 @@
-<%= form_for @rol, url: update_roles_path(@rol) do |f| %>
-
-<%if @rol.errors.any? %>
-    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-      <strong class="font-bold"><%= pluralize(@rol.errors.count, "error") %> impidieron que la categoria se guardara:</strong>
-      <ul class="list-disc pl-5 mt-2">
-        <% @rol.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
- <div class ="container mx-32">
- 
-	<div class="space-y-12">
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12">
-            <div class="sm:col-span-6 ">
-                <%= f.label :name,  "NOMBRE DEl ALMACEN" ,class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                    <%= f.text_field :name , class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", oninput: "this.value = this.value.toUpperCase()" %>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-lg">
+                    <i class="fas fa-user-edit text-orange-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Editar Rol</h1>
+                    <p class="text-sm text-gray-500 mt-1">Modifica los permisos y configuración del rol: <span class="font-medium text-gray-700"><%= @rol.name %></span></p>
                 </div>
             </div>
-		</div>
-    <div>
-  <% Area.all.each do |area| %>
-    <div class="flex items-start justify-between mb-4">
-      <h3 class="font-semibold w-1/4"><%= area.name %></h3>
-
-      <div class="flex flex-wrap gap-x-4 gap-y-2 w-3/4">
-        <% Permission.all.each do |perm| %>
-          <% checked = @rol.role_permissions.exists?(area_id: area.id, permission_id: perm.id) %>
-          <label class="flex items-center space-x-2">
-            <span><%= perm.name %></span>
-            <%= check_box_tag "permissions[]", "#{area.id}-#{perm.id}", checked %>
-          </label>
-        <% end %>
-      </div>
+            <%= link_to show_roles_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver
+            <% end %>
+        </div>
     </div>
-  <% end %>
 </div>
 
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_for @rol, url: update_roles_path(@rol), method: :patch, local: true do |f| %>
+        <!-- Error Messages -->
+        <% if @rol.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@rol.errors.count, "error") %> impidieron que el rol se actualizara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @rol.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <% end %>
 
-					 <div class="mt-6  mb-14 flex items-center justify-end gap-x-6">
-                            <%= link_to "Cancelar", show_roles_path %>
-							<%= f.submit "Editar Rol", class:"rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-					 </div>
-				</div>
-			</div>
-		</div>
-	<% end %>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Role Information Card -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg">
+                            <i class="fas fa-info-circle text-orange-600"></i>
+                        </div>
+                        <h2 class="text-lg font-semibold text-gray-900">Información del Rol</h2>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <%= f.label :name, "Nombre del Rol", class: "block text-sm font-medium text-gray-700" %>
+                        <%= f.text_field :name, 
+                            class: "mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                            oninput: "this.value = this.value.toUpperCase()" %>
+                    </div>
+
+                    <!-- Role Status Info -->
+                    <div class="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                        <h4 class="text-sm font-medium text-amber-800 mb-2 flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Estado del Rol
+                        </h4>
+                        <div class="text-xs text-amber-700 space-y-1">
+                            <p>• <strong>Creado:</strong> <%= @rol.created_at.strftime("%d/%m/%Y") %></p>
+                            <% if @rol.updated_at != @rol.created_at %>
+                                <p>• <strong>Última modificación:</strong> <%= @rol.updated_at.strftime("%d/%m/%Y") %></p>
+                            <% end %>
+                            <p>• <strong>Total permisos:</strong> <%= @rol.role_permissions.count %></p>
+                        </div>
+                    </div>
+
+                    <!-- Current Permissions Summary -->
+                    <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Áreas con Permisos</h4>
+                        <div class="space-y-1">
+                            <% Area.all.each do |area| %>
+                                <% area_permissions = @rol.role_permissions.where(area_id: area.id).count %>
+                                <% if area_permissions > 0 %>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-gray-600"><%= area.name %></span>
+                                        <span class="text-gray-800 font-medium"><%= area_permissions %> permisos</span>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permissions Card -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                                <i class="fas fa-lock text-green-600"></i>
+                            </div>
+                            <h2 class="text-lg font-semibold text-gray-900">Permisos por Área</h2>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button type="button" 
+                                    onclick="selectAllPermissions()" 
+                                    class="text-xs text-green-600 hover:text-green-800 font-medium px-2 py-1 rounded border border-green-200 hover:bg-green-50">
+                                Seleccionar Todo
+                            </button>
+                            <button type="button" 
+                                    onclick="clearAllPermissions()" 
+                                    class="text-xs text-red-600 hover:text-red-800 font-medium px-2 py-1 rounded border border-red-200 hover:bg-red-50">
+                                Limpiar Todo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <% Area.all.each_with_index do |area, index| %>
+                            <% current_permissions = @rol.role_permissions.where(area_id: area.id).pluck(:permission_id) %>
+                            <div class="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors duration-200">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-lg">
+                                            <i class="fas fa-layer-group text-indigo-600 text-sm"></i>
+                                        </div>
+                                        <h3 class="font-semibold text-gray-900 text-sm uppercase tracking-wide"><%= area.name %></h3>
+                                        <% if current_permissions.any? %>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                <%= current_permissions.count %> activos
+                                            </span>
+                                        <% end %>
+                                    </div>
+                                    <button type="button" 
+                                            onclick="toggleAllPermissions('<%= area.id %>')" 
+                                            class="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                                        Toggle Área
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <% Permission.all.each do |perm| %>
+                                        <% checked = @rol.role_permissions.exists?(area_id: area.id, permission_id: perm.id) %>
+                                        <label class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-200 group <%= 'bg-blue-50 border border-blue-200' if checked %>">
+                                            <%= check_box_tag "permissions[]", 
+                                                "#{area.id}-#{perm.id}", 
+                                                checked,
+                                                class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2",
+                                                data: { area: area.id } %>
+                                            <span class="text-sm text-gray-700 group-hover:text-gray-900 font-medium">
+                                                <%= perm.name %>
+                                            </span>
+                                        </label>
+                                    <% end %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex items-center justify-end space-x-4">
+            <%= link_to show_roles_path, 
+                class: "inline-flex items-center px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-times mr-2"></i>
+                Cancelar
+            <% end %>
+            <%= f.submit "Actualizar Rol", 
+                class: "inline-flex items-center px-6 py-2.5 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200" %>
+        </div>
+    <% end %>
 </div>
 
+<!-- JavaScript for enhanced functionality -->
+<script>
+function toggleAllPermissions(areaId) {
+    const checkboxes = document.querySelectorAll(`input[data-area="${areaId}"]`);
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = !allChecked;
+        updateCheckboxStyle(checkbox);
+    });
+}
+
+function selectAllPermissions() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+        updateCheckboxStyle(checkbox);
+    });
+}
+
+function clearAllPermissions() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+        updateCheckboxStyle(checkbox);
+    });
+}
+
+function updateCheckboxStyle(checkbox) {
+    const label = checkbox.closest('label');
+    if (checkbox.checked) {
+        label.classList.add('bg-blue-50', 'border', 'border-blue-200');
+    } else {
+        label.classList.remove('bg-blue-50', 'border', 'border-blue-200');
+    }
+}
+
+// Add visual feedback for checkbox changes
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateCheckboxStyle(this);
+        });
+    });
+});
+</script>

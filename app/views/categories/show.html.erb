@@ -103,7 +103,10 @@
                         <% if has_permission?('Categorias', 'Eliminar') %>
                             <%= link_to delete_category_path(category.id),
                                 method: :delete, 
-                                data: { confirm: "¿Seguro que quieres eliminar esta categoría?" }, 
+                                data: { 
+                                    turbo_method: :delete,
+                                    turbo_confirm: "¿Seguro que quieres eliminar esta categoría?"
+                                }, 
                                 class: 'inline-flex items-center justify-center w-8 h-8 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200',
                                 title: "Eliminar" do %>
                                 <i class="fas fa-trash text-sm"></i>

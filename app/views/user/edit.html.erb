@@ -1,53 +1,283 @@
-<div class="flex justify-center items-center min-h-screen bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Editar Usuario</h2>
-   <% if @user.errors.any? %>
-  <div id="alert-message" data-controller="alert" class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" >
-    <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-    <%= form_with(model: @user, url: update_user_path(@user), method: :patch, local: true) do |f| %>
-        
-      <div>
-        <%= f.label :username, "Nombre de Usuario", class: "block text-gray-700 font-medium" %>
-        <%= f.text_field :username, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500", required: true %>
-      </div>
-
-      <div>
-        <%= f.label :email, "Correo Electrónico", class: "block text-gray-700 font-medium" %>
-        <%= f.email_field :email, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500", required: true %>
-      </div>
-
-      <div>
-       <div class="mb-4 mt-2">
-      <%= f.label :password, "Contraseña (dejar en blanco si no desea cambiarla)", class: "block text-gray-700 text-sm font-bold mb-2" %>
-      <%= f.password_field :password, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
-    </div>
-      </div>
-
-      <div>
-        <%= f.label :role_id, "Rol", class: "block text-gray-700 font-medium" %>
-        <%= f.select :role_id, @roles.collect { |c| [c.name.upcase, c.id] }, { prompt: "Seleccionar rol" }, 
-          class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-indigo-500 focus:border-indigo-500" %>
-      </div>
-
-      <div class="mb-4">
-        <%= f.label :warehouse_ids, "Almacenes", class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= f.collection_select :warehouse_ids, Warehouse.all, :id, :title, { prompt: "Seleccionar almacenes" }, 
-            { multiple: true, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-indigo-500 focus:border-indigo-500" } %>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-lg">
+                    <i class="fas fa-user-edit text-orange-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Editar Usuario</h1>
+                    <p class="text-sm text-gray-500 mt-1">Modifica la información de: <span class="font-medium text-gray-700"><%= @user.username %></span></p>
+                </div>
+            </div>
+            <%= link_to show_user_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver
+            <% end %>
         </div>
-      </div>
-
-      <div class="flex justify-between items-center mt-6">
-        <%= link_to "Cancelar", show_user_path, class: "text-gray-600 hover:text-gray-800 transition duration-200" %>
-        <%= f.submit "Actualizar", class: "px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200" %>
-      </div>
-        
-    <% end %>
-  </div>
+    </div>
 </div>
+
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_with(model: @user, url: update_user_path(@user), method: :patch, local: true) do |f| %>
+        <!-- Error Messages -->
+        <% if @user.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@user.errors.count, "error") %> impidieron que el usuario se actualizara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @user.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Main Form Card -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                        <div class="flex items-center space-x-3 mb-8">
+                            <div class="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg">
+                                <i class="fas fa-info-circle text-orange-600"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold text-gray-900">Información del Usuario</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Username -->
+                            <div>
+                                <%= f.label :username, "Nombre de Usuario", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :username, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                    required: true %>
+                                <p class="mt-1 text-sm text-gray-500">Nombre para iniciar sesión</p>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <%= f.label :email, "Correo Electrónico", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.email_field :email, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                    required: true %>
+                                <p class="mt-1 text-sm text-gray-500">Email de contacto y notificaciones</p>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="md:col-span-2">
+                                <%= f.label :password, "Nueva Contraseña", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.password_field :password, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Dejar en blanco si no desea cambiarla" %>
+                                <div class="mt-2 flex items-center text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    <span>Solo completa este campo si quieres cambiar la contraseña actual</span>
+                                </div>
+                            </div>
+
+                            <!-- Role -->
+                            <div>
+                                <%= f.label :role_id, "Rol del Usuario", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :role_id, 
+                                    @roles.collect { |c| [c.name.upcase, c.id] }, 
+                                    { prompt: "Seleccionar rol" }, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Actual:</strong> <%= @user.role.name.upcase rescue "Sin rol asignado" %>
+                                </p>
+                            </div>
+
+                            <!-- Warehouses -->
+                            <div>
+                                <%= f.label :warehouse_ids, "Almacenes Asignados", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.collection_select :warehouse_ids, 
+                                    Warehouse.all, :id, :title, 
+                                    { selected: @user.warehouse_ids }, 
+                                    { multiple: true, 
+                                      class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200" } %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Actuales:</strong> 
+                                    <% if @user.warehouses.any? %>
+                                        <%= @user.warehouses.pluck(:title).join(', ') %>
+                                    <% else %>
+                                        Sin almacenes asignados
+                                    <% end %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Change History -->
+                        <div class="mt-8 bg-amber-50 rounded-lg p-4 border border-amber-200">
+                            <h4 class="text-sm font-medium text-amber-800 mb-3 flex items-center">
+                                <i class="fas fa-history mr-2"></i>
+                                Historial de Cambios
+                            </h4>
+                            <div class="text-sm text-amber-700 space-y-1">
+                                <p>• <strong>Usuario creado:</strong> <%= @user.created_at.strftime("%d/%m/%Y a las %H:%M") %></p>
+                                <% if @user.updated_at != @user.created_at %>
+                                    <p>• <strong>Última modificación:</strong> <%= @user.updated_at.strftime("%d/%m/%Y a las %H:%M") %></p>
+                                <% end %>
+                                <% if @user.last_sign_in_at %>
+                                    <p>• <strong>Último acceso:</strong> <%= @user.last_sign_in_at.strftime("%d/%m/%Y a las %H:%M") %></p>
+                                <% else %>
+                                    <p>• <strong>Estado:</strong> Nunca ha iniciado sesión</p>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                <i class="fas fa-chart-bar text-blue-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Estadísticas</h3>
+                        </div>
+
+                        <!-- User Stats -->
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Estado</span>
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium <%= @user.status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                                        <i class="fas fa-circle text-current mr-1"></i>
+                                        <%= @user.status == 'active' ? 'Activo' : 'Inactivo' %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Estado actual del usuario</p>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Almacenes</span>
+                                    <span class="text-lg font-bold text-gray-900">
+                                        <%= @user.warehouses.count %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Almacenes asignados</p>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Permisos</span>
+                                    <span class="text-lg font-bold text-gray-900">
+                                        <%= @user.role.role_permissions.count rescue 0 %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Permisos del rol actual</p>
+                            </div>
+                        </div>
+
+                        <!-- Security Info -->
+                        <div class="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                            <h4 class="text-sm font-medium text-red-800 mb-3 flex items-center">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                Seguridad
+                            </h4>
+                            <div class="text-xs text-red-700 space-y-1">
+                                <p>• Los cambios de rol son inmediatos</p>
+                                <p>• Cambiar contraseña cerrará sesiones activas</p>
+                                <p>• El usuario recibirá notificación por email</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <h4 class="text-sm font-medium text-blue-800 mb-3 flex items-center">
+                                <i class="fas fa-bolt mr-2"></i>
+                                Acciones Rápidas
+                            </h4>
+                            <div class="space-y-2">
+                                <button type="button" class="w-full text-left text-xs text-blue-700 hover:text-blue-900 transition-colors">
+                                    • Ver historial de actividad
+                                </button>
+                                <button type="button" class="w-full text-left text-xs text-blue-700 hover:text-blue-900 transition-colors">
+                                    • Enviar email de bienvenida
+                                </button>
+                                <button type="button" class="w-full text-left text-xs text-blue-700 hover:text-blue-900 transition-colors">
+                                    • Generar nueva contraseña
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex items-center justify-end space-x-4">
+                <%= link_to show_user_path, 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Cancelar
+                <% end %>
+                <%= f.submit "Actualizar Usuario", 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<!-- JavaScript for enhanced UX -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.querySelector('input[name="user[password]"]');
+    const originalValues = {};
+    
+    // Store original values
+    document.querySelectorAll('input, select').forEach(input => {
+        originalValues[input.name] = input.value;
+    });
+    
+    // Password strength indicator
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                const strength = getPasswordStrength(this.value);
+                updatePasswordIndicator(this, strength);
+            } else {
+                this.classList.remove('border-red-300', 'border-yellow-300', 'border-green-300', 'border-green-500');
+                this.classList.add('border-gray-300');
+            }
+        });
+    }
+    
+    // Change detection
+    document.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value !== originalValues[this.name]) {
+                this.classList.add('border-orange-300', 'bg-orange-50');
+            } else {
+                this.classList.remove('border-orange-300', 'bg-orange-50');
+            }
+        });
+    });
+});
+
+function getPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    return strength;
+}
+
+function updatePasswordIndicator(input, strength) {
+    const colors = ['border-red-300', 'border-red-300', 'border-yellow-300', 'border-green-300', 'border-green-500'];
+    input.className = input.className.replace(/border-\w+-\d+/g, '') + ' ' + colors[strength];
+}
+</script>

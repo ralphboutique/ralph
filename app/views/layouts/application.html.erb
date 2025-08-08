@@ -207,7 +207,10 @@
                <li class="text-sm mt-4">
                 <%= button_to destroy_user_session_path, 
                     method: :delete, 
-                    data: { confirm: "¿Estás seguro de que deseas salir?", turbo: false }, 
+                    data: { 
+                        turbo_method: :delete,
+                        turbo_confirm: "¿Estás seguro de que deseas salir?"
+                    }, 
                     class: "flex items-center w-full px-3 py-2 text-red-300 rounded-lg hover:bg-red-900 hover:text-white transition-all duration-200" do %>
                     <i class="fas fa-sign-out-alt mr-3 w-4"></i>
                     <span>Salir</span>

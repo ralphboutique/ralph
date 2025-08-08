@@ -1,79 +1,362 @@
-<%= form_for  @article, url: create_path  do |f| %>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-emerald-100 rounded-lg">
+                    <i class="fas fa-box-open text-emerald-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Nuevo Artículo</h1>
+                    <p class="text-sm text-gray-500 mt-1">Registra un nuevo producto en tu inventario</p>
+                </div>
+            </div>
+            <%= link_to index_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver al Inventario
+            <% end %>
+        </div>
+    </div>
+</div>
 
-
-  <div class="container mx-auto  px-20 py-8">
-      <% if @article.errors.any? %>
-    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-      <strong class="font-bold"><%= pluralize(@article.errors.count, "error") %> impidieron que el articulo se guardara:</strong>
-      <ul class="list-disc pl-5 mt-2">
-        <% @article.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_for @article, url: create_path, local: true do |f| %>
+        <!-- Error Messages -->
+        <% if @article.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@article.errors.count, "error") %> impidieron que el artículo se guardara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @article.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-    <div class="space-y-8">
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="sm:col-span-2">
-          <%= f.label :title, "NOMBRE DEL ARTICULO", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" , oninput: "this.value = this.value.toUpperCase()" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :quantity, "CANTIDAD", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.number_field :quantity, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :serial, "SERIAL", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.text_field :serial, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :price, "PRECIO", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.number_field :price, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :warehouse_id, "ALMACEN", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.select :warehouse_id, @werehouses.collect { |c| [c.title.upcase, c.id] }, { prompt: "Seleccionar Almacen" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :category_id, "CATEGORIA", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.select :category_id, options_for_select(@categories.map { |c| [c.title.upcase, c.id] }), { prompt: "Seleccionar categoría" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :size_ids, "TALLA", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.select :size_ids, @sizes.collect { |c| [c.title.upcase, c.id] }, {}, multiple: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="col-span-full">
-          <%= f.label :description, "DESCRIPCION DEL PRODUCTO", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.text_area :description, size: "100x5", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          <p class="mt-2 text-sm text-gray-600">Escribe las características del producto.</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="col-span-full">
-          <%= f.label :attachment, "Insertar Imagen", class: "block text-sm font-medium text-gray-900" %>
-          <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <%= f.file_field :attachment, class: "text-sm text-gray-600" %>
-          </div>
-        </div>
-      </div>
-      <div class="mt-6">
-        <div data-controller="color-create" class="mt-6">
-          <label>Anadir color</label>
-          <div id="color-container" data-color-create-target="container" class="space-y-2 flex flex-wrap"></div>
-          <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mt-2 rounded" data-action="color-create#addColor">
-            Añadir Color
-          </button>
-        </div>
-      </div>
-      <div class="mt-8 flex justify-end gap-x-6">
-        <%= link_to "Cancelar", index_path, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
-        <%= f.submit "CREAR ARTICULO", class: "bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-md" %>
-      </div>
-    </div>
-  </div>
-<% end %>
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Main Form Card -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                        <!-- Product Information Section -->
+                        <div class="flex items-center space-x-3 mb-8">
+                            <div class="flex items-center justify-center w-8 h-8 bg-emerald-100 rounded-lg">
+                                <i class="fas fa-info-circle text-emerald-600"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold text-gray-900">Información del Producto</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Product Name -->
+                            <div class="md:col-span-2">
+                                <%= f.label :title, "Nombre del Artículo", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :title, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Ej: CAMISA POLO NIKE, ZAPATOS DEPORTIVOS...",
+                                    oninput: "this.value = this.value.toUpperCase()" %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <i class="fas fa-lightbulb mr-1"></i>
+                                    El nombre se convertirá automáticamente a mayúsculas
+                                </p>
+                            </div>
 
+                            <!-- Quantity -->
+                            <div>
+                                <%= f.label :quantity, "Cantidad", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.number_field :quantity, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "0",
+                                    min: 0 %>
+                                <p class="mt-1 text-sm text-gray-500">Unidades disponibles</p>
+                            </div>
+
+                            <!-- Serial -->
+                            <div>
+                                <%= f.label :serial, "Código/Serial", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :serial, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "SKU o código único" %>
+                                <p class="mt-1 text-sm text-gray-500">Identificador único del producto</p>
+                            </div>
+
+                            <!-- Price -->
+                            <div>
+                                <%= f.label :price, "Precio", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                    <%= f.number_field :price, 
+                                        class: "block w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200",
+                                        placeholder: "0.00",
+                                        step: 0.01,
+                                        min: 0 %>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500">Precio de venta al público</p>
+                            </div>
+
+                            <!-- Warehouse -->
+                            <div>
+                                <%= f.label :warehouse_id, "Almacén", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :warehouse_id, 
+                                    @werehouses.collect { |c| [c.title.upcase, c.id] }, 
+                                    { prompt: "Seleccionar almacén" }, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">Ubicación física del producto</p>
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <%= f.label :category_id, "Categoría", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :category_id, 
+                                    options_for_select(@categories.map { |c| [c.title.upcase, c.id] }), 
+                                    { prompt: "Seleccionar categoría" }, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">Tipo de producto</p>
+                            </div>
+
+                            <!-- Sizes -->
+                            <div>
+                                <%= f.label :size_ids, "Tallas Disponibles", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :size_ids, 
+                                    @sizes.collect { |c| [c.title.upcase, c.id] }, 
+                                    {}, 
+                                    { multiple: true, 
+                                      class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200" } %>
+                                <p class="mt-1 text-sm text-gray-500">Mantén presionado Ctrl/Cmd para seleccionar múltiples</p>
+                            </div>
+                        </div>
+
+                        <!-- Description Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-align-left mr-2 text-gray-500"></i>
+                                Descripción del Producto
+                            </h3>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <%= f.label :description, "Descripción Detallada", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                    <%= f.text_area :description, 
+                                        rows: 5, 
+                                        class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-200",
+                                        placeholder: "Describe las características, materiales, cuidados y cualquier información relevante del producto..." %>
+                                    <p class="mt-2 text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Una buena descripción ayuda a los clientes a tomar decisiones de compra
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image Upload Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-image mr-2 text-gray-500"></i>
+                                Imagen del Producto
+                            </h3>
+                            <div>
+                                <%= f.label :attachment, "Subir Imagen", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <div class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 hover:border-emerald-400 transition-colors duration-200">
+                                    <div class="text-center">
+                                        <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-4"></i>
+                                        <%= f.file_field :attachment, 
+                                            class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none",
+                                            accept: "image/*" %>
+                                        <p class="mt-2 text-sm text-gray-500">PNG, JPG o JPEG hasta 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Colors Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-palette mr-2 text-gray-500"></i>
+                                Colores Disponibles
+                            </h3>
+                            <div data-controller="color-create" class="bg-white border border-gray-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <label class="text-sm font-medium text-gray-900">Añadir colores del producto</label>
+                                        <p class="text-xs text-gray-500 mt-1">Los colores ayudan a los clientes a identificar las variantes</p>
+                                    </div>
+                                    <button type="button" 
+                                            class="inline-flex items-center px-4 py-2 text-sm font-bold text-white bg-blue-600 border-2 border-blue-600 rounded-lg shadow-lg hover:bg-blue-700 hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200" 
+                                            data-action="color-create#addColor"
+                                            style="background-color: #2563eb !important; color: white !important;">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        Añadir Color
+                                    </button>
+                                </div>
+                                <div id="color-container" data-color-create-target="container" class="space-y-3 min-h-[60px] border-2 border-dashed border-gray-300 rounded-lg p-4">
+                                    <div class="text-center text-gray-500 text-sm">
+                                        <i class="fas fa-palette text-2xl mb-2 block"></i>
+                                        No hay colores agregados. Haz clic en "Añadir Color" para comenzar.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                <i class="fas fa-info-circle text-blue-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Guía Rápida</h3>
+                        </div>
+
+                        <!-- Quick Tips -->
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                                <h4 class="text-sm font-medium text-blue-800 mb-3 flex items-center">
+                                    <i class="fas fa-lightbulb mr-2"></i>
+                                    Consejos para Productos
+                                </h4>
+                                <ul class="text-xs text-blue-700 space-y-1">
+                                    <li>• Usa nombres descriptivos y únicos</li>
+                                    <li>• Incluye marca y modelo si aplica</li>
+                                    <li>• Asigna un código serial único</li>
+                                    <li>• Sube imágenes de alta calidad</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-amber-50 rounded-lg p-4 border border-amber-200">
+                                <h4 class="text-sm font-medium text-amber-800 mb-3 flex items-center">
+                                    <i class="fas fa-dollar-sign mr-2"></i>
+                                    Precios y Cantidades
+                                </h4>
+                                <ul class="text-xs text-amber-700 space-y-1">
+                                    <li>• Revisa precios de competencia</li>
+                                    <li>• Considera márgenes de ganancia</li>
+                                    <li>• Actualiza cantidades regularmente</li>
+                                    <li>• Usa decimales para precios exactos</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                                <h4 class="text-sm font-medium text-green-800 mb-3 flex items-center">
+                                    <i class="fas fa-tags mr-2"></i>
+                                    Categorización
+                                </h4>
+                                <ul class="text-xs text-green-700 space-y-1">
+                                    <li>• Usa categorías específicas</li>
+                                    <li>• Selecciona tallas aplicables</li>
+                                    <li>• Asigna al almacén correcto</li>
+                                    <li>• Añade colores disponibles</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Current Stats -->
+                        <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">Estadísticas Actuales</h4>
+                            <div class="space-y-2 text-xs text-gray-600">
+                                <div class="flex justify-between">
+                                    <span>Total Productos:</span>
+                                    <span class="font-medium"><%= Article.count %></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Categorías:</span>
+                                    <span class="font-medium"><%= @categories.count %></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Almacenes:</span>
+                                    <span class="font-medium"><%= @werehouses.count %></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Tallas:</span>
+                                    <span class="font-medium"><%= @sizes.count %></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex items-center justify-end space-x-4">
+                <%= link_to index_path, 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Cancelar
+                <% end %>
+                <%= f.submit "Crear Artículo", 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-emerald-600 border border-transparent rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<!-- JavaScript for enhanced UX -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const titleInput = document.querySelector('input[name="article[title]"]');
+    const priceInput = document.querySelector('input[name="article[price]"]');
+    const quantityInput = document.querySelector('input[name="article[quantity]"]');
+    
+    // Title validation
+    if (titleInput) {
+        titleInput.addEventListener('input', function() {
+            if (this.value.length >= 3) {
+                this.classList.add('border-green-300');
+                this.classList.remove('border-red-300');
+            } else if (this.value.length > 0) {
+                this.classList.add('border-red-300');
+                this.classList.remove('border-green-300');
+            }
+        });
+    }
+    
+    // Price formatting
+    if (priceInput) {
+        priceInput.addEventListener('input', function() {
+            if (this.value > 0) {
+                this.classList.add('border-green-300');
+                this.classList.remove('border-red-300');
+            } else if (this.value === '0' || this.value === '') {
+                this.classList.remove('border-green-300', 'border-red-300');
+            }
+        });
+    }
+    
+    // Quantity validation
+    if (quantityInput) {
+        quantityInput.addEventListener('input', function() {
+            if (this.value >= 0) {
+                this.classList.add('border-green-300');
+                this.classList.remove('border-red-300');
+            } else {
+                this.classList.add('border-red-300');
+                this.classList.remove('border-green-300');
+            }
+        });
+    }
+    
+    // Form completion progress
+    function updateProgress() {
+        const requiredFields = document.querySelectorAll('[required]');
+        const completedFields = Array.from(requiredFields).filter(field => field.value.trim() !== '');
+        const progress = (completedFields.length / requiredFields.length) * 100;
+        
+        // Could add a progress bar here if desired
+        console.log(`Formulario completado: ${Math.round(progress)}%`);
+    }
+    
+    // Check progress on input changes
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('input', updateProgress);
+        field.addEventListener('change', updateProgress);
+    });
+});
+</script>

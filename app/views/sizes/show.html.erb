@@ -103,7 +103,10 @@
                         <% if has_permission?('Tallas', 'Eliminar') %>
                             <%= link_to delete_size_path(size.id),
                                 method: :delete, 
-                                data: { confirm: "¿Seguro que quieres eliminar esta talla?" }, 
+                                data: { 
+                                    turbo_method: :delete,
+                                    turbo_confirm: "¿Seguro que quieres eliminar esta talla?"
+                                }, 
                                 class: 'inline-flex items-center justify-center w-8 h-8 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200',
                                 title: "Eliminar" do %>
                                 <i class="fas fa-trash text-sm"></i>

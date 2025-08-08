@@ -1,85 +1,344 @@
-<div class="max-w-7xl mt-7 mx-auto bg-white shadow-lg rounded-lg p-8">
-  <% if @sale.errors.any? %>
-  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-    <strong class="font-bold">Error:</strong>
-    <ul>
-      <% @sale.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-  <h1 class="text-2xl font-bold text-gray-800 mb-6">Nueva Venta</h1>
-  <%= form_with(model: @sale, url: create_direct_sales_path, local: true, data: { controller: "direct-sales" }) do |f| %>
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <%= f.label :name, "Nombre", class: "block text-gray-700 font-semibold" %>
-        <%= f.text_field :name, class: "w-full border rounded-lg p-2 mt-1" %>
-      </div>
-      <div>
-        <%= f.label :lastname, "Apellido", class: "block text-gray-700 font-semibold" %>
-        <%= f.text_field :lastname, class: "w-full border rounded-lg p-2 mt-1" %>
-      </div>
-      <div>
-        <%= f.label :id_number, "Cédula", class: "block text-gray-700 font-semibold" %>
-        <%= f.text_field :id_number, class: "w-full border rounded-lg p-2 mt-1" %>
-      </div>
-      <div>
-        <%= f.label :phone, "Telefono", class: "block text-gray-700 font-semibold" %>
-        <%= f.text_field :phone, class: "w-full border rounded-lg p-2 mt-1" %>
-      </div>
-      <div>
-        <%= f.label :payment_method, "Método de Pago", class: "block text-gray-700 font-semibold" %>
-        <%= f.select :payment_method, [["Bolívares", "bs"], ["Dólares", "usd"]], {}, class: "w-full border rounded-lg p-2 mt-1" %>
-      </div>
-      <div>
-        <%= f.label :date, "Fecha de Venta", class: "block text-gray-700 font-semibold" %>
-        <%= f.date_field :date, class: "w-full border rounded-lg p-2 mt-1" %>
-      </div>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-lg">
+                    <i class="fas fa-cash-register text-green-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Nueva Venta Directa</h1>
+                    <p class="text-sm text-gray-500 mt-1">Registra una venta con pago inmediato</p>
+                </div>
+            </div>
+            <%= link_to direct_sales_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver a Ventas
+            <% end %>
+        </div>
     </div>
-    <h2 class="text-xl font-bold text-gray-800 mt-6">Productos</h2>
-<div id="sale-items" data-direct-sales-target="saleItems" class="mt-4 space-y-4">
-  <%= f.fields_for :sale_items, f.object.sale_items.build do |sale_form| %>
-    <div class="sale-item flex gap-4 items-center bg-gray-100 p-4 rounded-lg">
-      <!-- Usar select para que 'article_id' esté asociado con el modelo 'sale_item' -->
-         <%= sale_form.select :article_id, 
-  options_for_select(
-    Article.where(status: "active").where("quantity > 0").where(warehouse_id: current_user.warehouse_ids)
-      .distinct
-      .map { |article| [article.title, article.id, { data: { price: article.price, quantity: article.quantity } }] }, 
-    selected: nil
-  ),
-  { prompt: "Selecciona un artículo" },
-  class: "select2 w-1/3 border rounded-lg p-2 article-select", 
-  data: { action: "change->direct-sales#updatePrice change->direct-sales#updateQuantity change->direct-sales#validateDuplicateArticle" } %>
-
-
-      <div class="relative">
-  <%= sale_form.number_field :quantity, min: 1, value: 1, class: "border rounded-lg p-3 quantity-input", 
-    data: { action: "input->direct-sales#updateTotal input->direct-sales#validateQuantity" } %>
-  <span class="available-quantity text-xs text-gray-500"></span>
-  <div class="error-message text-xs text-red-500 hidden pt-3"></div>
-</div>
-      <%= sale_form.number_field :price, step: "0.01", min: 0, class: "w-1/4 border rounded-lg p-2 price-input bg-gray-200", data: { action: "input->direct-sales#updateTotal" }%>
-      
-      <button type="button" class="text-red-500 hover:text-red-700" data-action="click->direct-sales#removeItem">✖</button>
-    </div>
-  <% end %>
 </div>
 
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_with(model: @sale, url: create_direct_sales_path, local: true, data: { controller: "direct-sales" }) do |f| %>
+        <!-- Error Messages -->
+        <% if @sale.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@sale.errors.count, "error") %> impidieron que la venta se guardara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @sale.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <% end %>
 
-    <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg mt-4" data-action="click->direct-sales#addItem">Agregar Producto</button>
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Main Form Card -->
+                <div class="lg:col-span-3">
+                    <!-- Customer Information -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8">
+                        <div class="flex items-center space-x-3 mb-8">
+                            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                <i class="fas fa-user text-blue-600"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold text-gray-900">Información del Cliente</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Name -->
+                            <div>
+                                <%= f.label :name, "Nombre", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :name, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Nombre del cliente" %>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div>
+                                <%= f.label :lastname, "Apellido", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :lastname, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Apellido del cliente" %>
+                            </div>
+
+                            <!-- ID Number -->
+                            <div>
+                                <%= f.label :id_number, "Cédula", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :id_number, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Número de identificación" %>
+                            </div>
+
+                            <!-- Phone -->
+                            <div>
+                                <%= f.label :phone, "Teléfono", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :phone, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200",
+                                    placeholder: "Número de teléfono" %>
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div>
+                                <%= f.label :payment_method, "Método de Pago", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :payment_method, 
+                                    [["Bolívares", "bs"], ["Dólares", "usd"]], 
+                                    {}, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200" %>
+                            </div>
+
+                            <!-- Sale Date -->
+                            <div>
+                                <%= f.label :date, "Fecha de Venta", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.date_field :date, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200",
+                                    value: Date.current.strftime("%Y-%m-%d") %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Section -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
+                                    <i class="fas fa-shopping-cart text-purple-600"></i>
+                                </div>
+                                <h2 class="text-xl font-semibold text-gray-900">Productos de la Venta</h2>
+                            </div>
+                            <button type="button" 
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200" 
+                                    data-action="click->direct-sales#addItem">
+                                <i class="fas fa-plus mr-2"></i>
+                                Agregar Producto
+                            </button>
+                        </div>
+
+                        <!-- Products Container -->
+                        <div id="sale-items" data-direct-sales-target="saleItems" class="space-y-4 mb-6">
+                            <%= f.fields_for :sale_items, f.object.sale_items.build do |sale_form| %>
+                                <div class="sale-item bg-gray-50 border border-gray-200 rounded-lg p-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                                        <!-- Product Selection -->
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Producto</label>
+                                            <%= sale_form.select :article_id, 
+                                                options_for_select(
+                                                    Article.where(status: "active").where("quantity > 0").where(warehouse_id: current_user.warehouse_ids)
+                                                        .distinct
+                                                        .map { |article| [article.title, article.id, { data: { price: article.price, quantity: article.quantity } }] }, 
+                                                    selected: nil
+                                                ),
+                                                { prompt: "Selecciona un artículo" },
+                                                class: "select2 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent article-select", 
+                                                data: { action: "change->direct-sales#updatePrice change->direct-sales#updateQuantity change->direct-sales#validateDuplicateArticle" } %>
+                                        </div>
+
+                                        <!-- Quantity -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Cantidad</label>
+                                            <div class="relative">
+                                                <%= sale_form.number_field :quantity, 
+                                                    min: 1, 
+                                                    value: 1, 
+                                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent quantity-input", 
+                                                    data: { action: "input->direct-sales#updateTotal input->direct-sales#validateQuantity" } %>
+                                                <span class="available-quantity text-xs text-gray-500 mt-1 block"></span>
+                                                <div class="error-message text-xs text-red-500 hidden mt-1"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Price -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Precio</label>
+                                            <div class="relative">
+                                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                                <%= sale_form.number_field :price, 
+                                                    step: "0.01", 
+                                                    min: 0, 
+                                                    class: "block w-full pl-8 pr-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-sm price-input", 
+                                                    readonly: true,
+                                                    data: { action: "input->direct-sales#updateTotal" } %>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Remove Button -->
+                                    <div class="flex justify-end mt-4">
+                                        <button type="button" 
+                                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors duration-200" 
+                                                data-action="click->direct-sales#removeItem">
+                                            <i class="fas fa-trash mr-2"></i>
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </div>
+                            <% end %>
+                        </div>
+
+                        <!-- Total Section -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                                            <i class="fas fa-calculator text-green-600"></i>
+                                        </div>
+                                        <span class="text-lg font-medium text-gray-900">Total de la Venta:</span>
+                                    </div>
+                                    <span id="total-price" data-direct-sales-target="totalPrice" class="text-2xl font-bold text-green-600">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                <i class="fas fa-info-circle text-blue-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Información</h3>
+                        </div>
+
+                        <!-- Sale Type Info -->
+                        <div class="space-y-4">
+                            <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                                <h4 class="text-sm font-medium text-green-800 mb-3 flex items-center">
+                                    <i class="fas fa-money-bill mr-2"></i>
+                                    Venta Directa
+                                </h4>
+                                <ul class="text-xs text-green-700 space-y-1">
+                                    <li>• Pago inmediato requerido</li>
+                                    <li>• Sin sistema de cuotas</li>
+                                    <li>• Inventario se actualiza al guardar</li>
+                                    <li>• Factura generada automáticamente</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                                <h4 class="text-sm font-medium text-blue-800 mb-3 flex items-center">
+                                    <i class="fas fa-credit-card mr-2"></i>
+                                    Métodos de Pago
+                                </h4>
+                                <div class="text-xs text-blue-700 space-y-1">
+                                    <div class="flex justify-between">
+                                        <span>Bolívares:</span>
+                                        <span class="font-medium">Efectivo/Transferencia</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Dólares:</span>
+                                        <span class="font-medium">Efectivo/Digital</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="text-sm font-medium text-gray-700 mb-3">Productos Disponibles</h4>
+                                <div class="text-xs text-gray-600 space-y-1">
+                                    <div class="flex justify-between">
+                                        <span>Total en stock:</span>
+                                        <span class="font-medium"><%= Article.where(status: "active").where("quantity > 0").where(warehouse_id: current_user.warehouse_ids).count %></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Almacenes asignados:</span>
+                                        <span class="font-medium"><%= current_user.warehouses.count %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex items-center justify-end space-x-4">
+                <%= link_to direct_sales_path, 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Cancelar
+                <% end %>
+                <%= f.submit "Guardar Venta", 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<!-- JavaScript for enhanced UX -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
     
-    <div class="mt-6 p-4 bg-gray-100 rounded-lg">
-      <strong class="text-gray-800 text-lg">Total Venta: </strong> <span id="total-price"data-direct-sales-target="totalPrice" class="text-xl font-bold text-green-600">0.00</span>
-    </div>
+    // Form validation before submit
+    form.addEventListener('submit', function(e) {
+        const name = document.querySelector('input[name="sale[name]"]').value;
+        const lastname = document.querySelector('input[name="sale[lastname]"]').value;
+        const idNumber = document.querySelector('input[name="sale[id_number]"]').value;
+        const saleItems = document.querySelectorAll('.sale-item');
+        
+        if (!name || !lastname || !idNumber) {
+            e.preventDefault();
+            alert('Por favor, completa la información básica del cliente.');
+            return false;
+        }
+        
+        if (saleItems.length === 0) {
+            e.preventDefault();
+            alert('Debes agregar al menos un producto a la venta.');
+            return false;
+        }
+        
+        // Check if all sale items have valid products selected
+        let hasValidItems = false;
+        saleItems.forEach(item => {
+            const select = item.querySelector('.article-select');
+            if (select && select.value) {
+                hasValidItems = true;
+            }
+        });
+        
+        if (!hasValidItems) {
+            e.preventDefault();
+            alert('Selecciona al menos un producto válido para la venta.');
+            return false;
+        }
+    });
     
-    <div class="mt-6">
-      <%= f.submit "Guardar Venta", class: "w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg" %>
-    </div>
-  <% end %>
-  
-  <div class="mt-4 text-center">
-    <%= link_to "Volver", direct_sales_path, class: "text-blue-600 hover:underline" %>
-  </div>
-</div>
+    // Auto-calculate totals on input changes
+    document.addEventListener('input', function(e) {
+        if (e.target.matches('.quantity-input, .price-input')) {
+            updateItemTotals();
+        }
+    });
+    
+    function updateItemTotals() {
+        const saleItems = document.querySelectorAll('.sale-item');
+        let grandTotal = 0;
+        
+        saleItems.forEach(item => {
+            const quantity = parseFloat(item.querySelector('.quantity-input').value) || 0;
+            const price = parseFloat(item.querySelector('.price-input').value) || 0;
+            const itemTotal = quantity * price;
+            grandTotal += itemTotal;
+        });
+        
+        const totalElement = document.getElementById('total-price');
+        if (totalElement) {
+            totalElement.textContent = '$' + grandTotal.toFixed(2);
+        }
+    }
+});
+</script>

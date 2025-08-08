@@ -28,9 +28,7 @@ end
 end
 
 # 3. Crear rol ADMIN
-rol_admin = Role.find_or_create_by(id: 1) do |rol|
-  rol.name = 'ADMIN'
-end
+rol_admin = Role.find_or_create_by(name: 'ADMIN')
 
 # 4. Asignar todos los permisos de todas las áreas al rol ADMIN
 Area.all.each do |area|

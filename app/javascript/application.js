@@ -1,6 +1,5 @@
 import "controllers";
-import Rails from "@rails/ujs";
-Rails.start();
+import "@hotwired/turbo-rails";
 //= require select2
 //= require select2-full
 

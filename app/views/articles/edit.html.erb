@@ -1,66 +1,426 @@
-<div class="container mx-32">
-  <%= form_for @article, url: update_article_path(@article) do |f| %>
-     <div class="space-y-8 mt-12 px-20">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="sm:col-span-2">
-          <%= f.label :title, "NOMBRE DEL ARTICULO", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" , oninput: "this.value = this.value.toUpperCase()" %>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-lg">
+                    <i class="fas fa-edit text-orange-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Editar Artículo</h1>
+                    <p class="text-sm text-gray-500 mt-1">Modifica la información de: <span class="font-medium text-gray-700"><%= @article.title %></span></p>
+                </div>
+            </div>
+            <%= link_to index_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver al Inventario
+            <% end %>
         </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :quantity, "CANTIDAD", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.number_field :quantity, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :serial, "SERIAL", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.text_field :serial, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :price, "PRECIO", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.number_field :price, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :warehouse_id, "ALMACEN", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.select :warehouse_id, @werehouses.collect { |c| [c.title.upcase, c.id] }, { prompt: "Seleccionar Almacen" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :category_id, "CATEGORIA", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.select :category_id, options_for_select(@categories.map { |c| [c.title.upcase, c.id] }), { prompt: "Seleccionar categoría" }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-        <div class="md:col-span-2 sm:col-span-1">
-          <%= f.label :size_ids, "TALLA", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.select :size_ids, @sizes.collect { |c| [c.title.upcase, c.id] }, {}, multiple: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="col-span-full">
-          <%= f.label :description, "DESCRIPCION DEL PRODUCTO", class: "block text-sm font-medium text-gray-900" %>
-          <%= f.text_area :description, size: "100x5", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-          <p class="mt-2 text-sm text-gray-600">Escribe las características del producto.</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="col-span-full">
-          <%= f.label :attachment, "Insertar Imagen", class: "block text-sm font-medium text-gray-900" %>
-          <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <%= f.file_field :attachment, class: "text-sm text-gray-600" %>
-          </div>
-        </div>
-      </div>
-        <!-- Colores -->
-        <div data-controller="color-edit" data-color-edit-colors='<%= @colors.to_json.html_safe %>'>
-          <label>Anadir color</label>
-          <div id="color-container" data-color-edit-target="container" class="space-y-2 flex flex-wrap"></div>
-          <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mt-2 rounded" data-action="color-edit#addColor">
-            Añadir Color
-          </button>
-        </div>
-
-        <!-- Botones -->
-        <div class="mt-6 mb-14 flex items-center justify-end gap-x-6">
-          <%= link_to "Cancelar", index_path %>
-          <%= f.submit "Editar Articulo", class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-        </div>
-      </div>
     </div>
-  <% end %>
 </div>
+
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_for @article, url: update_article_path(@article), method: :patch, local: true do |f| %>
+        <!-- Error Messages -->
+        <% if @article.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@article.errors.count, "error") %> impidieron que el artículo se actualizara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @article.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Main Form Card -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                        <!-- Product Information Section -->
+                        <div class="flex items-center space-x-3 mb-8">
+                            <div class="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg">
+                                <i class="fas fa-info-circle text-orange-600"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold text-gray-900">Información del Producto</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Product Name -->
+                            <div class="md:col-span-2">
+                                <%= f.label :title, "Nombre del Artículo", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :title, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                    oninput: "this.value = this.value.toUpperCase()" %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <i class="fas fa-lightbulb mr-1"></i>
+                                    El nombre se convertirá automáticamente a mayúsculas
+                                </p>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div>
+                                <%= f.label :quantity, "Cantidad", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.number_field :quantity, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                    min: 0 %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Anterior:</strong> <%= @article.quantity_was || @article.quantity %> unidades
+                                </p>
+                            </div>
+
+                            <!-- Serial -->
+                            <div>
+                                <%= f.label :serial, "Código/Serial", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.text_field :serial, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">Identificador único del producto</p>
+                            </div>
+
+                            <!-- Price -->
+                            <div>
+                                <%= f.label :price, "Precio", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                    <%= f.number_field :price, 
+                                        class: "block w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                        step: 0.01,
+                                        min: 0 %>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Anterior:</strong> $<%= number_with_precision(@article.price_was || @article.price, precision: 2) %>
+                                </p>
+                            </div>
+
+                            <!-- Warehouse -->
+                            <div>
+                                <%= f.label :warehouse_id, "Almacén", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :warehouse_id, 
+                                    @werehouses.collect { |c| [c.title.upcase, c.id] }, 
+                                    { prompt: "Seleccionar almacén" }, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Actual:</strong> <%= @article.warehouse.title rescue "Sin almacén asignado" %>
+                                </p>
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <%= f.label :category_id, "Categoría", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :category_id, 
+                                    options_for_select(@categories.map { |c| [c.title.upcase, c.id] }, @article.category_id), 
+                                    { prompt: "Seleccionar categoría" }, 
+                                    class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200" %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Actual:</strong> <%= @article.category.title rescue "Sin categoría asignada" %>
+                                </p>
+                            </div>
+
+                            <!-- Sizes -->
+                            <div>
+                                <%= f.label :size_ids, "Tallas Disponibles", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                <%= f.select :size_ids, 
+                                    @sizes.collect { |c| [c.title.upcase, c.id] }, 
+                                    { selected: @article.size_ids }, 
+                                    { multiple: true, 
+                                      class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200" } %>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <strong>Actuales:</strong> 
+                                    <% if @article.sizes.any? %>
+                                        <%= @article.sizes.pluck(:title).join(', ') %>
+                                    <% else %>
+                                        Sin tallas asignadas
+                                    <% end %>
+                                </p>
+                            </div>
+
+                            <!-- Status Display -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Estado del Producto</label>
+                                <div class="flex items-center space-x-3">
+                                    <span class="inline-flex items-center px-3 py-2 rounded-full text-sm font-medium <%= @article.status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                                        <i class="fas fa-circle text-current mr-2"></i>
+                                        <%= @article.status == 'active' ? 'Activo' : 'Inactivo' %>
+                                    </span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500">Estado actual en el sistema</p>
+                            </div>
+                        </div>
+
+                        <!-- Description Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-align-left mr-2 text-gray-500"></i>
+                                Descripción del Producto
+                            </h3>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <%= f.label :description, "Descripción Detallada", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                    <%= f.text_area :description, 
+                                        rows: 5, 
+                                        class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200",
+                                        placeholder: "Describe las características, materiales, cuidados y cualquier información relevante del producto..." %>
+                                    <p class="mt-2 text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Una buena descripción ayuda a los clientes a tomar decisiones de compra
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image Upload Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-image mr-2 text-gray-500"></i>
+                                Imagen del Producto
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Current Image -->
+                                <% if @article.attachment.attached? %>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Imagen Actual</label>
+                                        <div class="border border-gray-300 rounded-lg overflow-hidden">
+                                            <%= image_tag @article.attachment, class: "w-full h-48 object-cover" %>
+                                        </div>
+                                    </div>
+                                <% end %>
+                                
+                                <!-- New Image Upload -->
+                                <div>
+                                    <%= f.label :attachment, "Nueva Imagen (Opcional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                                    <div class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 hover:border-orange-400 transition-colors duration-200">
+                                        <div class="text-center">
+                                            <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-4"></i>
+                                            <%= f.file_field :attachment, 
+                                                class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none",
+                                                accept: "image/*" %>
+                                            <p class="mt-2 text-sm text-gray-500">PNG, JPG o JPEG hasta 10MB</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Colors Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-palette mr-2 text-gray-500"></i>
+                                Colores Disponibles
+                            </h3>
+                            <div data-controller="color-edit" data-color-edit-colors='<%= @colors.to_json.html_safe %>' class="bg-gray-50 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <label class="text-sm font-medium text-gray-700">Gestionar colores del producto</label>
+                                    <button type="button" 
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200" 
+                                            data-action="color-edit#addColor">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        Añadir Color
+                                    </button>
+                                </div>
+                                <div id="color-container" data-color-edit-target="container" class="space-y-3"></div>
+                                <p class="mt-3 text-sm text-gray-500">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Los cambios en colores se aplicarán al guardar el artículo
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Change History -->
+                        <div class="mt-8 bg-amber-50 rounded-lg p-4 border border-amber-200">
+                            <h4 class="text-sm font-medium text-amber-800 mb-3 flex items-center">
+                                <i class="fas fa-history mr-2"></i>
+                                Historial del Producto
+                            </h4>
+                            <div class="text-sm text-amber-700 space-y-1">
+                                <p>• <strong>Creado:</strong> <%= @article.created_at.strftime("%d/%m/%Y a las %H:%M") %></p>
+                                <% if @article.updated_at != @article.created_at %>
+                                    <p>• <strong>Última modificación:</strong> <%= @article.updated_at.strftime("%d/%m/%Y a las %H:%M") %></p>
+                                <% end %>
+                                <p>• <strong>Total de colores:</strong> <%= @colors.count %></p>
+                                <p>• <strong>Tallas asignadas:</strong> <%= @article.sizes.count %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                <i class="fas fa-chart-bar text-blue-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Estadísticas</h3>
+                        </div>
+
+                        <!-- Product Stats -->
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Estado</span>
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium <%= @article.status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                                        <i class="fas fa-circle text-current mr-1"></i>
+                                        <%= @article.status == 'active' ? 'Activo' : 'Inactivo' %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Estado actual del producto</p>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Valor Total</span>
+                                    <span class="text-lg font-bold text-green-600">
+                                        $<%= number_with_delimiter((@article.price * @article.quantity).round(2)) %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Precio × Cantidad</p>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Colores</span>
+                                    <span class="text-lg font-bold text-gray-900">
+                                        <%= @colors.count %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Variantes de color</p>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Tallas</span>
+                                    <span class="text-lg font-bold text-gray-900">
+                                        <%= @article.sizes.count %>
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Tallas disponibles</p>
+                            </div>
+                        </div>
+
+                        <!-- Important Notes -->
+                        <div class="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                            <h4 class="text-sm font-medium text-red-800 mb-3 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Importante
+                            </h4>
+                            <ul class="text-xs text-red-700 space-y-1">
+                                <li>• Los cambios afectarán el inventario</li>
+                                <li>• El precio se actualizará en ventas futuras</li>
+                                <li>• Cambiar almacén requiere verificación física</li>
+                            </ul>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <h4 class="text-sm font-medium text-blue-800 mb-3 flex items-center">
+                                <i class="fas fa-bolt mr-2"></i>
+                                Acciones Rápidas
+                            </h4>
+                            <div class="space-y-2">
+                                <button type="button" class="w-full text-left text-xs text-blue-700 hover:text-blue-900 transition-colors">
+                                    • Ver historial de ventas
+                                </button>
+                                <button type="button" class="w-full text-left text-xs text-blue-700 hover:text-blue-900 transition-colors">
+                                    • Duplicar producto
+                                </button>
+                                <button type="button" class="w-full text-left text-xs text-blue-700 hover:text-blue-900 transition-colors">
+                                    • Generar código QR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex items-center justify-end space-x-4">
+                <%= link_to index_path, 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Cancelar
+                <% end %>
+                <%= f.submit "Actualizar Artículo", 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<!-- JavaScript for enhanced UX -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const originalValues = {};
+    
+    // Store original values
+    document.querySelectorAll('input, select, textarea').forEach(input => {
+        originalValues[input.name] = input.value;
+    });
+    
+    // Change detection
+    document.querySelectorAll('input, select, textarea').forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value !== originalValues[this.name]) {
+                this.classList.add('border-orange-300', 'bg-orange-50');
+                this.classList.remove('border-gray-300');
+            } else {
+                this.classList.remove('border-orange-300', 'bg-orange-50');
+                this.classList.add('border-gray-300');
+            }
+        });
+    });
+    
+    // Price validation and calculation
+    const priceInput = document.querySelector('input[name="article[price]"]');
+    const quantityInput = document.querySelector('input[name="article[quantity]"]');
+    
+    function updateTotal() {
+        if (priceInput && quantityInput) {
+            const price = parseFloat(priceInput.value) || 0;
+            const quantity = parseInt(quantityInput.value) || 0;
+            const total = price * quantity;
+            
+            // Update total display if exists
+            console.log(`Valor total actualizado: $${total.toFixed(2)}`);
+        }
+    }
+    
+    if (priceInput) priceInput.addEventListener('input', updateTotal);
+    if (quantityInput) quantityInput.addEventListener('input', updateTotal);
+    
+    // Form validation before submit
+    form.addEventListener('submit', function(e) {
+        const title = document.querySelector('input[name="article[title]"]').value;
+        const quantity = document.querySelector('input[name="article[quantity]"]').value;
+        const price = document.querySelector('input[name="article[price]"]').value;
+        
+        if (!title || !quantity || !price) {
+            e.preventDefault();
+            alert('Por favor, completa todos los campos obligatorios.');
+            return false;
+        }
+        
+        if (parseFloat(price) <= 0) {
+            e.preventDefault();
+            alert('El precio debe ser mayor a cero.');
+            return false;
+        }
+        
+        if (parseInt(quantity) < 0) {
+            e.preventDefault();
+            alert('La cantidad no puede ser negativa.');
+            return false;
+        }
+    });
+});
+</script>

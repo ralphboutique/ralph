@@ -1,33 +1,150 @@
-<%= form_for  @warehouse, url: create_warehouses_path  do |f| %>
-
- <div class ="container mx-32">
- <%if @warehouse.errors.any? %>
-    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-      <strong class="font-bold"><%= pluralize(@warehouse.errors.count, "error") %> impidieron que el Almacen se guardara:</strong>
-      <ul class="list-disc pl-5 mt-2">
-        <% @warehouse.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-	<div class="space-y-12">
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12">
-            <div class="sm:col-span-6 ">
-                <%= f.label :title,  "NOMBRE DE ALMACEN" ,class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                    <%= f.text_field :title , class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", oninput: "this.value = this.value.toUpperCase()" %>
+<!-- Header Section -->
+<div class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-lg">
+                    <i class="fas fa-warehouse text-green-600 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Nuevo Almacén</h1>
+                    <p class="text-sm text-gray-500 mt-1">Registra un nuevo almacén para gestionar tu inventario</p>
                 </div>
             </div>
-		</div>
-
-					 <div class="mt-6  mb-14 flex items-center justify-end gap-x-6">
-                            <%= link_to "Cancelar", show_warehouses_path %>
-							<%= f.submit "CREAR ALMACEN", class:"rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-					 </div>
-				</div>
-			</div>
-		</div>
-	<% end %>
+            <%= link_to show_warehouses_path, 
+                class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver
+            <% end %>
+        </div>
+    </div>
 </div>
 
+<!-- Main Content -->
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+    <%= form_for @warehouse, url: create_warehouses_path, local: true do |f| %>
+        <!-- Error Messages -->
+        <% if @warehouse.errors.any? %>
+            <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-lg mt-0.5 mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-medium text-red-800">
+                            <%= pluralize(@warehouse.errors.count, "error") %> impidieron que el almacén se guardara:
+                        </h3>
+                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            <% @warehouse.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+
+        <div class="max-w-2xl mx-auto">
+            <!-- Main Form Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                        <i class="fas fa-info-circle text-green-600"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-900">Información del Almacén</h2>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Warehouse Name -->
+                    <div>
+                        <%= f.label :title, "Nombre del Almacén", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                        <%= f.text_field :title, 
+                            class: "block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200",
+                            placeholder: "Ej: ALMACÉN PRINCIPAL, BODEGA NORTE, DEPÓSITO...",
+                            oninput: "this.value = this.value.toUpperCase()" %>
+                        <p class="mt-2 text-sm text-gray-500">
+                            <i class="fas fa-lightbulb mr-1"></i>
+                            El nombre se convertirá automáticamente a mayúsculas
+                        </p>
+                    </div>
+
+                    <!-- Features Section -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-list-check mr-2 text-gray-500"></i>
+                            Funcionalidades del Almacén
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Control de inventario
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Gestión de productos
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Reportes de existencias
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Organización por ubicación
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Best Practices -->
+                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                        <h4 class="text-sm font-medium text-blue-800 mb-3 flex items-center">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            Mejores Prácticas
+                        </h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Usa nombres descriptivos y únicos para cada almacén</li>
+                            <li>• Considera la ubicación física en el nombre</li>
+                            <li>• Mantén un sistema de nomenclatura consistente</li>
+                            <li>• Evita caracteres especiales para mejor compatibilidad</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex items-center justify-end space-x-4">
+                <%= link_to show_warehouses_path, 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200" do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Cancelar
+                <% end %>
+                <%= f.submit "Crear Almacén", 
+                    class: "inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<!-- JavaScript for enhanced UX -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const titleInput = document.querySelector('input[name="warehouse[title]"]');
+    
+    if (titleInput) {
+        titleInput.addEventListener('input', function() {
+            // Add visual feedback for valid input
+            if (this.value.length >= 3) {
+                this.classList.remove('border-red-300');
+                this.classList.add('border-green-300');
+            } else {
+                this.classList.remove('border-green-300');
+                this.classList.add('border-gray-300');
+            }
+        });
+
+        // Auto-suggest common warehouse names
+        titleInput.addEventListener('focus', function() {
+            if (!this.value) {
+                this.placeholder = "Ej: ALMACÉN PRINCIPAL, BODEGA NORTE, DEPÓSITO CENTRAL...";
+            }
+        });
+    }
+});
+</script>
