@@ -1,95 +1,374 @@
-<div class="container px-5 py-24 mx-auto">
-  <div class="lg:flex lg:w-full mx-auto"> 
-   <%= image_tag @article.attachment, 
-    class: "w-full max-w-2xl lg:w-3/4 h-auto max-h-none object-contain object-center rounded-lg", 
-    alt: "Imagen del artículo" %>
-    <!-- Descripción del artículo y botones -->
-    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 container">
-      <h2 class="text-sm title-font text-gray-500 tracking-widest">En Venta</h2>
-      <h1 class="text-gray-900 text-3xl  title-font font-medium mb-1"><%= @article.title %></h1>
-      <!-- Sección de estrellas de calificación -->
-      <div class="flex mb-4">
-        <span class="flex items-center">
-          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-          </svg>
-          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-          </svg>
-          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-          </svg>
-          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-          </svg>
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-          </svg>
-          <span class="text-gray-600 ml-3"> Reviews</span>
-        </span>
-         <div class="flex justify-center space-x-4 ml-5">
-          <a href="https://facebook.com" target="_blank" class="text-blue-700">
-            <i class="fa-brands fa-facebook"></i>
-          </a>
-          <a href="https://instagram.com/ralaccesorioscute/" target="_blank" class="text-pink-700">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" class="text-black">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-          <a  href="https://api.whatsapp.com/send?phone=+584246454418&text=<%= "Hola, quisiera tener mas informacion"%>" target="_blank" class="text-green-700">
-            <i class="fa-brands fa-whatsapp"></i>
-          </a>
-          <a href="https://t.me/tu_usuario" target="_blank" class="text-blue-500">
-            <i class="fa-brands fa-telegram"></i>
-          </a>
-        </div>
-      </div>
-      <!-- Descripción -->
-      <p class="leading-relaxed"><%= @article.description %></p>
-      <!-- Colores y tallas -->
-      <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-        <% if @article.article_colors.present? %>
-          <div class="flex">
-            <span class="mr-3">Color</span>
-            <% @article.article_colors.each do |article_color| %>
-              <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none" style="background-color: <%= article_color.color_hex %>;"></button>
-            <% end %>
-          </div>
+<!-- Product Detail Container -->
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Back Button -->
+    <% if @back %>
+      <div class="mb-8">
+        <%= link_to products_path(query: params[:query], category_id: @article.category_id), 
+            class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 shadow-sm" do %>
+          <i class="fas fa-arrow-left mr-2"></i>
+          Volver a productos
         <% end %>
-        <div class="flex ml-6 items-center">
-          <div class="relative">
-            <% if @article.sizes.present? %>
-              <span class="mr-3">Size</span>
-              <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-                <% @article.sizes.each do |size| %>
-                  <option value="<%= size.id %>"><%= size.title %></option>
-                <% end %>
-              </select>
-              <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
-                  <path d="M6 9l6 6 6-6"></path>
-                </svg>
-              </span>
+      </div>
+    <% end %>
+
+    <!-- Main Product Card -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="lg:grid lg:grid-cols-2">
+        
+        <!-- Product Image Section -->
+        <div class="relative bg-gray-100">
+          <div class="aspect-w-1 aspect-h-1 h-96 lg:h-full">
+            <%= image_tag @article.attachment, 
+                class: "w-full h-full object-center object-cover hover:scale-105 transition-transform duration-500",
+                alt: @article.title %>
+          </div>
+          
+          <!-- Availability Badge -->
+          <div class="absolute top-4 left-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 shadow-sm">
+              <i class="fas fa-check-circle mr-1"></i>
+              Disponible
+            </span>
+          </div>
+          
+          <!-- Stock Badge -->
+          <div class="absolute top-4 right-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 shadow-sm">
+              <i class="fas fa-box mr-1"></i>
+              <%= @article.quantity %> en stock
+            </span>
+          </div>
+        </div>
+
+        <!-- Product Info Section -->
+        <div class="p-8 lg:p-12">
+          
+          <!-- Product Header -->
+          <div class="mb-6">
+            <!-- Category -->
+            <% if @article.category %>
+              <p class="text-sm font-medium text-indigo-600 uppercase tracking-wide">
+                <%= @article.category.title %>
+              </p>
             <% end %>
+            
+            <!-- Title -->
+            <h1 class="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl">
+              <%= @article.title %>
+            </h1>
+            
+            <!-- SKU -->
+            <p class="mt-2 text-sm text-gray-500">
+              SKU: #<%= @article.id.to_s.rjust(6, '0') %>
+            </p>
+          </div>
+
+          <!-- Rating Section (matching catalog style) -->
+          <div class="flex items-center mb-6">
+            <div class="flex items-center">
+              <% 5.times do |i| %>
+                <i class="fas fa-star text-yellow-400 text-lg"></i>
+              <% end %>
+            </div>
+            <span class="ml-2 text-sm text-gray-600">(5.0)</span>
+            <span class="ml-4 text-sm text-gray-500">• Excelente calidad</span>
+          </div>
+
+          <!-- Price Section (matching catalog style) -->
+          <div class="mb-8">
+            <div class="flex items-baseline">
+              <span class="text-4xl font-bold text-gray-900">
+                $<%= number_with_precision(@article.price, precision: 2) %>
+              </span>
+              <span class="ml-2 text-lg text-gray-500">USD</span>
+            </div>
+          </div>
+
+          <!-- Product Description -->
+          <div class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Descripción</h3>
+            <div class="prose prose-sm text-gray-600 max-w-none">
+              <p><%= simple_format(@article.description) %></p>
+            </div>
+          </div>
+
+          <!-- Product Options -->
+          <div class="space-y-6 mb-8">
+            
+            <!-- Colors Section -->
+            <% if @article.article_colors.present? %>
+              <div>
+                <h4 class="text-sm font-semibold text-gray-900 mb-3">Colores disponibles</h4>
+                <div class="flex items-center space-x-3">
+                  <% @article.article_colors.each_with_index do |article_color, index| %>
+                    <button class="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            style="background-color: <%= article_color.color_hex %>;"
+                            title="Color <%= index + 1 %>">
+                    </button>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <!-- Sizes Section -->
+            <% if @article.sizes.present? %>
+              <div>
+                <h4 class="text-sm font-semibold text-gray-900 mb-3">Tallas disponibles</h4>
+                <div class="flex flex-wrap gap-2">
+                  <% @article.sizes.each do |size| %>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200">
+                      <%= size.title %>
+                    </button>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <!-- Quantity Selector -->
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900 mb-3">Cantidad</h4>
+              <div class="flex items-center">
+                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                  <button type="button" 
+                          class="px-4 py-2 text-gray-600 hover:text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                          onclick="decrementQuantity()">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input type="number" 
+                         id="quantity" 
+                         value="1" 
+                         min="1" 
+                         max="<%= @article.quantity %>"
+                         class="w-16 py-2 text-center border-0 focus:outline-none focus:ring-0">
+                  <button type="button" 
+                          class="px-4 py-2 text-gray-600 hover:text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                          onclick="incrementQuantity()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <span class="ml-3 text-sm text-gray-500">
+                  (<%= @article.quantity %> disponibles)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons (matching catalog style) -->
+          <div class="space-y-4">
+            
+            <!-- Main WhatsApp Button (like "Comprar Ahora" in catalog) -->
+            <a href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("🛍️ ¡Hola! Estoy interesado en:\n\n📦 Producto: #{@article.title}\n💰 Precio: $#{@article.price}\n🔗 Link: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}\n\n¿Podrías darme más información?") %>" 
+               target="_blank"
+               class="w-full flex items-center justify-center px-6 py-4 text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+              <i class="fab fa-whatsapp text-xl mr-3"></i>
+              Comprar Ahora
+            </a>
+
+          </div>
+
+          <!-- Social Media Links -->
+          <div class="mt-8 pt-6 border-t border-gray-200">
+            <p class="text-sm font-semibold text-gray-900 mb-4">Compartir en redes sociales</p>
+            <div class="flex items-center space-x-4">
+              <a href="https://facebook.com" 
+                 target="_blank" 
+                 class="flex items-center justify-center w-10 h-10 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://instagram.com/ralaccesorioscute/" 
+                 target="_blank" 
+                 class="flex items-center justify-center w-10 h-10 text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" 
+                 target="_blank" 
+                 class="flex items-center justify-center w-10 h-10 text-white bg-black rounded-lg hover:bg-gray-800 transition-colors duration-200">
+                <i class="fab fa-tiktok"></i>
+              </a>
+              <a href="https://t.me/tu_usuario" 
+                 target="_blank" 
+                 class="flex items-center justify-center w-10 h-10 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                <i class="fab fa-telegram-plane"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <!-- Precio y botón de compra -->
-     <div class="flex">
-        <span class="title-font font-medium text-2xl text-gray-900">$<%= @article.price %></span>
-        <a class="flex ml-auto text-white bg-blue-950 borde py-2 px-6 focus:outline-none hover:bg-amber-500 hover:border-blue-800 rounded" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("Hola, estoy interesado en el producto #{@article.title} que cuesta $#{@article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{@article.id}?category_id=#{@article.category_id}") %>" target="_blank">
-          Comprar
-        </a>
-      </div>
-      <!-- Botón de regreso -->
-      <% if @back == true %>
-        <div class="mt-10 w-10 border-solid border-2 border-black rounded-full hover:bg-black hover:text-white hover:border-white">
-          <%= link_to products_path(query: params[:query], category_id: @article.category_id), class: " my-3 mx-3 flex items-center hover:text-white" do %>
-              <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-          <% end %>
+    </div>
+
+    <!-- Additional Product Information -->
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Features Card -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center mb-4">
+          <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+            <i class="fas fa-check text-green-600"></i>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900">Características</h3>
         </div>
-      <% end %>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li class="flex items-center">
+            <i class="fas fa-star text-yellow-400 mr-2"></i>
+            Material de alta calidad
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-star text-yellow-400 mr-2"></i>
+            Diseño moderno y elegante
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-star text-yellow-400 mr-2"></i>
+            Fácil mantenimiento
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-star text-yellow-400 mr-2"></i>
+            Múltiples opciones disponibles
+          </li>
+        </ul>
+      </div>
+
+      <!-- Shipping Card -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center mb-4">
+          <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+            <i class="fas fa-truck text-blue-600"></i>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900">Envío</h3>
+        </div>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li class="flex items-center">
+            <i class="fas fa-shipping-fast text-blue-500 mr-2"></i>
+            Envío a toda Venezuela
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-clock text-blue-500 mr-2"></i>
+            Entrega en 3-5 días
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-shield-alt text-blue-500 mr-2"></i>
+            Envío seguro garantizado
+          </li>
+        </ul>
+      </div>
+
+      <!-- Support Card -->
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center mb-4">
+          <div class="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
+            <i class="fas fa-headset text-purple-600"></i>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900">Soporte</h3>
+        </div>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li class="flex items-center">
+            <i class="fas fa-phone text-purple-500 mr-2"></i>
+            Atención al cliente 24/7
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-undo text-purple-500 mr-2"></i>
+            Devoluciones gratis
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-certificate text-purple-500 mr-2"></i>
+            Garantía de calidad
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Detailed Specifications -->
+    <div class="mt-8 bg-white rounded-xl p-6 shadow-sm">
+      <h3 class="text-xl font-semibold text-gray-900 mb-6">Especificaciones del producto</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm text-gray-600">Categoría:</span>
+            <span class="text-sm font-medium text-gray-900"><%= @article.category&.title || "Sin categoría" %></span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm text-gray-600">Código del producto:</span>
+            <span class="text-sm font-medium text-gray-900">#<%= @article.id.to_s.rjust(6, '0') %></span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm text-gray-600">Stock disponible:</span>
+            <span class="text-sm font-medium text-gray-900"><%= @article.quantity %> unidades</span>
+          </div>
+        </div>
+        
+        <div class="space-y-3">
+          <% if @article.article_colors.any? %>
+            <div class="flex justify-between py-2 border-b border-gray-100">
+              <span class="text-sm text-gray-600">Colores disponibles:</span>
+              <span class="text-sm font-medium text-gray-900"><%= @article.article_colors.count %></span>
+            </div>
+          <% end %>
+          <% if @article.sizes.any? %>
+            <div class="flex justify-between py-2 border-b border-gray-100">
+              <span class="text-sm text-gray-600">Tallas:</span>
+              <span class="text-sm font-medium text-gray-900"><%= @article.sizes.pluck(:title).join(", ") %></span>
+            </div>
+          <% end %>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm text-gray-600">Estado:</span>
+            <span class="text-sm font-medium text-green-600">Disponible</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- JavaScript for Interactive Elements -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Quantity controls
+  window.incrementQuantity = function() {
+    const input = document.getElementById('quantity');
+    const max = parseInt(input.getAttribute('max'));
+    const current = parseInt(input.value);
+    if (current < max) {
+      input.value = current + 1;
+    }
+  };
+
+  window.decrementQuantity = function() {
+    const input = document.getElementById('quantity');
+    const current = parseInt(input.value);
+    if (current > 1) {
+      input.value = current - 1;
+    }
+  };
+
+  // Color selection
+  document.querySelectorAll('button[style*="background-color"]').forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove selection from all color buttons
+      document.querySelectorAll('button[style*="background-color"]').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-indigo-500');
+      });
+      // Add selection to clicked button
+      this.classList.add('ring-2', 'ring-indigo-500');
+    });
+  });
+
+  // Size selection
+  document.querySelectorAll('button:not([onclick]):not([style])').forEach(button => {
+    if (button.textContent.trim().length <= 3) { // Likely a size button
+      button.addEventListener('click', function() {
+        // Remove selection from all size buttons
+        document.querySelectorAll('button:not([onclick]):not([style])').forEach(btn => {
+          if (btn.textContent.trim().length <= 3) {
+            btn.classList.remove('bg-indigo-100', 'text-indigo-700', 'border-indigo-300');
+            btn.classList.add('bg-gray-100', 'text-gray-700', 'border-gray-300');
+          }
+        });
+        // Add selection to clicked button
+        this.classList.remove('bg-gray-100', 'text-gray-700', 'border-gray-300');
+        this.classList.add('bg-indigo-100', 'text-indigo-700', 'border-indigo-300');
+      });
+    }
+  });
+});
+</script>
