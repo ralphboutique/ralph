@@ -1,79 +1,352 @@
-<div class="w-full relative shadow-lg py-12 mb-16">
-  <img src="<%= asset_path('c.jpg') %>" alt="Background" class="w-full md:h-auto h-56 shadow-lg opacity-95">
-  <div class="absolute inset-0 flex flex-col items-center z-8 text-center"> 
-    <div class="w-full md:w-auto  mt-10">  
-      <div class="font-bold text-2xl sm:text-3xl md:text-6xl font-serif text-black mt-3 mb-4 pt-36">
-        LET'S SHOP
+<!-- Hero Section Modernizado -->
+<div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background con gradiente -->
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900"></div>
+  
+  <!-- Imagen de fondo con overlay -->
+  <img src="<%= asset_path('c.jpg') %>" alt="Background" class="absolute inset-0 w-full h-full object-cover opacity-20">
+  
+  <!-- Elementos decorativos flotantes -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+  <div class="absolute top-20 right-10 w-72 h-72 bg-cyan-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+  <div class="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+  
+  <!-- Contenido principal -->
+  <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Título principal con efecto de escritura -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
+        <span class="bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent animate-pulse">
+          RALPH
+        </span>
+        <br>
+        <span class="text-white typing-effect">BOUTIQUE</span>
+      </h1>
+      
+      <!-- Subtítulo -->
+      <p class="text-xl sm:text-2xl text-gray-300 mb-8 font-light animate-fade-in-up">
+        Descubre la elegancia en cada detalle
+      </p>
+      
+      <!-- Botones de acción -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <%= link_to products_path, class: "group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" do %>
+          <span class="relative z-10">Explorar Colección</span>
+          <i class="fa-solid fa-arrow-right ml-2 transition-transform group-hover:translate-x-2"></i>
+          <div class="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <% end %>
+        
+        <a href="#categorias" class="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
+          Ver Categorías
+          <i class="fa-solid fa-chevron-down ml-2"></i>
+        </a>
       </div>
-          <%= link_to products_path, class:"heart-btn inline-flex items-center bg-black text-white font-semibold py-1 px-4 rounded hover:bg-blue-900 mt-4 text-sm md:text-base" do %>
-       Descubre nuestra colección <i class="fa-solid fa-arrow-right pl-2"></i>
-      <% end %>
+    </div>
+  </div>
+  
+  <!-- Indicador de scroll -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+      <div class="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
     </div>
   </div>
 </div>
 
-<!-- Services Section -->
-<section id="servicios" class="flex flex-col sm:flex-row  justify-center sm:space-x-28 py-12 bg-black my-16" style="box-shadow: 0 -4px 6px -1px rgba(240, 230, 140, 0.5), 0 4px 6px -1px rgba(240, 230, 140, 0.5);">
-  <div class="text-center mb-8 sm:mb-0 text-white">
-    <i class="fa fa-headset fa-2x text-white"></i>
-    <h3 class="font-bold mt-2">ATENCION ACTIVA</h3>
-    <p class="text-gray-300">Horario 8:00 am a 6:00pm.</p>
-  </div>
-  <div class="text-center mb-8 sm:mb-0 text-white">
-    <i class="fa fa-undo fa-2x text-white"></i>
-    <h3 class="font-bold mt-2">CONTACTANOS</h3>
-    <div class="flex justify-center space-x-4">
-      <a href="https://facebook.com" target="_blank" class="text-blue-700">
-        <i class="fa-brands fa-facebook"></i>
-      </a>
-      <a href="https://instagram.com/ralaccesorioscute/" target="_blank" class="text-pink-700">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
-      <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" class="text-white">
-        <i class="fa-brands fa-tiktok"></i>
-      </a>
-      <a  href="https://api.whatsapp.com/send?phone=+584246454418&text=<%= "Hola, quisiera tener mas informacion"%>" target="_blank" class="text-green-700">
-        <i class="fa-brands fa-whatsapp"></i>
-      </a>
-      <a href="https://t.me/tu_usuario" target="_blank" class="text-blue-500">
-        <i class="fa-brands fa-telegram"></i>
-      </a>
+<!-- Sección de Categorías Destacadas -->
+<section id="categorias" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        Explora por
+        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Categorías
+        </span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Descubre nuestra selección cuidadosamente curada para cada ocasión
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @categories.limit(6).each_with_index do |category, index| %>
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-fade-in-up" style="animation-delay: <%= index * 0.1 %>s;">
+          <!-- Imagen de categoría (puedes agregar imágenes específicas por categoría) -->
+          <div class="h-64 bg-gradient-to-br from-blue-400 via-cyan-400 to-indigo-400 relative overflow-hidden">
+            <!-- Patrón decorativo -->
+            <div class="absolute inset-0 bg-black opacity-20 group-hover:opacity-10 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <i class="fas fa-tags text-6xl text-white opacity-80"></i>
+            </div>
+            <!-- Badge de productos -->
+            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold text-gray-800">
+              <%= category.articles.where(status: "active").count %> productos
+            </div>
+          </div>
+          
+          <!-- Contenido -->
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+              <%= category.title.upcase %>
+            </h3>
+            <p class="text-gray-600 mb-4 text-sm">
+              Descubre las últimas tendencias en <%= category.title.downcase %>
+            </p>
+            
+            <%= link_to products_path(category_id: category.id), 
+                class: "inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors duration-300 group-hover:translate-x-2 transform transition-transform" do %>
+              Explorar categoría
+              <i class="fa-solid fa-arrow-right ml-2"></i>
+            <% end %>
+          </div>
+          
+          <!-- Efecto hover -->
+          <div class="absolute inset-0 bg-gradient-to-t from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        </div>
+      <% end %>
+    </div>
+    
+    <!-- Ver todas las categorías -->
+    <div class="text-center mt-12">
+      <%= link_to categories_path, 
+          class: "inline-flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-full hover:shadow-lg transform transition-all duration-300 hover:scale-105" do %>
+        Ver todas las categorías
+        <i class="fa-solid fa-chevron-right ml-2"></i>
+      <% end %>
     </div>
   </div>
-  <div class="text-center text-white ">
-    <i class="fa fa-truck fa-2x text-white"></i>
-    <h3 class="font-bold mt-2">ENVIOS</h3>
-    <p class="text-gray-300">Envios a todo el territorio Nacional</p>
-  </div>
 </section>
-<!-- Featured Products Section -->
-<section class="pt-10 pb-32 md:px-20  mx-4 lg:mx-10 ">
-  <h2 class="ml-5 text-sm font-bold italic mb-5 text-gray-600">NOVEDADES</h2>
-  <hr>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-    <% @last_articles.each do |article| %>
-      <div class="bg-white p-4 rounded-tr-lg shadow-2xl mt-8  hover:shadow-lg hover:grow">
-        <% if article.attachment.attached? %>
-          <%= image_tag article.attachment, class: "w-full h-64  object-cover mb-4" %>
-        <% else %>
-          <p class="text-gray-500">No image available</p> <!-- Mensaje de imagen no disponible -->
-        <% end %>
-        
-        <h3 class="font-bold text-sm  mb-2 text-gray-500"><%=article.title.upcase%></h3>
-        <p class="text-gray-500"><%= number_to_currency(article.price) %></p>
-        
-        <div>
-          <%= link_to 'ver más', details_path(id: article.id, query: params[:query], category_id: article.category_id), class: 'block px-2 py-2 hover:text-orange-900 hover:text-lg w-20P' %>
-        </div>
 
-        <div class="flex justify-between items-center mt-3">
-          <span class="text-yellow-500">★★★★☆</span>
-          <a class="bg-white text-blue-800 px-2 py-1 rounded heart-btn" href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}. Aquí está la imagen: https://ralphboutique.onrender.com/Ralp_boutque/product/detail/#{article.id}?category_id=#{article.category_id}" %>" target="_blank">
-            Comprar Ahora
+<!-- Services Section Modernizada -->
+<section id="servicios" class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header de la sección -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        Nuestros
+        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Servicios
+        </span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Comprometidos con brindarte la mejor experiencia de compra
+      </p>
+    </div>
+    
+    <!-- Grid de servicios -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Atención Activa -->
+      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 text-center">
+        <!-- Icono con fondo -->
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa fa-headset text-2xl text-white"></i>
+        </div>
+        
+        <!-- Contenido -->
+        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+          ATENCIÓN ACTIVA
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Horario de atención personalizada
+        </p>
+        <div class="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full text-blue-700 font-semibold text-sm">
+          <i class="fas fa-clock mr-2"></i>
+          8:00 AM - 6:00 PM
+        </div>
+        
+        <!-- Efecto decorativo -->
+        <div class="absolute inset-0 bg-gradient-to-t from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
+      </div>
+      
+      <!-- Contactanos -->
+      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 text-center">
+        <!-- Icono con fondo -->
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa fa-comments text-2xl text-white"></i>
+        </div>
+        
+        <!-- Contenido -->
+        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+          CONTÁCTANOS
+        </h3>
+        <p class="text-gray-600 mb-6">
+          Síguenos en nuestras redes sociales
+        </p>
+        
+        <!-- Redes sociales modernizadas -->
+        <div class="flex justify-center space-x-3">
+          <a href="https://facebook.com" target="_blank" 
+             class="flex items-center justify-center w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+            <i class="fa-brands fa-facebook text-sm"></i>
+          </a>
+          <a href="https://instagram.com/ralaccesorioscute/" target="_blank" 
+             class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+            <i class="fa-brands fa-instagram text-sm"></i>
+          </a>
+          <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" 
+             class="flex items-center justify-center w-10 h-10 bg-gray-900 hover:bg-black text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+            <i class="fa-brands fa-tiktok text-sm"></i>
+          </a>
+          <a href="https://api.whatsapp.com/send?phone=+584246454418&text=<%= "Hola, quisiera tener mas informacion"%>" target="_blank" 
+             class="flex items-center justify-center w-10 h-10 bg-green-500 hover:bg-green-600 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+          </a>
+          <a href="https://t.me/tu_usuario" target="_blank" 
+             class="flex items-center justify-center w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+            <i class="fa-brands fa-telegram text-sm"></i>
           </a>
         </div>
+        
+        <!-- Efecto decorativo -->
+        <div class="absolute inset-0 bg-gradient-to-t from-indigo-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
       </div>
-    <% end %>
+      
+      <!-- Envíos -->
+      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 text-center">
+        <!-- Icono con fondo -->
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa fa-truck text-2xl text-white"></i>
+        </div>
+        
+        <!-- Contenido -->
+        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300">
+          ENVÍOS
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Llevamos tus productos a cualquier parte del país
+        </p>
+        <div class="inline-flex items-center px-4 py-2 bg-green-50 rounded-full text-green-700 font-semibold text-sm">
+          <i class="fas fa-map-marker-alt mr-2"></i>
+          Todo el territorio nacional
+        </div>
+        
+        <!-- Efecto decorativo -->
+        <div class="absolute inset-0 bg-gradient-to-t from-green-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
+      </div>
+    </div>
+    
+    <!-- Llamada a la acción adicional -->
+    <div class="text-center mt-16">
+      <div class="inline-flex items-center px-6 py-3 bg-white border-2 border-blue-200 rounded-full text-blue-700 font-semibold hover:bg-blue-50 transition-all duration-300">
+        <i class="fas fa-phone mr-2"></i>
+        ¿Necesitas ayuda? Contáctanos ahora
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Featured Products Section Modernizada -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header de la sección -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-800 font-semibold text-sm mb-4">
+        <i class="fas fa-star mr-2"></i>
+        NUEVOS ARRIVALS
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        Productos
+        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Destacados
+        </span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Las últimas adiciones a nuestra colección exclusiva
+      </p>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <% @last_articles.each_with_index do |article, index| %>
+        <div class="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 animate-fade-in-up" style="animation-delay: <%= index * 0.1 %>s;">
+          <!-- Imagen del producto -->
+          <div class="relative overflow-hidden aspect-square">
+            <% if article.attachment.attached? %>
+              <%= image_tag article.attachment, class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" %>
+            <% else %>
+              <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                <i class="fas fa-image text-4xl text-gray-400"></i>
+              </div>
+            <% end %>
+            
+            <!-- Overlay con botones -->
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <div class="flex space-x-3">
+                <%= link_to details_path(id: article.id, category_id: article.category_id), 
+                    class: "flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full text-gray-800 hover:bg-white transition-all duration-300 transform hover:scale-110" do %>
+                  <i class="fas fa-eye"></i>
+                <% end %>
+                
+                <a href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= "Hola, estoy interesado en el producto #{article.title} que cuesta $#{article.price}" %>" 
+                   target="_blank"
+                   class="flex items-center justify-center w-12 h-12 bg-green-500 rounded-full text-white hover:bg-green-600 transition-all duration-300 transform hover:scale-110">
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Badge de nuevo -->
+            <div class="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+              NUEVO
+            </div>
+            
+            <!-- Badge de precio -->
+            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-sm font-bold">
+              <%= number_to_currency(article.price) %>
+            </div>
+          </div>
+          
+          <!-- Información del producto -->
+          <div class="p-6">
+            <!-- Categoría -->
+            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-2">
+              <%= article.category.title %>
+            </div>
+            
+            <!-- Título -->
+            <h3 class="font-bold text-lg text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+              <%= article.title %>
+            </h3>
+            
+            <!-- Rating -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <div class="flex text-yellow-400">
+                  <% 5.times do |i| %>
+                    <i class="fas fa-star <%= i < 4 ? 'text-yellow-400' : 'text-gray-200' %>"></i>
+                  <% end %>
+                </div>
+                <span class="text-sm text-gray-500 ml-2">(4.0)</span>
+              </div>
+              
+              <!-- Colors disponibles -->
+              <div class="flex space-x-1">
+                <% article.article_colors.limit(3).each do |color| %>
+                  <div class="w-3 h-3 rounded-full border border-gray-300" style="background-color: <%= color.color_hex %>"></div>
+                <% end %>
+              </div>
+            </div>
+            
+            <!-- Botón de acción -->
+            <%= link_to details_path(id: article.id, category_id: article.category_id), 
+                class: "w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transform transition-all duration-300 hover:scale-105 group-hover:from-indigo-600 group-hover:to-blue-600" do %>
+              <span>Ver Detalles</span>
+              <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+            <% end %>
+          </div>
+          
+          <!-- Efecto de brillo -->
+          <div class="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        </div>
+      <% end %>
+    </div>
+    
+    <!-- Botón ver más productos -->
+    <div class="text-center mt-16">
+      <%= link_to products_path, 
+          class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-full hover:shadow-xl transform transition-all duration-300 hover:scale-105" do %>
+        Ver Toda la Colección
+        <i class="fas fa-arrow-right ml-2"></i>
+      <% end %>
+    </div>
   </div>
 </section>
 <%= render 'shared/footer'%>

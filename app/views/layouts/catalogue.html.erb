@@ -158,7 +158,7 @@
   .slide-in-bottom {
     animation: slideInBottom 2.5s ease-out forwards infinite;
   }
-@keyframes fadeIn {
+  @keyframes fadeIn {
   0% {
     opacity: 0;
     transform: translateY(40px);
@@ -175,6 +175,90 @@
 
 .fade-in {
   animation: fadeIn 6s ease-in-out infinite;
+}
+
+/* Nuevas animaciones modernas */
+@keyframes blob {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+@keyframes typing-effect {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.7;
+  }
+}
+
+.typing-effect {
+  animation: typing-effect 2s ease-in-out infinite;
+}
+
+/* Utilidades adicionales */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Efectos de hover modernos */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+.group:hover .group-hover\:translate-x-1 {
+  transform: translateX(0.25rem);
+}
+
+.group:hover .group-hover\:translate-x-2 {
+  transform: translateX(0.5rem);
+}
+
+/* Backdrop blur para navegadores que no lo soporten */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 </style>
