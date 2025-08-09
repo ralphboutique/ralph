@@ -23,9 +23,12 @@ bundle exec rails assets:clean
 
 # DEBUG: Mostrar variables de entorno relevantes
 echo "=== DEBUG: Environment Variables ==="
-echo "DATABASE_URL: ${DATABASE_URL:0:80}..."
-echo "RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:0:20}..."
-echo "SECRET_KEY_BASE: ${SECRET_KEY_BASE:0:20}..."
+echo "DATABASE_URL length: ${#DATABASE_URL}"
+echo "DATABASE_URL first 50 chars: ${DATABASE_URL:0:50}"
+echo "RAILS_MASTER_KEY length: ${#RAILS_MASTER_KEY}"
+echo "RAILS_MASTER_KEY first 20 chars: ${RAILS_MASTER_KEY:0:20}"
+echo "SECRET_KEY_BASE length: ${#SECRET_KEY_BASE}"
+echo "SECRET_KEY_BASE first 20 chars: ${SECRET_KEY_BASE:0:20}"
 echo "RAILS_ENV: $RAILS_ENV"
 echo "===================================="
 
