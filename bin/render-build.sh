@@ -23,11 +23,20 @@ bundle exec rails assets:clean
 
 # Verificar conexión a la base de datos antes de migrar
 echo "Checking database connection..."
+echo "DATABASE_URL: ${DATABASE_URL:0:50}..." # Solo mostrar primeros 50 caracteres por seguridad
+
 if [ -n "$DATABASE_URL" ]; then
   echo "DATABASE_URL is set, proceeding with database setup..."
+  
+  # Verificar que la base de datos sea accesible
+  echo "Testing database connection..."
+  bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" || echo "DB connection test failed but continuing..."
+  
   bundle exec rails db:create
   bundle exec rails db:migrate
   bundle exec rails db:seed
 else
-  echo "WARNING: DATABASE_URL not set, skipping database setup"
+  echo "ERROR: DATABASE_URL not set!"
+  echo "Available environment variables:"
+  env | grep -E "(DATABASE|PG)" || echo "No database environment variables found"
 fi

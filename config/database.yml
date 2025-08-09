@@ -81,4 +81,10 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+  # Configuración de respaldo para Render
+  host: <%= ENV['PGHOST'] || 'localhost' %>
+  port: <%= ENV['PGPORT'] || 5432 %>
+  database: <%= ENV['PGDATABASE'] || 'ralph_boutique_production' %>
+  username: <%= ENV['PGUSER'] || 'postgres' %>
+  password: <%= ENV['PGPASSWORD'] %>
   # Force clean deploy - Render database connection
