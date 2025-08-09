@@ -39,11 +39,22 @@ if [ -n "$DATABASE_URL" ]; then
   echo "Testing database connection..."
   bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" || echo "DB connection test failed but continuing..."
   
-  bundle exec rails db:create
-  bundle exec rails db:migrate
-  bundle exec rails db:seed
+  echo "Running db:create..."
+  bundle exec rails db:create || echo "db:create failed - database might already exist"
+  
+  echo "Running db:migrate..."
+  bundle exec rails db:migrate || {
+    echo "MIGRATION FAILED! Checking migration status..."
+    bundle exec rails db:version || echo "Could not check db version"
+    bundle exec rails db:migrate:status || echo "Could not check migration status"
+    exit 1
+  }
+  
+  echo "Running db:seed..."
+  bundle exec rails db:seed || echo "db:seed failed but continuing..."
 else
   echo "ERROR: DATABASE_URL not set!"
   echo "Available environment variables:"
   env | grep -E "(DATABASE|PG|RAILS)" || echo "No database environment variables found"
+  exit 1
 fi
