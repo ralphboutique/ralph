@@ -1,7 +1,11 @@
 class CatalogueController < ApplicationController
 	def index
 		@categories = Category.all
-		@last_articles = Article.last(8)
+		@last_articles = Article.limit(8).order(created_at: :desc)
+	rescue => e
+		Rails.logger.error "Error in catalogue#index: #{e.message}"
+		@categories = []
+		@last_articles = []
 	end
 	def products
 		@category_id = params[:category_id]

@@ -45,3 +45,25 @@ User.find_or_create_by(username: 'admin') do |user|
   user.role_id = rol_admin.id
   user.status = 'active'
 end
+
+# 6. Crear categorías de ejemplo
+categorias_ejemplo = [
+  "Vestidos",
+  "Blusas", 
+  "Pantalones",
+  "Zapatos",
+  "Accesorios"
+]
+
+categorias_ejemplo.each do |cat_name|
+  Category.find_or_create_by(title: cat_name)
+end
+
+# 7. Crear almacén de ejemplo
+warehouse = Warehouse.find_or_create_by(title: "Almacén Principal")
+
+# 8. Crear tallas de ejemplo
+tallas_ejemplo = ["XS", "S", "M", "L", "XL", "XXL"]
+tallas_ejemplo.each do |size_name|
+  Size.find_or_create_by(title: size_name)
+end
