@@ -32,7 +32,8 @@ Rails.application.routes.draw do
   get 'search/warehouses', to: 'sizes#search', as: 'search_size'
 
   get '/articles', to: 'articles#index', as: 'index'
-  get '/admin', to: 'articles#dashboard', as: 'admin'
+  get '/admin', to: 'admin#index', as: 'admin'
+  get '/dashboard', to: 'articles#dashboard', as: 'dashboard' # Ruta protegida para usuarios autenticados
   get 'article/new', to: 'articles#new', as: 'new'
   post 'article/create', to: 'articles#create', as: 'create'
   delete 'article/:id/delete', to: 'articles#destroy', as: 'delete_article'

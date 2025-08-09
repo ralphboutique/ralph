@@ -1,16 +1,9 @@
 class CatalogueController < ApplicationController
 	def index
-		Rails.logger.info "DATABASE_URL present: #{ENV['DATABASE_URL'].present?}"
-		Rails.logger.info "Database config: #{ActiveRecord::Base.connection_config}"
-		
 		@categories = Category.all
 		@last_articles = Article.limit(8).order(created_at: :desc)
-		
-		Rails.logger.info "Categories found: #{@categories.count}"
-		Rails.logger.info "Articles found: #{@last_articles.count}"
 	rescue => e
 		Rails.logger.error "Error in catalogue#index: #{e.message}"
-		Rails.logger.error "Backtrace: #{e.backtrace.first(5).join("\n")}"
 		@categories = []
 		@last_articles = []
 	end
