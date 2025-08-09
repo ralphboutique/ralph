@@ -1,8 +1,0 @@
-[phases.setup]
-nixPkgs = ['nodejs', 'npm']
-
-[phases.build]
-cmds = [
-  'bundle install',
-  'bundle exec rails assets:precompile'
-]
