@@ -99,4 +99,9 @@ Rails.application.configure do
   
   # Fallback para secret_key_base si no se puede leer desde credentials
   config.secret_key_base = Rails.application.credentials.secret_key_base || ENV['SECRET_KEY_BASE'] || ENV['RAILS_MASTER_KEY']
+  
+  # Optimizaciones para Render
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.log_level = :info
+  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 end
