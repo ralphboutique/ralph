@@ -16,7 +16,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: ralph_boutique_7fji
+          name: ralph
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false

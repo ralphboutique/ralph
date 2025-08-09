@@ -21,9 +21,16 @@ bundle exec rails assets:clean
 # If you're using a Free instance type, you need to
 # perform database migrations in the build command.
 
+# DEBUG: Mostrar variables de entorno relevantes
+echo "=== DEBUG: Environment Variables ==="
+echo "DATABASE_URL: ${DATABASE_URL:0:80}..."
+echo "RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:0:20}..."
+echo "SECRET_KEY_BASE: ${SECRET_KEY_BASE:0:20}..."
+echo "RAILS_ENV: $RAILS_ENV"
+echo "===================================="
+
 # Verificar conexión a la base de datos antes de migrar
 echo "Checking database connection..."
-echo "DATABASE_URL: ${DATABASE_URL:0:50}..." # Solo mostrar primeros 50 caracteres por seguridad
 
 if [ -n "$DATABASE_URL" ]; then
   echo "DATABASE_URL is set, proceeding with database setup..."
@@ -38,5 +45,5 @@ if [ -n "$DATABASE_URL" ]; then
 else
   echo "ERROR: DATABASE_URL not set!"
   echo "Available environment variables:"
-  env | grep -E "(DATABASE|PG)" || echo "No database environment variables found"
+  env | grep -E "(DATABASE|PG|RAILS)" || echo "No database environment variables found"
 fi

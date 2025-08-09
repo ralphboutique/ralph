@@ -80,14 +80,5 @@ test:
 
 production:
   <<: *default
-  # Configuración específica para Render con datos de tu base de datos
-  adapter: postgresql
-  encoding: unicode
-  host: dpg-d2bngpidbo4c73b1bud0-a
-  port: 5432
-  database: ralph_boutique_7fji
-  username: ralph_boutique_7fji_user
-  password: txMh8mWlfYgELc6240yjlAJzQf8O44nB
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  # Fallback a DATABASE_URL si las variables individuales fallan
-  url: <%= ENV['DATABASE_URL'] if ENV['DATABASE_URL'].present? %>
+  # Usar DATABASE_URL desde Render (conectada a la base de datos 'ralph')
+  url: <%= ENV['DATABASE_URL'] %>
