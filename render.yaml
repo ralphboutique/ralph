@@ -1,6 +1,6 @@
 databases:
   - name: ralph_boutique
-    databaseName: ralph_boutique_io3n
+    databaseName: ralph_boutique_7fji
     user: ralph_boutique
     plan: free
 
@@ -15,7 +15,7 @@ services:
 
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
+        fromDatabase: ralph_boutique_7fji
           name: ralph_boutique
           property: connectionString
       - key: RAILS_MASTER_KEY
