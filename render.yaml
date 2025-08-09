@@ -1,7 +1,7 @@
 databases:
-  - name: ralph_boutique
+  - name: ralph_boutique_7fji
     databaseName: ralph_boutique_7fji
-    user: ralph_boutique
+    user: ralph_boutique_7fji_user
     plan: free
 
 services:
@@ -15,8 +15,8 @@ services:
 
     envVars:
       - key: DATABASE_URL
-        fromDatabase: ralph_boutique_7fji
-          name: ralph_boutique
+        fromDatabase:
+          name: ralph_boutique_7fji
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
