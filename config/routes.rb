@@ -59,13 +59,17 @@ Rails.application.routes.draw do
   patch '/user/:id/toggle_status', to: 'user#toggle_status', as: 'toggle_status_user'
 
   # this routes are used for catalogue
-  get '/ralpboutique', to: 'catalogue#index', as: 'catalogue'
-  get 'Ralp_boutque/categories', to: 'catalogue#categories', as: 'categories'
-  get 'Ralp_boutque/products', to: 'catalogue#products', as: 'products'
-  get 'Ralp_boutque/product/detail/:id', to: 'catalogue#details', as: 'details'
-  get '/cart', to: 'cart#show'
-  post '/cart/add', to: 'cart#add_item'
-  delete '/cart/remove', to: 'cart#remove_item'
+  get '/ggstore', to: 'catalogue#index', as: 'catalogue'
+  get 'ggstore/categories', to: 'catalogue#categories', as: 'categories'
+  get 'ggstore/products', to: 'catalogue#products', as: 'products'
+  get 'ggstore/product/detail/:id', to: 'catalogue#details', as: 'details'
+  # Carrito de compras
+  get '/cart', to: 'cart#show', as: 'cart'
+  post '/cart/add', to: 'cart#add_item', as: 'add_to_cart'
+  delete '/cart/remove/:cart_item_id', to: 'cart#remove_item', as: 'remove_from_cart'
+  patch '/cart/update/:cart_item_id', to: 'cart#update_quantity', as: 'update_cart_quantity'
+  delete '/cart/clear', to: 'cart#clear', as: 'clear_cart'
+  post '/cart/checkout_whatsapp', to: 'cart#checkout_whatsapp', as: 'checkout_whatsapp'
 
   get '/roles', to: 'roles#show', as: 'show_roles'
   get 'roles/new', to: 'roles#new', as: 'new_roles'

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RalphBoutique</title>
+    <title>GG Store</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,40 +11,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
   <body class="min-h-screen">
-    <nav class=" bg-white border-1 border-black shadow-2xl font-sans w-full fixed top-0 z-10">
+    <nav class="bg-gradient-to-r from-purple-900 via-purple-800 to-black shadow-2xl font-sans w-full fixed top-0 z-10 backdrop-blur-sm">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse mt-1">
-            <%= image_tag "logo_ralph.png", alt: "Ralph_Boutique", class: "w-26 h-20"%>
+            <%= image_tag "GG Store 00 Logo-02.png", alt: "GG_Store", class: "w-26 h-20"%>
         </a>
-        <button data-collapse-toggle="navbar-multi-level" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-pink-300" aria-controls="navbar-multi-level" aria-expanded="false">
+        <button data-collapse-toggle="navbar-multi-level" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-purple-300 hover:bg-purple-800 transition-colors duration-200" aria-controls="navbar-multi-level" aria-expanded="false">
             <span class="sr-only">menu</span>
             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
         </button>
         <div class="hidden w-full md:block md:w-auto" id="navbar-multi-level">
-          <ul class="flex flex-col font-medium  border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 ">
+          <ul class="flex flex-col font-medium bg-purple-900 md:bg-transparent border border-purple-700 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
             <li>
-              <%= link_to catalogue_path, class: "block pb-3 px-3 text-gray-600 border-b-2 border-white hover:border-b-2 hover:text-blue-900 md:bg-transparent md:text-gray-600  md:p-0 hover:border-orange-600 transition ease-in duration-700", aria: { current: "page" } do %>
+              <%= link_to catalogue_path, class: "block pb-3 px-3 text-white border-b-2 border-transparent hover:border-b-2 hover:text-purple-300 md:bg-transparent md:text-white md:p-0 hover:border-purple-400 transition ease-in duration-300", aria: { current: "page" } do %>
                 <i class="fa-solid fa-house"></i> Inicio
                 
               <% end %>
             </li>
             <li>
-               <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2  px-3 text-gray-600  hover:border-b-2 hover:border-orange-500 md:hover:bg-transparent border-b-2 border-white md:hover:text-blue-900 md:p-0 md:w-auto transition ease-in duration-700">
+               <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-white hover:border-b-2 hover:border-purple-400 md:hover:bg-transparent border-b-2 border-transparent md:hover:text-purple-300 md:p-0 md:w-auto transition ease-in duration-300">
                 Categorias 
                 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                 </svg>
               </button>
-              <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-auto">
-                <div class="grid  md:grid-cols-3 gap-y-4 gap-x-6 py-6 px-6 text-sm text-gray-600 text-left">
+              <div id="dropdownNavbar" data-controller="category-select" class="z-10 mt-20 hidden font-normal bg-gradient-to-br from-purple-900 to-black divide-y divide-purple-700 rounded-lg shadow-2xl w-auto border border-purple-600">
+                <div class="grid md:grid-cols-3 gap-y-4 gap-x-6 py-6 px-6 text-sm text-gray-300 text-left">
                   <% @categories.each_slice(5) do |category_group| %>
                     <ul class="space-y-4">
                       <% category_group.each do |category| %>
                         <li>
                           <%= link_to category.title.upcase, products_path(query: params[:query], category_id: category.id),
-                            class: 'block px-2 text-gray-600 hover:text-gray-900 hover:font-semibold transition-all duration-200' %>
+                            class: 'block px-2 text-gray-300 hover:text-purple-300 hover:font-semibold transition-all duration-200' %>
                         </li>
                       <% end %>
                     </ul>
@@ -54,10 +54,10 @@
             </li>
             <% if @last_articles.present? %>
             <li>
-              <a href="#servicios" class="block border-b-2 border-white py-2 px-3 text-gray-600  hover:border-b-2 hover:border-orange-500 hover:bg-blue-900 md:hover:bg-transparent  md:hover:text-blue-900 md:p-0 transition ease-in duration-700">Servicios <i class="fa-solid fa-headphones"></i></a>
+              <a href="#servicios" class="block border-b-2 border-transparent py-2 px-3 text-white hover:border-b-2 hover:border-purple-400 hover:bg-purple-800 md:hover:bg-transparent md:hover:text-purple-300 md:p-0 transition ease-in duration-300">Servicios <i class="fa-solid fa-headphones ml-1"></i></a>
             </li>
             <li>
-              <a href="#contacto" class="block border-b-2 border-white py-2 px-3 text-gray-600 hover:border-b-2 hover:border-orange-500 hover:bg-blue-900 md:hover:bg-transparent  md:hover:text-blue-900 md:p-0 transition ease-in duration-700 ">Contacto <i class="fa-solid fa-user"></i></a>
+              <a href="#contacto" class="block border-b-2 border-transparent py-2 px-3 text-white hover:border-b-2 hover:border-purple-400 hover:bg-purple-800 md:hover:bg-transparent md:hover:text-purple-300 md:p-0 transition ease-in duration-300">Contacto <i class="fa-solid fa-user ml-1"></i></a>
             </li>
             <%end%>
           </ul>

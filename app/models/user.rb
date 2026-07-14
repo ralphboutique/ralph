@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_and_belongs_to_many :warehouses  
   has_many :sales
+  has_many :carts, dependent: :destroy
   belongs_to :role
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }

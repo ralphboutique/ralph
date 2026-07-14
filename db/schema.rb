@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_08_200251) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,32 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_200251) do
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_articles_sizes_on_article_id"
     t.index ["size_id"], name: "index_articles_sizes_on_size_id"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.bigint "article_id", null: false
+    t.integer "quantity", default: 1
+    t.decimal "price", precision: 10, scale: 2
+    t.string "size"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_cart_items_on_article_id"
+    t.index ["cart_id", "article_id"], name: "index_cart_items_on_cart_id_and_article_id"
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "session_id", null: false
+    t.decimal "total", precision: 10, scale: 2, default: "0.0"
+    t.string "status", default: "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_carts_on_session_id"
+    t.index ["user_id", "status"], name: "index_carts_on_user_id_and_status"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -175,6 +201,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_200251) do
   add_foreign_key "articles_colors", "articles"
   add_foreign_key "articles_sizes", "articles"
   add_foreign_key "articles_sizes", "sizes"
+  add_foreign_key "cart_items", "articles"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "carts", "users"
   add_foreign_key "role_permissions", "areas"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"

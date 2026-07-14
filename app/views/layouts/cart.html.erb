@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RalphBoutique</title>
+    <title>GG Store</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen" data-turbo-track="reload">
     <nav class=" bg-white border-1 border-black shadow-2xl font-sans w-full fixed top-0 z-10">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse mt-1">
-            <%= image_tag "logo_ralph.png", alt: "Ralph_Boutique", class: "w-26 h-20"%>
+            <%= image_tag "GG Store 00 Logo-02.png", alt: "GG_Store", class: "w-26 h-20"%>
         </a>
         <button data-collapse-toggle="navbar-multi-level" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-pink-300" aria-controls="navbar-multi-level" aria-expanded="false">
             <span class="sr-only">menu</span>
@@ -55,6 +55,37 @@
             </li>
             <li>
               <a href="#" class="block py-2 px-3 text-black rounded hover:border-b-2 hover:border-black hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Contacto <i class="fa-solid fa-user"></i></a>
+            </li>
+            <li>
+              <%= link_to cart_path, class: "block py-2 px-3 text-black rounded hover:border-b-2 hover:border-black hover:bg-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 relative" do %>
+                <i class="fa-solid fa-shopping-cart"></i> Carrito
+                <% 
+                  current_cart = nil
+                  begin
+                    if user_signed_in?
+                      current_cart = current_user.carts.active.first_or_create!(
+                        session_id: session.id.to_s,
+                        status: 'active'
+                      )
+                    else
+                      current_cart = Cart.for_session(session.id.to_s).active.first_or_create!(
+                        session_id: session.id.to_s,
+                        status: 'active'
+                      )
+                    end
+                  rescue
+                    # En caso de error, mostrar 0
+                  end
+                  
+                  cart_count = current_cart&.total_items || 0
+                %>
+                
+                <% if cart_count > 0 %>
+                  <span class="cart-counter absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    <%= cart_count %>
+                  </span>
+                <% end %>
+              <% end %>
             </li>
           </ul>
         </div>
