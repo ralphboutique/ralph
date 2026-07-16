@@ -1,5 +1,11 @@
 <!-- Product Detail Container -->
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 py-8"
+     data-controller="cart"
+     data-cart-id-value="<%= @article.id %>"
+     data-cart-title-value="<%= @article.title %>"
+     data-cart-price-value="<%= @article.price %>"
+     data-cart-image-value="<%= @article.attachment.attached? ? url_for(@article.attachment) : '' %>"
+     data-cart-link-value="<%= request.original_url %>">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Back Button -->
@@ -18,11 +24,28 @@
       <div class="lg:grid lg:grid-cols-2">
         
         <!-- Product Image Section -->
-        <div class="relative bg-gray-100">
+        <div class="relative bg-gray-100 group">
           <div class="aspect-w-1 aspect-h-1 h-96 lg:h-full">
-            <%= image_tag @article.attachment, 
-                class: "w-full h-full object-center object-cover hover:scale-105 transition-transform duration-500",
-                alt: @article.title %>
+            <a href="<%= url_for(@article.attachment) %>" 
+               data-fancybox="product-gallery" 
+               data-caption="<%= @article.title %>"
+               data-turbo="false"
+               class="block w-full h-full">
+              <%= image_tag @article.attachment, 
+                  class: "w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-500",
+                  alt: @article.title %>
+            </a>
+          </div>
+          
+          <!-- Zoom icon overlay -->
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-20 cursor-pointer">
+            <a href="<%= url_for(@article.attachment) %>" 
+               data-fancybox="product-gallery" 
+               data-caption="<%= @article.title %>"
+               data-turbo="false"
+               class="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors">
+              <i class="fas fa-search-plus text-gray-700 text-lg"></i>
+            </a>
           </div>
           
           <!-- Availability Badge -->
@@ -35,7 +58,7 @@
           
           <!-- Stock Badge -->
           <div class="absolute top-4 right-4">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 shadow-sm">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-700 shadow-sm">
               <i class="fas fa-box mr-1"></i>
               <%= @article.quantity %> en stock
             </span>
@@ -105,6 +128,7 @@
                   <% @article.article_colors.each_with_index do |article_color, index| %>
                     <button class="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             style="background-color: <%= article_color.color_hex %>;"
+                            data-color-hex="<%= article_color.color_hex %>"
                             title="Color <%= index + 1 %>">
                     </button>
                   <% end %>
@@ -141,6 +165,7 @@
                          value="1" 
                          min="1" 
                          max="<%= @article.quantity %>"
+                         data-quantity-input="true"
                          class="w-16 py-2 text-center border-0 focus:outline-none focus:ring-0">
                   <button type="button" 
                           class="px-4 py-2 text-gray-600 hover:text-gray-700 hover:bg-gray-50 transition-colors duration-200"
@@ -155,16 +180,31 @@
             </div>
           </div>
 
-          <!-- Action Buttons (matching catalog style) -->
-          <div class="space-y-4">
+          <!-- Action Buttons -->
+          <div class="space-y-3">
             
-            <!-- Main WhatsApp Button (like "Comprar Ahora" in catalog) -->
-            <a href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("🛍️ ¡Hola! Estoy interesado en:\n\n📦 Producto: #{@article.title}\n💰 Precio: $#{@article.price}\n🔗 Link: https://ggstore.onrender.com/product/detail/#{@article.id}?category_id=#{@article.category_id}\n\n¿Podrías darme más información?") %>" 
-               target="_blank"
-               class="w-full flex items-center justify-center px-6 py-4 text-white font-semibold bg-purple-600 hover:bg-purple-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-              <i class="fab fa-whatsapp text-xl mr-3"></i>
-              Comprar Ahora
-            </a>
+            <!-- Add to Cart Button -->
+            <button data-action="cart#add"
+                    class="w-full flex items-center justify-center px-6 py-4 text-white font-semibold bg-gray-900 hover:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+              <i class="fas fa-bag-shopping text-xl mr-3"></i>
+              Agregar al Carrito
+            </button>
+
+            <!-- Favorites + WhatsApp Row -->
+            <div class="flex gap-3">
+              <button data-action="cart#toggleFav"
+                      data-id="<%= @article.id %>"
+                      class="flex items-center justify-center px-4 py-4 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 flex-shrink-0">
+                <i class="far fa-heart text-xl"></i>
+              </button>
+
+              <a href="https://api.whatsapp.com/send?phone=+584121075579&text=<%= URI.encode_www_form_component("🛍️ ¡Hola! Estoy interesado en:\n\n📦 Producto: #{@article.title}\n💰 Precio: $#{@article.price}\n🔗 Link: #{details_url(id: @article.id, category_id: @article.category_id) rescue "https://ggstore.onrender.com/ggstore/product/detail/#{@article.id}"}\n\n¿Podrías darme más información?") %>" 
+                 target="_blank"
+                 class="flex-1 flex items-center justify-center px-6 py-4 text-white font-semibold bg-green-600 hover:bg-green-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                <i class="fab fa-whatsapp text-xl mr-3"></i>
+                Comprar Ahora
+              </a>
+            </div>
 
           </div>
 
@@ -174,12 +214,12 @@
             <div class="flex items-center space-x-4">
               <a href="https://facebook.com" 
                  target="_blank" 
-                 class="flex items-center justify-center w-10 h-10 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors duration-200">
+                 class="flex items-center justify-center w-10 h-10 text-white bg-rose-300 rounded-lg hover:bg-rose-400 transition-colors duration-200">
                 <i class="fab fa-facebook-f"></i>
               </a>
-              <a href="https://instagram.com/ralaccesorioscute/" 
+              <a href="https://instagram.com/ggstore_v/" 
                  target="_blank" 
-                 class="flex items-center justify-center w-10 h-10 text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
+                 class="flex items-center justify-center w-10 h-10 text-white bg-gradient-to-r from-rose-200 to-purple-300 rounded-lg hover:from-rose-400 hover:to-purple-400 transition-all duration-200">
                 <i class="fab fa-instagram"></i>
               </a>
               <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" 
@@ -189,7 +229,7 @@
               </a>
               <a href="https://t.me/tu_usuario" 
                  target="_blank" 
-                 class="flex items-center justify-center w-10 h-10 text-white bg-purple-500 rounded-lg hover:bg-purple-600 transition-colors duration-200">
+                 class="flex items-center justify-center w-10 h-10 text-white bg-rose-300 rounded-lg hover:bg-rose-300 transition-colors duration-200">
                 <i class="fab fa-telegram-plane"></i>
               </a>
             </div>
@@ -256,22 +296,22 @@
       <!-- Support Card -->
       <div class="bg-white rounded-xl p-6 shadow-sm">
         <div class="flex items-center mb-4">
-          <div class="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
-            <i class="fas fa-headset text-purple-600"></i>
+          <div class="flex items-center justify-center w-8 h-8 bg-rose-100 rounded-lg">
+            <i class="fas fa-headset text-rose-400"></i>
           </div>
           <h3 class="ml-3 text-lg font-semibold text-gray-900">Soporte</h3>
         </div>
         <ul class="space-y-2 text-sm text-gray-600">
           <li class="flex items-center">
-            <i class="fas fa-phone text-purple-500 mr-2"></i>
+            <i class="fas fa-phone text-rose-400 mr-2"></i>
             Atención al cliente 24/7
           </li>
           <li class="flex items-center">
-            <i class="fas fa-undo text-purple-500 mr-2"></i>
+            <i class="fas fa-undo text-rose-400 mr-2"></i>
             Devoluciones gratis
           </li>
           <li class="flex items-center">
-            <i class="fas fa-certificate text-purple-500 mr-2"></i>
+            <i class="fas fa-certificate text-rose-400 mr-2"></i>
             Garantía de calidad
           </li>
         </ul>

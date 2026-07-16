@@ -1,58 +1,104 @@
-<h2>Tu Carrito</h2>
-<% if @cart_items.empty? %>
-  <%# <p>No tienes artículos en tu carrito.</p> %>
-<% else %>
-  <ul>
-    <% @cart_items.each do |item| %>
-      <li><%= item['name'] %> - <%= number_to_currency(item['price']) %></li>
-      <button onclick="removeFromCart(<%= item['id'] %>)">Eliminar</button>
-    <% end %>
-  </ul>
-<% end %>
+<div class="min-h-screen bg-gray-50 py-8" data-controller="cart">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-<%# <div class="container mx-auto mt-5 text-center">
-  <%# <div class="border-2 rounded px-1 py-1 shadow-lg">
-    <img src="/assets/backg.jpg" alt="twd" class="w-full h-auto">
-    <p class="font-bold my-2 text-lg ">The sunset</p>
-    <p class="my-2 text-gray-700">lorem ipsi jkadujkaldk akdnkank jsnkjdsnsdj nsdjnsdj ksdnsjnsajfh jskss skdijdkka jakaka</p>
-    <div class="my-3">
-      <span class="bg-slate-200 py-1 px-2 rounded-full ">#prueba</span>
-      <span class="bg-slate-200 py-1 px-2 rounded-full ml-4">#texto</span>
-      <span class="bg-slate-200 py-1 px-2 rounded-full ml-4">#tailwind</span>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Tu Carrito</h1>
+        <p class="text-gray-400 text-sm mt-1">
+          <span data-cart-target="count">0</span> artículos
+        </p>
+      </div>
+      <%= link_to products_path, class: "inline-flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all duration-200" do %>
+        <i class="fas fa-arrow-left mr-2"></i>
+        Seguir comprando
+      <% end %>
     </div>
-  </div> %>
-  <%# <div class="grid grid-cols-3 gap-4 my-2">
-    <div class="bg-red-400">A</div>
-    <div class="bg-red-400">A</div>
-    <div class="bg-red-400">A</div>
-    <div class="bg-red-400">A</div>
+
+    <div data-cart-target="emptyMsg" class="hidden text-center py-20">
+      <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
+        <i class="fas fa-bag-shopping text-3xl text-gray-300"></i>
+      </div>
+      <h2 class="text-xl font-semibold text-gray-900 mb-2">Tu carrito está vacío</h2>
+      <p class="text-gray-400 mb-8">Agrega productos desde nuestra tienda</p>
+      <%= link_to products_path, class: "inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-200" do %>
+        <i class="fas fa-store mr-2"></i>
+        Explorar productos
+      <% end %>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-6">
+
+      <div class="flex-1 space-y-4 min-w-0" data-cart-target="cartList"></div>
+
+      <div class="sm:w-72 lg:w-80 flex-shrink-0">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:sticky sm:top-28">
+
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Resumen del pedido</h3>
+
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500">Artículos</span>
+              <span class="font-medium text-gray-900" data-cart-target="count">0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500">Subtotal</span>
+              <span class="font-medium text-gray-900" data-cart-target="subtotal">$0.00</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500">Envío</span>
+              <span class="text-green-600 font-medium">Gratis</span>
+            </div>
+            <hr class="border-gray-100">
+            <div class="flex justify-between font-bold text-gray-900">
+              <span>Total</span>
+              <span data-cart-target="total">$0.00</span>
+            </div>
+          </div>
+
+          <form data-action="cart#checkout" class="space-y-3 mb-6">
+            <input type="text"
+                   name="customer_name"
+                   placeholder="Nombre *"
+                   data-action="input->cart#validateForm"
+                   class="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 transition-all placeholder-gray-400">
+            <input type="text"
+                   name="customer_lastname"
+                   placeholder="Apellido *"
+                   data-action="input->cart#validateForm"
+                   class="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 transition-all placeholder-gray-400">
+            <input type="tel"
+                   name="customer_phone"
+                   placeholder="Teléfono *"
+                   data-action="input->cart#validateForm"
+                   class="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 transition-all placeholder-gray-400">
+            <textarea name="customer_address"
+                      placeholder="Dirección de envío *"
+                      data-action="input->cart#validateForm"
+                      class="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 transition-all placeholder-gray-400" rows="2"></textarea>
+          </form>
+
+          <button type="submit"
+                  data-cart-target="submitBtn"
+                  data-action="cart#checkout"
+                  disabled
+                  class="w-full flex items-center justify-center px-6 py-4 text-white font-semibold bg-green-600 rounded-xl opacity-50 cursor-not-allowed transition-all duration-200 hover:shadow-lg">
+            <i class="fab fa-whatsapp text-xl mr-3"></i>
+            Comprar Ahora
+          </button>
+
+          <p class="text-xs text-gray-400 text-center mt-3">
+            <i class="fas fa-lock mr-1"></i> Datos seguros
+          </p>
+
+          <div class="text-center mt-4 pt-4 border-t border-gray-100">
+            <button data-action="cart#clear"
+                    class="text-sm text-gray-400 hover:text-red-500 transition-colors">
+              <i class="fas fa-trash-can mr-1"></i>
+              Vaciar carrito
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
-    <div class="bg-blue-400">A</div>
-    <div class="bg-blue-400">A</div>
-    <div class="bg-blue-400">A</div>
-    <div class="bg-blue-400">A</div>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
-    <div class="bg-pink-400 col-start-2">A</div>
-  </div> %>
-  <%# <div class="grid grid-rows-4 gap-2 ">
-    <div class="bg-orange-500 row-span-2">A</div>
-    <div class="bg-orange-500">A</div>
-    <div class="bg-orange-500">A</div>
-    <div class="bg-orange-500">A</div>
-  </div> %>
-  <%# <div class="grid grid-cols-4 gap-4 grid-rows-2">
-    <div class="bg-orange-500">A</div>
-    <div class="bg-orange-500">A</div>
-    <div class="bg-orange-500 col-span-2 row-span-2">A</div>
-    <div class="bg-orange-500">A</div>
-    <div class="bg-orange-500 ">A</div>
-  </div>
-</div>  %>
-<button onclick="alerta()"> click me</button>
-<script>
-  function alerta(){
-    alert("Hola desde JavaScript");
-  }
-</script>
+</div>

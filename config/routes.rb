@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   get 'ggstore/categories', to: 'catalogue#categories', as: 'categories'
   get 'ggstore/products', to: 'catalogue#products', as: 'products'
   get 'ggstore/product/detail/:id', to: 'catalogue#details', as: 'details'
+  get 'ggstore/favoritos', to: 'catalogue#favorites', as: 'favorites'
   # Carrito de compras
   get '/cart', to: 'cart#show', as: 'cart'
   post '/cart/add', to: 'cart#add_item', as: 'add_to_cart'

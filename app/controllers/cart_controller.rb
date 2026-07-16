@@ -1,4 +1,5 @@
 class CartController < ApplicationController
+  layout 'catalogue'
   before_action :set_current_cart
   before_action :set_categories
   

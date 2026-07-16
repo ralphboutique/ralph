@@ -28,5 +28,14 @@ document.addEventListener("turbo:load", function () {
         return null;
       }
     });
+
+    // Inicializar Fancybox
+    if (typeof Fancybox !== 'undefined') {
+      Fancybox.bind('[data-fancybox]', {
+        Toolbar: {
+          display: ['zoom', 'fullscreen', 'thumbs', 'close']
+        }
+      });
+    }
   });
   

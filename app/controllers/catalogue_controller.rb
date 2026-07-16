@@ -27,4 +27,8 @@ class CatalogueController < ApplicationController
 	def categories
 		@categories = Category.all.includes(:articles)
 	end
+	def favorites
+		@categories = Category.all
+		@articles = Article.where(status: "active").includes(:category)
+	end
 end

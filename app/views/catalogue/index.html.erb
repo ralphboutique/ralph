@@ -1,42 +1,49 @@
 <!-- Hero Section Modernizado -->
-<div class="relative h-[580px] md:h-[780px] flex items-center justify-center overflow-hidden">
-  <!-- Background con gradiente más negro -->
-  <div class="absolute inset-0 bg-gradient-to-br from-black via-purple-900 to-black"></div>
-  
-  <!-- Imagen de fondo con enfoque en la parte superior -->
-  <img src="<%= asset_path('fondog.jpg') %>" alt="Background" class="absolute inset-0 w-full h-full object-cover object-top opacity-1">
-  
-  <!-- Elementos decorativos flotantes -->
-  <div class="absolute top-20 left-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-  <div class="absolute top-20 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-  <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+<div class="relative h-[450px] md:h-[600px] flex items-center justify-center overflow-hidden">
+
+  <!-- Imagen de fondo con efecto Ken Burns (zoom lento) -->
+  <div class="absolute inset-0 hero-image-container">
+    <img src="<%= asset_path('fondop.png') %>" alt="Fondo"
+         class="w-full h-full object-cover object-center hero-image">
+  </div>
+
+  <!-- Capa de overlay: degradado sutil para legibilidad -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 via-transparent to-black/5"></div>
+
+  <!-- Capa de overlay con tinte rosa pálido elegante -->
+  <div class="absolute inset-0 bg-gradient-to-br from-pink-100/15 via-transparent to-purple-200/15"></div>
+
+  <!-- Elementos decorativos flotantes sutiles -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-pink-200 rounded-full mix-blend-soft-light filter blur-xl opacity-30 animate-blob"></div>
+  <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-soft-light filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+  <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-100 rounded-full mix-blend-soft-light filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
   
   <!-- Contenido principal -->
   <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8">
     <div class="max-w-2xl mx-auto">
       <!-- Título principal con efecto de escritura -->
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
-        <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500 bg-clip-text text-transparent animate-pulse">
+        <span class="bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
           GG
         </span>
         <br>
-        <span class="text-white typing-effect">STORE</span>
+        <span class="text-white/90 font-light tracking-widest">STORE</span>
       </h1>
       
       <!-- Subtítulo -->
-      <p class="text-xl sm:text-2xl text-gray-300 mb-8 font-light animate-fade-in-up">
+      <p class="text-xl sm:text-2xl text-white/80 mb-8 font-light animate-fade-in-up">
         Descubre la elegancia en cada detalle
       </p>
       
       <!-- Botones de acción -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <%= link_to products_path, class: "group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" do %>
+        <%= link_to products_path, class: "group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-rose-300 to-purple-300 text-white font-semibold rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" do %>
           <span class="relative z-10">Explorar Colección</span>
           <i class="fa-solid fa-arrow-right ml-2 transition-transform group-hover:translate-x-2"></i>
-          <div class="absolute inset-0 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 rounded-full bg-gradient-to-r from-purple-300 to-rose-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <% end %>
         
-        <a href="#categorias" class="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-purple-900 transition-all duration-300">
+        <a href="#categorias" class="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-rose-700 transition-all duration-300">
           Ver Categorías
           <i class="fa-solid fa-chevron-down ml-2"></i>
         </a>
@@ -71,7 +78,7 @@
       <% @categories.first(6).each_with_index do |category, index| %>
         <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-fade-in-up" style="animation-delay: <%= index * 0.1 %>s;">
           <!-- Imagen de categoría (puedes agregar imágenes específicas por categoría) -->
-          <div class="h-64 bg-gradient-to-br from-purple-400 via-pink-400 to-purple-500 relative overflow-hidden">
+          <div class="h-64 bg-gradient-to-br from-rose-200 via-pink-200 to-purple-200 relative overflow-hidden">
             <!-- Patrón decorativo -->
             <div class="absolute inset-0 bg-black opacity-20 group-hover:opacity-10 transition-opacity duration-300"></div>
             <div class="absolute inset-0 flex items-center justify-center">
@@ -85,7 +92,7 @@
           
           <!-- Contenido -->
           <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors duration-300">
+            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-rose-400 transition-colors duration-300">
               <%= category.title.upcase %>
             </h3>
             <p class="text-gray-600 mb-4 text-sm">
@@ -93,14 +100,14 @@
             </p>
             
             <%= link_to products_path(category_id: category.id), 
-                class: "inline-flex items-center text-purple-600 font-semibold hover:text-purple-800 transition-colors duration-300 group-hover:translate-x-2 transform transition-transform" do %>
+                class: "inline-flex items-center text-rose-400 font-semibold hover:text-rose-600 transition-colors duration-300 group-hover:translate-x-2 transform transition-transform" do %>
               Explorar categoría
               <i class="fa-solid fa-arrow-right ml-2"></i>
             <% end %>
           </div>
           
           <!-- Efecto hover -->
-          <div class="absolute inset-0 bg-gradient-to-t from-purple-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-rose-300/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
         </div>
       <% end %>
     </div>
@@ -108,7 +115,7 @@
     <!-- Ver todas las categorías -->
     <div class="text-center mt-12">
       <%= link_to categories_path, 
-          class: "inline-flex items-center px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:shadow-lg transform transition-all duration-300 hover:scale-105" do %>
+          class: "inline-flex items-center px-8 py-3 bg-gradient-to-r from-rose-300 to-purple-300 text-white font-semibold rounded-full hover:shadow-lg transform transition-all duration-300 hover:scale-105" do %>
         Ver todas las categorías
         <i class="fa-solid fa-chevron-right ml-2"></i>
       <% end %>
@@ -137,7 +144,7 @@
       <!-- Atención Activa -->
       <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 text-center">
         <!-- Icono con fondo -->
-                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-rose-200 to-purple-300 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
           <i class="fa fa-headset text-2xl text-white"></i>
         </div>
         
@@ -148,13 +155,13 @@
         <p class="text-gray-600 mb-4">
           Horario de atención personalizada
         </p>
-                    <div class="inline-flex items-center px-4 py-2 bg-purple-50 rounded-full text-purple-700 font-semibold text-sm">
+                    <div class="inline-flex items-center px-4 py-2 bg-rose-50 rounded-full text-purple-700 font-semibold text-sm">
           <i class="fas fa-clock mr-2"></i>
           8:00 AM - 6:00 PM
         </div>
         
         <!-- Efecto decorativo -->
-                  <div class="absolute inset-0 bg-gradient-to-t from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
       </div>
       
       <!-- Contactanos -->
@@ -175,11 +182,11 @@
         <!-- Redes sociales modernizadas -->
         <div class="flex justify-center space-x-3">
           <a href="https://facebook.com" target="_blank" 
-             class="flex items-center justify-center w-10 h-10 bg-purple-600 hover:bg-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+             class="flex items-center justify-center w-10 h-10 bg-rose-300 hover:bg-rose-400 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
             <i class="fa-brands fa-facebook text-sm"></i>
           </a>
-          <a href="https://instagram.com/ralaccesorioscute/" target="_blank" 
-             class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+          <a href="https://instagram.com/ggstore_v/" target="_blank" 
+             class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-rose-200 to-purple-300 hover:from-rose-400 hover:to-purple-400 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
             <i class="fa-brands fa-instagram text-sm"></i>
           </a>
           <a href="https://tiktok.com/@ralaccesorios?_t=ZM-8tjVhSsvRTx&_r=1" target="_blank" 
@@ -191,7 +198,7 @@
             <i class="fa-brands fa-whatsapp text-sm"></i>
           </a>
           <a href="https://t.me/tu_usuario" target="_blank" 
-             class="flex items-center justify-center w-10 h-10 bg-purple-500 hover:bg-purple-600 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
+             class="flex items-center justify-center w-10 h-10 bg-rose-500 hover:bg-rose-300 text-white rounded-xl transition-all duration-300 transform hover:scale-110">
             <i class="fa-brands fa-telegram text-sm"></i>
           </a>
         </div>
@@ -226,7 +233,7 @@
     
     <!-- Llamada a la acción adicional -->
     <div class="text-center mt-16">
-              <div class="inline-flex items-center px-6 py-3 bg-white border-2 border-purple-200 rounded-full text-purple-700 font-semibold hover:bg-purple-50 transition-all duration-300">
+              <div class="inline-flex items-center px-6 py-3 bg-white border-2 border-purple-200 rounded-full text-purple-700 font-semibold hover:bg-rose-50 transition-all duration-300">
         <i class="fas fa-phone mr-2"></i>
         ¿Necesitas ayuda? Contáctanos ahora
       </div>
@@ -238,7 +245,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Header de la sección -->
     <div class="text-center mb-16">
-              <div class="inline-flex items-center px-4 py-2 bg-purple-100 rounded-full text-purple-800 font-semibold text-sm mb-4">
+              <div class="inline-flex items-center px-4 py-2 bg-rose-100 rounded-full text-rose-700 font-semibold text-sm mb-4">
         <i class="fas fa-star mr-2"></i>
         NUEVOS ARRIVALS
       </div>
@@ -270,6 +277,13 @@
             <!-- Overlay con botones -->
             <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
               <div class="flex space-x-3">
+                <button data-controller="cart"
+                        data-action="cart#toggleFav"
+                        data-id="<%= article.id %>"
+                        class="flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full text-gray-800 hover:bg-white transition-all duration-300 transform hover:scale-110">
+                  <i class="far fa-heart"></i>
+                </button>
+
                 <%= link_to details_path(id: article.id, category_id: article.category_id), 
                     class: "flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full text-gray-800 hover:bg-white transition-all duration-300 transform hover:scale-110" do %>
                   <i class="fas fa-eye"></i>
@@ -284,7 +298,7 @@
             </div>
             
             <!-- Badge de nuevo -->
-            <div class="absolute top-4 left-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+            <div class="absolute top-4 left-4 bg-gradient-to-r from-rose-300 to-purple-300 text-white px-3 py-1 rounded-full text-xs font-semibold">
               NUEVO
             </div>
             
@@ -297,12 +311,12 @@
           <!-- Información del producto -->
           <div class="p-6">
             <!-- Categoría -->
-            <div class="text-purple-600 text-xs font-semibold uppercase tracking-wider mb-2">
+            <div class="text-rose-400 text-xs font-semibold uppercase tracking-wider mb-2">
               <%= article.category.title %>
             </div>
             
             <!-- Título -->
-            <h3 class="font-bold text-lg text-gray-900 mb-3 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
+            <h3 class="font-bold text-lg text-gray-900 mb-3 group-hover:text-rose-400 transition-colors duration-300 line-clamp-2">
               <%= article.title %>
             </h3>
             
@@ -327,7 +341,7 @@
             
             <!-- Botón de acción -->
             <%= link_to details_path(id: article.id, category_id: article.category_id), 
-                class: "w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:shadow-lg transform transition-all duration-300 hover:scale-105 group-hover:from-pink-600 group-hover:to-purple-600" do %>
+                class: "w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-rose-300 to-purple-300 text-white font-semibold rounded-xl hover:shadow-lg transform transition-all duration-300 hover:scale-105 group-hover:from-purple-300 group-hover:to-rose-300" do %>
               <span>Ver Detalles</span>
               <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
             <% end %>
@@ -342,7 +356,7 @@
     <!-- Botón ver más productos -->
     <div class="text-center mt-16">
       <%= link_to products_path, 
-          class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:shadow-xl transform transition-all duration-300 hover:scale-105" do %>
+          class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-rose-300 to-purple-300 text-white font-semibold rounded-full hover:shadow-xl transform transition-all duration-300 hover:scale-105" do %>
         Ver Toda la Colección
         <i class="fas fa-arrow-right ml-2"></i>
       <% end %>
