@@ -11,9 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -62,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "articles_colors", force: :cascade do |t|
-    t.bigint "article_id", null: false
+    t.integer "article_id", null: false
     t.string "color_hex", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -70,8 +67,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "articles_sizes", force: :cascade do |t|
-    t.bigint "article_id", null: false
-    t.bigint "size_id", null: false
+    t.integer "article_id", null: false
+    t.integer "size_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_articles_sizes_on_article_id"
@@ -79,21 +76,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.bigint "cart_id", null: false
-    t.bigint "article_id", null: false
-    t.integer "quantity", default: 1
-    t.decimal "price", precision: 10, scale: 2
-    t.string "size"
-    t.string "color"
+    t.integer "cart_id", null: false
+    t.integer "article_id", null: false
+    t.integer "quantity"
+    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_cart_items_on_article_id"
-    t.index ["cart_id", "article_id"], name: "index_cart_items_on_cart_id_and_article_id"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
   end
 
   create_table "carts", force: :cascade do |t|
-    t.bigint "user_id"
+    t.integer "user_id"
     t.string "session_id", null: false
     t.decimal "total", precision: 10, scale: 2, default: "0.0"
     t.string "status", default: "active"
@@ -117,9 +111,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "role_permissions", force: :cascade do |t|
-    t.bigint "role_id", null: false
-    t.bigint "permission_id", null: false
-    t.bigint "area_id", null: false
+    t.integer "role_id", null: false
+    t.integer "permission_id", null: false
+    t.integer "area_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_role_permissions_on_area_id"
@@ -135,8 +129,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "sale_items", force: :cascade do |t|
-    t.bigint "sale_id", null: false
-    t.bigint "article_id", null: false
+    t.integer "sale_id", null: false
+    t.integer "article_id", null: false
     t.integer "quantity"
     t.decimal "price"
     t.datetime "created_at", null: false
@@ -146,7 +140,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "sales", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "payment_method"
     t.date "date"
     t.decimal "total_amount"
@@ -186,8 +180,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_14_155219) do
   end
 
   create_table "users_warehouses", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "warehouse_id", null: false
+    t.integer "user_id", null: false
+    t.integer "warehouse_id", null: false
   end
 
   create_table "warehouses", force: :cascade do |t|

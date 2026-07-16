@@ -8,11 +8,12 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+# Use sqlite3 as the database for Active Record
+gem "sqlite3", "~> 1.6"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
+
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -87,7 +88,7 @@ gem 'devise'
 gem 'slick-rails'
 gem 'httparty'
 
-gem 'aws-sdk-s3'
+gem 'aws-sdk-s3' # opcional, puedes eliminar si no usas S3
 gem 'prawn'
 gem 'prawn-table'
 gem "select2-rails"

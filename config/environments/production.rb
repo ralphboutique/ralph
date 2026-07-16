@@ -20,8 +20,8 @@ Rails.application.configure do
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
-  # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  # config.public_file_server.enabled = false
+  # Enable serving static files (Fly.io serves directly with Puma)
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || true
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -36,8 +36,8 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :amazon
+  # Store uploaded files on the local file system with persistent volume (Fly.io)
+  config.active_storage.service = :local
 
   config.assets.css_compressor = nil
 
@@ -97,11 +97,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   
-  # Fallback para secret_key_base si no se puede leer desde credentials
+  # Fallback para secret_key_base
   config.secret_key_base = Rails.application.credentials.secret_key_base || ENV['SECRET_KEY_BASE'] || ENV['RAILS_MASTER_KEY']
-  
-  # Optimizaciones para Render
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+
   config.log_level = :info
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 end
